@@ -22,13 +22,22 @@ module Enumerable
       return selection
     end
     selection = []
-    my_each { |i| selection << i if yield i }
+    my_each { |v| selection << v if yield v }
     selection
   end
 
   def my_all?
     my_each { |k, v| return false unless yield k, v } if is_a? Hash
-    my_each { |i| return false unless yield i } unless is_a? Hash
+    my_each { |v| return false unless yield v } unless is_a? Hash
     true
+  end
+
+  def my_any?
+    as_array = to_a
+    return false if as_array.empty?
+
+    my_each { |k, v| return true if yield k, v } if is_a? Hash
+    my_each { |v| return true if yield v } unless is_a? Hash
+    false
   end
 end
