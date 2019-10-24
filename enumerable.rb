@@ -32,9 +32,60 @@ module Enumerable
     selection
   end
 
-  def my_all?
-    my_each { |k, v| return false unless yield k, v } if is_a? Hash
-    my_each { |v| return false unless yield v } unless is_a? Hash
+  def all_match?(regex)
+    my_each { |v| return false unless v =~ regex }
+    true
+  end
+
+  def both_of_class(_val1, _val2, class_name)
+    val_1.is_a?(class_name) && val_2.is_a?(class_name)
+  end
+
+  def all_from_class?(class_name)
+    if is_a? Hash
+      my_each { |k, v| return false unless both_of_class(k, v, class_name) }
+    else
+      my_each { |v| return false unless v.is_a? class_name }
+    end
+    true
+  end
+
+  def all_the_same?(object)
+    my_each { |v| return false unless v == object }
+    true
+  end
+
+  def my_all?(arg = nil)
+    as_array = to_a
+    return true if as_array.empty?
+
+    if arg.is_a? Class
+      return false unless all_from_class? arg
+
+      return true
+    end
+
+    if arg.is_a? Regexp
+      return false unless is_a?(Array) && all_match(arg)
+
+      return true
+    end
+
+    if arg
+      return false unless all_the_same?(arg)
+
+      return true
+    end
+
+    if block_given?
+      my_each { |k, v| return false unless yield k, v } if is_a? Hash
+      my_each { |v| return false unless yield v } unless is_a? Hash
+      return true
+    else
+      # TODO: what if arg is nil or false? (inputed by the user)
+      is_a?(Array) ? my_each { |v| return false unless v } : true
+    end
+
     true
   end
 
@@ -45,5 +96,14 @@ module Enumerable
     my_each { |k, v| return true if yield k, v } if is_a? Hash
     my_each { |v| return true if yield v } unless is_a? Hash
     false
+  end
+
+  def my_none?
+    as_array = to_a
+    return true if as_array.empty?
+
+    (return false unless my_any? { |k, v| yield k, v  }) if is_a? Hash
+    (return false unless my_any? { |v| yield v  }) unless is_a? Hash
+    true
   end
 end
