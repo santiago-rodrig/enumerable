@@ -56,36 +56,17 @@ module Enumerable
   end
 
   def my_all?(arg = nil)
-    as_array = to_a
-    return true if as_array.empty?
-
-    if arg.is_a? Class
-      return false unless all_from_class? arg
-
-      return true
-    end
-
-    if arg.is_a? Regexp
-      return false unless is_a?(Array) && all_match(arg)
-
-      return true
-    end
-
-    if arg
-      return false unless all_the_same?(arg)
-
-      return true
-    end
+    return true if to_a.empty?
+    return all_from_class?(arg) if arg.is_a? Class
+    return all_match?(arg) if arg.is_a? Regexp
+    return all_the_same?(arg) if arg
 
     if block_given?
       my_each { |k, v| return false unless yield k, v } if is_a? Hash
       my_each { |v| return false unless yield v } unless is_a? Hash
-      return true
     else
-      # TODO: what if arg is nil or false? (inputed by the user)
       is_a?(Array) ? my_each { |v| return false unless v } : true
     end
-
     true
   end
 
@@ -102,7 +83,7 @@ module Enumerable
     as_array = to_a
     return true if as_array.empty?
 
-    (return false unless my_any? { |k, v| yield k, v  }) if is_a? Hash
+    (return false unless my_any? { |k, v| yield k, v }) if is_a? Hash
     (return false unless my_any? { |v| yield v  }) unless is_a? Hash
     true
   end
