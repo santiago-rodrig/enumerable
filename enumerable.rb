@@ -6,4 +6,9 @@ module Enumerable
     size.times { |i| yield self[i] }
     self
   end
+
+  def my_each_with_index
+    size.times { |i| yield self[i], i }
+    self
+  end
 end
