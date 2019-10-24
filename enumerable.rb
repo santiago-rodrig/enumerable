@@ -1,7 +1,34 @@
 # frozen_string_literal: true
 
-# This is my own implementation of the Enumerable module methods
+# this is my own implementation of the Enumerable module methods
 module Enumerable
+  # helper methods
+
+  def all_match?(regex)
+    my_each { |v| return false unless v =~ regex }
+    true
+  end
+
+  def both_of_class(_val1, _val2, class_name)
+    val_1.is_a?(class_name) && val_2.is_a?(class_name)
+  end
+
+  def all_from_class?(class_name)
+    if is_a? Hash
+      my_each { |k, v| return false unless both_of_class(k, v, class_name) }
+    else
+      my_each { |v| return false unless v.is_a? class_name }
+    end
+    true
+  end
+
+  def all_the_same?(object)
+    my_each { |v| return false unless v == object }
+    true
+  end
+
+  # enumerable methods
+
   def my_each
     return to_enum :my_each unless block_given?
 
@@ -32,28 +59,6 @@ module Enumerable
     selection
   end
 
-  def all_match?(regex)
-    my_each { |v| return false unless v =~ regex }
-    true
-  end
-
-  def both_of_class(_val1, _val2, class_name)
-    val_1.is_a?(class_name) && val_2.is_a?(class_name)
-  end
-
-  def all_from_class?(class_name)
-    if is_a? Hash
-      my_each { |k, v| return false unless both_of_class(k, v, class_name) }
-    else
-      my_each { |v| return false unless v.is_a? class_name }
-    end
-    true
-  end
-
-  def all_the_same?(object)
-    my_each { |v| return false unless v == object }
-    true
-  end
 
   def my_all?(arg = nil)
     return true if to_a.empty?
@@ -71,9 +76,7 @@ module Enumerable
   end
 
   def my_any?
-    as_array = to_a
-    return false if as_array.empty?
-
+    return false if to_a.empty?
     my_each { |k, v| return true if yield k, v } if is_a? Hash
     my_each { |v| return true if yield v } unless is_a? Hash
     false
