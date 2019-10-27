@@ -144,4 +144,16 @@ module Enumerable
     end
     true
   end
+
+  def my_count(*args)
+    if args.length > 0
+      arg = args[0]
+      counter = 0
+      return counter if is_a? Hash
+      my_each { |v| counter += 1 if v == arg }
+    else
+      return size
+    end
+    counter
+  end
 end
