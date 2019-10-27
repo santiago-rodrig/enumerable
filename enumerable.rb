@@ -158,11 +158,16 @@ module Enumerable
     counter
   end
 
-  def my_map
-    return to_enum :my_map unless block_given?
+  def my_map(*args)
     mapped = []
-    my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
-    my_each { |v| mapped << yield(v) } unless is_a? Hash
+    if block_given?
+      my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
+      my_each { |v| mapped << yield(v) } unless is_a? Hash
+    else
+      procedure = args[0]
+      my_each { |k, v| mapped << procedure.call(k, v) } if is_a? Hash
+      my_each { |v| mapped << procedure.call(v) } unless is_a? Hash
+    end
     mapped
   end
 
