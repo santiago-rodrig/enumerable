@@ -42,6 +42,21 @@ module Enumerable
     false
   end
 
+  def no_match?(regex)
+    my_each { |v| return false if v =~ regex } if is_a? Array
+    true
+  end
+
+  def none_from_class?(class_name)
+    my_each { |v| return false if v.is_a? class_name } unless is_a? Hash
+    true
+  end
+
+  def none_the_same?(object)
+    my_each { |v| return false if v == object } unless is_a? Hash
+    true
+  end
+
   # enumerable methods
 
   def my_each
@@ -112,11 +127,21 @@ module Enumerable
   end
 
   def my_none?(*args)
-    as_array = to_a
-    return true if as_array.empty?
+    return true if to_a.empty?
+    if args.length > 0
+      arg = [0]
+      return none_from_class?(arg) if arg.is_a? Class
+      return none_match?(arg) if arg.is_a? Regexp
+      return none_the_same? arg
+    end
 
-    (return false unless my_any? { |k, v| yield k, v }) if is_a? Hash
-    (return false unless my_any? { |v| yield v  }) unless is_a? Hash
+    if block_given?
+      my_each { |k, v| return false if yield k, v } if is_a? Hash
+      my_each { |v| return false if yield v } unless is_a? Hash
+    else
+      return false unless is_a? Array
+      my_each { |v| return false if v } if is_a? Array
+    end
     true
   end
 end
