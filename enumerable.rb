@@ -146,14 +146,14 @@ module Enumerable
   end
 
   def my_count(*args)
+    counter = 0
     if args.length > 0
       arg = args[0]
-      counter = 0
       return counter if is_a? Hash
-      my_each { |v| counter += 1 if v == arg } unless block_given?
-      my_each { |v| counter += 1 if yield v } if block_given?
+      my_each { |v| counter += 1 if v == arg }
     else
-      return size
+      my_each { |v| counter += 1 if yield v } if block_given?
+      return size unless block_given?
     end
     counter
   end
