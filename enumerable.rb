@@ -189,3 +189,12 @@ module Enumerable
     return result
   end
 end
+
+# test of my_inject
+
+def multiply_els(arr)
+  return arr.my_inject(:*)
+end
+
+# p multiply_els([2, 4, 5])
+# returns 40
