@@ -157,4 +157,12 @@ module Enumerable
     end
     counter
   end
+  
+  def my_map
+    return to_enum :my_map unless block_given?
+    mapped = []
+    my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
+    my_each { |v| mapped << yield(v) } unless is_a? Hash
+    mapped
+  end
 end
