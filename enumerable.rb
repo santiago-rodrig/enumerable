@@ -91,7 +91,7 @@ module Enumerable
 
   def my_all?(*args)
     return true if to_a.empty?
-    if args.length > 0
+    if args.size > 0
       arg = args[0]
       return all_from_class?(arg) if arg.is_a? Class
       return all_match?(arg) if arg.is_a? Regexp
@@ -109,7 +109,7 @@ module Enumerable
 
   def my_any?(*args)
     return false if to_a.empty?
-    if args.length > 0
+    if args.size > 0
       arg = args[0]
       return any_from_class?(arg) if arg.is_a? Class
       return any_match?(arg) if arg.is_a? Regexp
@@ -128,7 +128,7 @@ module Enumerable
 
   def my_none?(*args)
     return true if to_a.empty?
-    if args.length > 0
+    if args.size > 0
       arg = [0]
       return none_from_class?(arg) if arg.is_a? Class
       return none_match?(arg) if arg.is_a? Regexp
@@ -147,7 +147,7 @@ module Enumerable
 
   def my_count(*args)
     counter = 0
-    if args.length > 0
+    if args.size > 0
       arg = args[0]
       return counter if is_a? Hash
       my_each { |v| counter += 1 if v == arg }
@@ -157,12 +157,37 @@ module Enumerable
     end
     counter
   end
-  
+
   def my_map
     return to_enum :my_map unless block_given?
     mapped = []
     my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
     my_each { |v| mapped << yield(v) } unless is_a? Hash
     mapped
+  end
+
+  def my_inject(*args)
+    as_array = to_a
+    case args.size
+    when 0
+      result = as_array[0]
+      as_array.my_each_with_index { |v, i| result = yield(result, v) unless i == 0 }
+      return result
+    when 1
+      if args[0].is_a? Integer
+        result = args[0]
+        as_array.my_each { |v| result = yield(result, v) }
+        return result
+      end
+      result = as_array[0]
+      action = method(args[0])
+      as_array.my_each_with_index { |v, i| result = action.call(result, v) unless i == 0 }
+      return result
+    when 2
+      result = args[0]
+      action = method(args[1])
+      as_array.my_each { |v| result = action.call(result, v) }
+      return result
+    end
   end
 end
