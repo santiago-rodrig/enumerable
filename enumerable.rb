@@ -59,12 +59,14 @@ module Enumerable
     selection
   end
 
-
-  def my_all?(arg = nil)
+  def my_all?(*args)
     return true if to_a.empty?
-    return all_from_class?(arg) if arg.is_a? Class
-    return all_match?(arg) if arg.is_a? Regexp
-    return all_the_same?(arg) if arg
+    if args.length > 0
+      arg = args[0]
+      return all_from_class?(arg) if arg.is_a? Class
+      return all_match?(arg) if arg.is_a? Regexp
+      return all_the_same?(arg)
+    end
 
     if block_given?
       my_each { |k, v| return false unless yield k, v } if is_a? Hash
