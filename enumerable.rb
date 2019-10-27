@@ -150,7 +150,8 @@ module Enumerable
       arg = args[0]
       counter = 0
       return counter if is_a? Hash
-      my_each { |v| counter += 1 if v == arg }
+      my_each { |v| counter += 1 if v == arg } unless block_given?
+      my_each { |v| counter += 1 if yield v } if block_given?
     else
       return size
     end
