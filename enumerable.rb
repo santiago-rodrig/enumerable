@@ -172,7 +172,6 @@ module Enumerable
     when 0
       result = as_array[0]
       as_array.my_each_with_index { |v, i| result = yield(result, v) unless i == 0 }
-      return result
     when 1
       if args[0].is_a? Integer
         result = args[0]
@@ -180,14 +179,13 @@ module Enumerable
         return result
       end
       result = as_array[0]
-      action = method(args[0])
-      as_array.my_each_with_index { |v, i| result = action.call(result, v) unless i == 0 }
-      return result
+      action = args[0]
+      as_array.my_each_with_index { |v, i| result = result.method(action).call(v) unless i == 0 }
     when 2
       result = args[0]
-      action = method(args[1])
-      as_array.my_each { |v| result = action.call(result, v) }
-      return result
+      action = args[1]
+      as_array.my_each { |v| result = result.method(action).call(v) }
     end
+    return result
   end
 end
