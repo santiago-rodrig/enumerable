@@ -33,7 +33,7 @@ module Enumerable
   end
 
   def any_the_same?(object)
-    my_each { |v| return true if v == object}
+    my_each { |v| return true if v == object }
     false
   end
 
@@ -91,10 +91,12 @@ module Enumerable
 
   def my_all?(*args)
     return true if to_a.empty?
-    if args.size > 0
+
+    unless args.empty?
       arg = args[0]
       return all_from_class?(arg) if arg.is_a? Class
       return all_match?(arg) if arg.is_a? Regexp
+
       return all_the_same? arg
     end
 
@@ -109,10 +111,12 @@ module Enumerable
 
   def my_any?(*args)
     return false if to_a.empty?
-    if args.size > 0
+
+    unless args.empty?
       arg = args[0]
       return any_from_class?(arg) if arg.is_a? Class
       return any_match?(arg) if arg.is_a? Regexp
+
       return any_the_same? arg
     end
 
@@ -121,6 +125,7 @@ module Enumerable
       my_each { |v| return true if yield v } unless is_a? Hash
     else
       return true if is_a? Hash
+
       my_each { |v| return true if v }
     end
     false
@@ -128,10 +133,12 @@ module Enumerable
 
   def my_none?(*args)
     return true if to_a.empty?
-    if args.size > 0
+
+    unless args.empty?
       arg = [0]
       return none_from_class?(arg) if arg.is_a? Class
       return none_match?(arg) if arg.is_a? Regexp
+
       return none_the_same? arg
     end
 
@@ -140,6 +147,7 @@ module Enumerable
       my_each { |v| return false if yield v } unless is_a? Hash
     else
       return false unless is_a? Array
+
       my_each { |v| return false if v } if is_a? Array
     end
     true
@@ -147,11 +155,13 @@ module Enumerable
 
   def my_count(*args)
     counter = 0
-    if args.size > 0
+    unless args.empty?
       arg = args[0]
       return counter if is_a? Hash
+
       my_each { |v| counter += 1 if v == arg }
-    else
+    end
+    if args.positive?
       my_each { |v| counter += 1 if yield v } if block_given?
       return size unless block_given?
     end
@@ -161,7 +171,7 @@ module Enumerable
   # using a proc and a block in a method call gives a syntax error, use one of them, not both
   def my_map(*args)
     mapped = []
-    if args.size < 1
+    if args.empty?
       my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
       my_each { |v| mapped << yield(v) } unless is_a? Hash
     else
@@ -177,7 +187,7 @@ module Enumerable
     case args.size
     when 0
       result = as_array[0]
-      as_array.my_each_with_index { |v, i| result = yield(result, v) unless i == 0 }
+      as_array.my_each_with_index { |v, i| result = yield(result, v) unless i.zero? }
     when 1
       if args[0].is_a? Integer
         result = args[0]
@@ -186,13 +196,13 @@ module Enumerable
       end
       result = as_array[0]
       action = args[0]
-      as_array.my_each_with_index { |v, i| result = result.method(action).call(v) unless i == 0 }
+      as_array.my_each_with_index { |v, i| result = result.method(action).call(v) unless i.zero? }
     when 2
       result = args[0]
       action = args[1]
       as_array.my_each { |v| result = result.method(action).call(v) }
     end
-    return result
+    result
   end
 end
 
