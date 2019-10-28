@@ -158,9 +158,10 @@ module Enumerable
     counter
   end
 
+  # using a proc and a block in a method call gives a syntax error, use one of them, not both
   def my_map(*args)
     mapped = []
-    if block_given?
+    if args.size < 1
       my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
       my_each { |v| mapped << yield(v) } unless is_a? Hash
     else
@@ -197,9 +198,9 @@ end
 
 # test of my_inject
 
-def multiply_els(arr)
-  return arr.my_inject(:*)
-end
+# def multiply_els(arr)
+#   return arr.my_inject(:*)
+# end
 
 # p multiply_els([2, 4, 5])
 # returns 40
