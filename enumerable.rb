@@ -42,7 +42,7 @@ module Enumerable
     false
   end
 
-  def no_match?(regex)
+  def none_match?(regex)
     my_each { |v| return false if v =~ regex } if is_a? Array
     true
   end
@@ -135,7 +135,7 @@ module Enumerable
     return true if to_a.empty?
 
     unless args.empty?
-      arg = [0]
+      arg = args[0]
       return none_from_class?(arg) if arg.is_a? Class
       return none_match?(arg) if arg.is_a? Regexp
 
@@ -153,31 +153,36 @@ module Enumerable
     true
   end
 
-  def my_count(*args)
+  def my_count(*args, &block)
     counter = 0
     unless args.empty?
       arg = args[0]
-      return counter if is_a? Hash
-
-      my_each { |v| counter += 1 if v == arg }
+      to_a.my_each { |v| counter += 1 if v == arg }
+      return counter
     end
-    if args.positive?
-      my_each { |v| counter += 1 if yield v } if block_given?
-      return size unless block_given?
+    if block_given?
+      case block.parameters.size
+      when 1
+        to_a.my_each { |v| counter += 1 if block.call(v) }
+      when 2
+        my_each { |k, v| counter += 1 if block.call(k, v) } if is_a? Hash
+      end
+    else
+      counter = size
     end
     counter
   end
 
   # using a proc and a block in a method call gives a syntax error, use one of them, not both
-  def my_map(*args)
+  def my_map(&block)
+    return to_enum :my_map unless block_given?
+
     mapped = []
-    if args.empty?
-      my_each { |k, v| mapped << yield(k, v) } if is_a? Hash
-      my_each { |v| mapped << yield(v) } unless is_a? Hash
-    else
-      procedure = args[0]
-      my_each { |k, v| mapped << procedure.call(k, v) } if is_a? Hash
-      my_each { |v| mapped << procedure.call(v) } unless is_a? Hash
+    case block.parameters.size
+    when 1
+      to_a.my_each { |v| mapped << block.call(v) }
+    when 2
+      my_each { |k, v| mapped << block.call(k, v) } if is_a? Hash
     end
     mapped
   end
