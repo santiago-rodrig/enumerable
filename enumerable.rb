@@ -187,16 +187,16 @@ module Enumerable
     mapped
   end
 
-  def my_inject(*args)
+  def my_inject(*args, &block)
     as_array = to_a
     case args.size
     when 0
       result = as_array[0]
-      as_array.my_each_with_index { |v, i| result = yield(result, v) unless i.zero? }
+      as_array.my_each_with_index { |v, i| result = block.call(result, v) unless i.zero? }
     when 1
       if args[0].is_a? Integer
         result = args[0]
-        as_array.my_each { |v| result = yield(result, v) }
+        as_array.my_each { |v| result = block.call(result, v) }
         return result
       end
       result = as_array[0]
