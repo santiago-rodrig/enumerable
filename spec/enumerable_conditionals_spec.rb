@@ -26,15 +26,15 @@ describe Enumerable do
                 context 'all the strings match' do
                   describe '#my_all?' do
                     it 'should return true' do
-                      expect(array_of_strings.my_all? /\w+/).to be_truthy
+                      expect(array_of_strings.my_all?(/\w+/)).to be_truthy
                     end
                   end
                 end
                 context "one or more strings don't match" do
                   describe '#my_all?' do
                     it 'should return false' do
-                      expect(array_of_strings.my_all? /\d*/).to be_falsy
-                      expect(array_of_strings.my_all? /d/).to be_falsy
+                      expect(array_of_strings.my_all?(/\d*/)).to be_falsy
+                      expect(array_of_strings.my_all?(/d/)).to be_falsy
                     end
                   end
                 end
@@ -42,15 +42,15 @@ describe Enumerable do
               context 'is not made of strings' do
                 describe '#my_all?' do
                   it 'should return false' do
-                    expect(array_of_numbers.my_all? /./).to be_falsy
+                    expect(array_of_numbers.my_all?(/./)).to be_falsy
                   end
                 end
               end
             end
             context 'empty' do
               it 'should always return true' do
-                expect([].my_all? /./).to be_truthy
-                expect([].my_all? /\d\w\s[a-z0-9]/).to be_truthy
+                expect([].my_all?(/./)).to be_truthy
+                expect([].my_all?(/\d\w\s[a-z0-9]/)).to be_truthy
               end
             end
           end
@@ -58,16 +58,16 @@ describe Enumerable do
             context 'empty' do
               describe '#my_all?' do
                 it 'should return true' do
-                  expect({}.my_all? /\d*[abc][A-Z]/).to be_truthy
-                  expect((0..-1).my_all? /\w\S\t.\.\-/).to be_truthy
+                  expect({}.my_all?(/\d*[abc][A-Z]/)).to be_truthy
+                  expect((0..-1).my_all?(/\w\S\t.\.\-/)).to be_truthy
                 end
               end
             end
             context 'nonempty' do
               describe '#my_all?' do
                 it 'should return false' do
-                  expect(hash.my_all? /./).to be_falsy
-                  expect(range.my_all? /\d+/).to be_falsy
+                  expect(hash.my_all?(/./)).to be_falsy
+                  expect(range.my_all?(/\d+/)).to be_falsy
                 end
               end
             end
