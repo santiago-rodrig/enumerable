@@ -42,7 +42,6 @@ describe Enumerable do
   end
 
   context 'with a block' do
-
     context 'with no variables' do
       describe '#my_each' do
         it 'should iterate without yielding anything' do
@@ -118,7 +117,6 @@ describe Enumerable do
             end
             expect(keys).to eql(hash.keys)
             expect(values).to eql(hash.values)
-            temp_keys_array = temp_values_array = []
           end
         end
       end
@@ -129,24 +127,23 @@ describe Enumerable do
         describe '#my_each' do
           it 'should iterate as with 1 variable' do
             temp_array = []
-            array.my_each { |element, other| temp_array << element }
+            array.my_each { |element, _other| temp_array << element }
             expect(temp_array).to eq(array)
             temp_array.clear
-            range.my_each { |element, other| temp_array << element }
+            range.my_each { |element, _other| temp_array << element }
             expect(temp_array).to eq(range.to_a)
           end
         end
         describe '#my_each_with_index' do
           it 'should iterate yielding values and indices' do
             temp_array = []
-            indices = []
-            array.my_each_with_index do |element, index|
+            array.my_each_with_index do |_element, index|
               temp_array << array[index]
             end
             expect(temp_array).to eq(array)
             temp_array.clear
             range_as_array = range.to_a
-            range.my_each_with_index do |element, index|
+            range.my_each_with_index do |_element, index|
               temp_array << range_as_array[index]
             end
             expect(temp_array).to eq(range_as_array)
