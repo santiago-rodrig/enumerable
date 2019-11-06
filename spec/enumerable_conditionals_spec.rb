@@ -78,60 +78,72 @@ describe Enumerable do
         context 'class' do
           context 'array' do
             context 'nonempty' do
-              describe '#my_all?' do
-                context 'all the elements are of the same class' do
+              context 'all the elements are of the same class' do
+                describe '#my_all?' do
                   it 'should return true' do
-                    expect(array_of_numbers.my_all?(Integer)).to be_truthy
-                    expect(array_of_numbers.my_all?(String)).to_not be_truthy
                   end
                 end
-                context 'one or more elements are not of the same class' do
+
+                describe '#my_none?' do
                   it 'should return false' do
-                    expect(array_of_mix_integers_and_strings.my_all?(Integer)).to_not be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return true' do
                   end
                 end
               end
 
-              describe '#my_none?' do
-                context 'all the elements are of the same class' do
-                  it 'should return true' do
-                    expect(array_of_numbers.my_none?(String)).to be_truthy
-                    expect(array_of_numbers.my_none?(Integer)).to_not be_truthy
+              context 'one or more elements are not of the same class' do
+                context 'all elements are not of the same class' do
+                  describe '#my_all?' do
+                    it 'should return false' do
+                    end
                   end
-                end
-                context 'one or more elements are not of the same class' do
-                  it 'should return false' do
-                    expect(array_of_mix_integers_and_strings.my_none?(Integer)).to_not be_truthy
-                  end
-                end
-              end
 
-              describe '#my_any?' do
-                context 'all the elements are of the same class' do
-                  it 'should return true' do
-                    expect(array_of_numbers.my_any?(Integer)).to be_truthy
-                    expect(array_of_numbers.my_any?(String)).to_not be_truthy
-                    expect(array_of_mix_integers_and_strings.my_any?(Integer)).to be_truthy
+                  describe '#my_none?' do
+                    it 'should return true' do
+                    end
+                  end
+
+                  describe '#my_any?' do
+                    it 'should return false' do
+                    end
                   end
                 end
-                context 'one or more elements are not of the same class' do
-                  it 'should return false' do
-                    expect(array_of_mix_integers_and_strings.my_all?(Integer)).to be_truthy
+
+                context 'some elements are not of the same class, but not all' do
+                  describe '#my_all?' do
+                    it 'should return false'
+                  end
+
+                  describe '#my_none?' do
+                    it 'should return false' do
+                    end
+                  end
+
+                  describe '#my_any?' do
+                    it 'should return true' do
+                    end
                   end
                 end
               end
             end
+
             context 'empty' do
               describe '#my_all?' do
                 it 'should return true' do
                   expect([].my_all?(Integer)).to be_truthy
                 end
               end
+
               describe '#my_none?' do
                 it 'should return true' do
                   expect([].my_none?(Integer)).to be_truthy
                 end
               end
+
               describe '#my_any?' do
                 it 'should return true' do
                   expect([].my_any?(Integer)).to_not be_truthy
@@ -139,38 +151,145 @@ describe Enumerable do
               end
             end
           end
+
           context 'range' do
             context 'nonemty' do
-              describe '#my_all?' do
-                it 'should return true if the class is Integer' do
-                  expect(range.my_all?(Integer)).to be_truthy
+              context 'the class is Integer, Numeric, Object, or BasicObject' do
+                describe '#my_all?' do
+                  it 'should return true' do
+                    expect(range.my_all?(Integer)).to be_truthy
+                    expect(range.my_all?(Numeric)).to be_truthy
+                    expect(range.my_all?(Object)).to be_truthy
+                    expect(range.my_all?(BasicObject)).to be_truthy
+                  end
                 end
-                it 'should return false if the class is not Integer' do
-                  expect(range.my_all?(String)).to_not be_truthy
+
+                describe '#my_none?' do
+                  it 'should return false' do
+                    expect(range.my_none? Integer).to be_falsy
+                    expect(range.my_none? Numeric).to be_falsy
+                    expect(range.my_none? Object).to be_falsy
+                    expect(range.my_none? BasicObject).to be_falsy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'returns true' do
+                    expect(range.my_any? Integer).to be_truthy
+                    expect(range.my_any? Numeric).to be_truthy
+                    expect(range.my_any? Object).to be_truthy
+                    expect(range.my_any? BasicObject).to be_truthy
+                  end
+                end
+              end
+
+              context 'the class is neither Integer, Numeric, Object, nor BasicObject' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(range.my_all?(String)).to_not be_truthy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return true' do
+                    expect(range.my_none? String).to be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return false' do
+                    expect(range.my_any? String).to be_falsy
+                  end
                 end
               end
             end
+
             context 'empty' do
               describe '#my_all?' do
                 it 'should return true' do
                   expect((0..-1).my_all?(Integer)).to be_truthy
                 end
               end
-            end
-          end
-          context 'hash' do
-            context 'nonempty' do
-              describe '#my_all?' do
-                it 'should return true if the class is Array' do
-                  expect(hash.my_all?(Array)).to be_truthy
+
+              describe '#my_none?' do
+                it 'should return true' do
+                  expect((0..-1).my_none? Proc).to be_truthy
                 end
-                it 'should return false if the class is not Array' do
+              end
+
+              describe '#my_any?' do
+                it 'should return false' do
+                  expect((0..-1).my_any? Hash).to be_falsy
                 end
               end
             end
+          end
+
+          context 'hash' do
+            context 'nonempty' do
+              context 'the class is Array, Object, or BasicObject' do
+                describe '#my_all?' do
+                  it 'should return true' do
+                    expect(hash.my_all? Array).to be_truthy
+                    expect(hash.my_all? Object).to be_truthy
+                    expect(hash.my_all? BasicObject).to be_truthy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return false' do
+                    expect(hash.my_none? Array).to be_falsy
+                    expect(hash.my_none? Object).to be_falsy
+                    expect(hash.my_none? BasicObject).to be_falsy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return true' do
+                    expect(hash.my_any? Array).to be_truthy
+                    expect(hash.my_any? Object).to be_truthy
+                    expect(hash.my_any? BasicObject).to be_truthy
+                  end
+                end
+              end
+
+              context 'the class is neither Array, Object, nor BasicObject' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(hash.my_all? String).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return true' do
+                    expect(hash.my_none? Float).to be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return false' do
+                    expect(hash.my_any? Symbol).to be_falsy
+                  end
+                end
+              end
+            end
+
             context 'empty' do
               describe '#my_all?' do
                 it 'should return true' do
+                  expect({}.my_all? Method).to be_truthy
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return true' do
+                  expect({}.my_none? Integer).to be_truthy
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return false' do
+                  expect({}.my_any? Range).to be_falsy
                 end
               end
             end

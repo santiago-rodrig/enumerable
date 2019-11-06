@@ -10,7 +10,7 @@ module Enumerable
   end
 
   def both_of_class(_val1, _val2, class_name)
-    val_1.is_a?(class_name) && val_2.is_a?(class_name)
+    _val1.is_a?(class_name) && _val2.is_a?(class_name)
   end
 
   def all_from_class?(class_name)
