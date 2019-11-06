@@ -10,6 +10,7 @@ require_relative '../enumerable.rb'
 describe Enumerable do
   let(:array_of_numbers) { [1, 2, 3, 4, 5] }
   let(:array_of_strings) { %w[dog cat lion] }
+  let(:array_of_mix_integers_and_strings) { array_of_numbers + array_of_strings }
   let(:array_of_nils) { [nil, nil, nil] }
   let(:array_with_one_nil) { [1, nil, 3] }
   let(:hash) { { name: 'mohamed', job: 'developer' } }
@@ -80,10 +81,42 @@ describe Enumerable do
               describe '#my_all?' do
                 context 'all the elements are of the same class' do
                   it 'should return true' do
+                    expect(array_of_numbers.my_all?(Integer)).to be_truthy
+                    expect(array_of_numbers.my_all?(String)).to_not be_truthy
                   end
                 end
                 context 'one or more elements are not of the same class' do
                   it 'should return false' do
+                    expect(array_of_mix_integers_and_strings.my_all?(Integer)).to_not be_truthy
+                  end
+                end
+              end
+
+              describe '#my_none?' do
+                context 'all the elements are of the same class' do
+                  it 'should return true' do
+                    expect(array_of_numbers.my_none?(String)).to be_truthy
+                    expect(array_of_numbers.my_none?(Integer)).to_not be_truthy
+                  end
+                end
+                context 'one or more elements are not of the same class' do
+                  it 'should return false' do
+                    expect(array_of_mix_integers_and_strings.my_none?(Integer)).to_not be_truthy
+                  end
+                end
+              end
+
+              describe '#my_any?' do
+                context 'all the elements are of the same class' do
+                  it 'should return true' do
+                    expect(array_of_numbers.my_any?(Integer)).to be_truthy
+                    expect(array_of_numbers.my_any?(String)).to_not be_truthy
+                    expect(array_of_mix_integers_and_strings.my_any?(Integer)).to be_truthy
+                  end
+                end
+                context 'one or more elements are not of the same class' do
+                  it 'should return false' do
+                    expect(array_of_mix_integers_and_strings.my_all?(Integer)).to be_truthy
                   end
                 end
               end
@@ -91,6 +124,17 @@ describe Enumerable do
             context 'empty' do
               describe '#my_all?' do
                 it 'should return true' do
+                  expect([].my_all?(Integer)).to be_truthy
+                end
+              end
+              describe '#my_none?' do
+                it 'should return true' do
+                  expect([].my_none?(Integer)).to be_truthy
+                end
+              end
+              describe '#my_any?' do
+                it 'should return true' do
+                  expect([].my_any?(Integer)).to_not be_truthy
                 end
               end
             end
@@ -99,14 +143,17 @@ describe Enumerable do
             context 'nonemty' do
               describe '#my_all?' do
                 it 'should return true if the class is Integer' do
+                  expect(range.my_all?(Integer)).to be_truthy
                 end
                 it 'should return false if the class is not Integer' do
+                  expect(range.my_all?(String)).to_not be_truthy
                 end
               end
             end
             context 'empty' do
               describe '#my_all?' do
                 it 'should return true' do
+                  expect((0..-1).my_all?(Integer)).to be_truthy
                 end
               end
             end
@@ -115,6 +162,7 @@ describe Enumerable do
             context 'nonempty' do
               describe '#my_all?' do
                 it 'should return true if the class is Array' do
+                  expect(hash.my_all?(Array)).to be_truthy
                 end
                 it 'should return false if the class is not Array' do
                 end
@@ -135,6 +183,19 @@ describe Enumerable do
       context 'array' do
         context 'empty' do
           describe '#my_all?' do
+            it 'return true ' do
+              expect([].my_all?).to be_truthy
+            end
+          end
+          describe '#my_any?' do
+            it 'return false' do
+              expect([].my_any?).to_not be_truthy
+            end
+          end
+          describe '#my_none?' do
+            it 'return true ' do
+              expect([].my_none?).to be_truthy
+            end
           end
         end
         context 'nonempty' do
@@ -142,13 +203,43 @@ describe Enumerable do
           end
         end
       end
+
       context 'hash or range' do
         context 'empty' do
           describe '#my_all?' do
+            it 'return true' do
+              expect({}.my_all?).to be_truthy
+              expect((0..-1).my_all?).to be_truthy
+            end
+          end
+          describe '#my_any?' do
+            it 'return false' do
+              expect({}.my_any?).to_not be_truthy
+              expect((0..-1).my_any?).to_not be_truthy
+            end
+          end
+          describe '#my_none?' do
+            it 'return true' do
+              expect({}.my_none?).to be_truthy
+              expect((0..-1).my_none?).to be_truthy
+            end
           end
         end
         context 'nonempty' do
           describe '#my_all?' do
+            it 'return true ' do
+              expect(hash.my_all?).to be_truthy
+            end
+          end
+          describe '#my_any?' do
+            it 'return true ' do
+              expect(hash.my_any?).to be_truthy
+            end
+          end
+          describe '#my_none?' do
+            it 'return false ' do
+              expect(hash.my_none?).to_not be_truthy
+            end
           end
         end
       end
