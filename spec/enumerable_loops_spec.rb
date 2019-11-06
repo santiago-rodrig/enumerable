@@ -188,20 +188,59 @@ describe Enumerable do
       context 'arrays and ranges' do
         describe '#my_each' do
           it 'should iterate as with 1 variable' do
+            temp_array = []
+            array.my_each { |element, _other, _test_variable, _second_variable| temp_array << element }
+            expect(temp_array).to eq(array)
+            temp_array.clear
+            range.my_each { |element, _other, _test_variable, _second_variable| temp_array << element }
+            expect(temp_array).to eq(range.to_a)
           end
         end
         describe 'my_each_with_index' do
           it 'should iterate as with 1 variable' do
+            temp_array = []
+            array.my_each_with_index do |_element, index, _another_variable|
+              temp_array << array[index]
+            end
+            expect(temp_array).to eq(array)
+            temp_array.clear
+            range_as_array = range.to_a
+            range.my_each_with_index do |_element, index, _another_variable|
+              temp_array << range_as_array[index]
+            end
+            expect(temp_array).to eq(range_as_array)
           end
         end
       end
       context 'hashes' do
         describe '#my_each' do
           it 'should iterate as with 2 variables' do
+            keys = []
+            values = []
+            hash.my_each do |key, value, _another_variable|
+              keys << key
+              values << value
+            end
+            expect(keys).to eq(hash.keys)
+            expect(values).to eq(hash.values)
           end
         end
         describe '#my_each_with_index' do
           it 'should iterate as with 2 variables' do
+            keys = []
+            values = []
+            indices = []
+            hash.my_each_with_index do |pair, index, _another_variable|
+              keys << pair[0]
+              values << pair[1]
+              indices << index
+            end
+            hash_as_array = hash.to_a
+            temp_array = []
+            indices.each { |index| temp_array[index] = hash_as_array[index] }
+            expect(keys).to eq(hash.keys)
+            expect(values).to eq(hash.values)
+            expect(temp_array).to eq(hash_as_array)
           end
         end
       end
