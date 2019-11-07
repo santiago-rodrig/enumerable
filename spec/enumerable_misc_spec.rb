@@ -103,18 +103,15 @@ describe Enumerable do
 
     context 'two argument' do
       describe '#my_inject' do
-        context 'Array' do
-          context 'symbol argument with inital value ' do
+        context 'symbol argument with inital value ' do
+          context 'Array' do
             it ' initial value with symbol return value of applying binary operation spesified by symbol ' do
               expect(array.my_inject(10, :+)).to eq(27)
             end
           end
-        end
-        context 'Range' do
-          # TODO, m.naser
-          context 'symbol argument with inital value ' do
+          context 'Range' do
             it ' initial value with symbol return value of applying binary operation spesified by symbol ' do
-              expect(array.my_inject(10, :+)).to eq(27)
+              expect(range.my_inject(10, :+)).to eq(65)
             end
           end
         end
