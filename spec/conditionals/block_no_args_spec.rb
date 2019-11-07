@@ -13,7 +13,28 @@ describe Enumerable do
   let(:range) { (1..10) }
 
   context 'with a block and no arguments' do
-    context 'without variables' do
+    context 'any number of variables' do
+      context 'array, range, or hash' do
+        context 'empty' do
+          describe '#my_all?' do
+            it 'should return true' do
+            end
+          end
+
+          describe '#my_none?' do
+            it 'should return true' do
+            end
+          end
+
+          describe '#my_any?' do
+            it 'should return false' do
+            end
+          end
+        end
+      end
+    end
+
+    context 'block without variables' do
       def get_bool(method, data_structure, condition = true)
         counter = 0
         data_structure.method(method).call do
@@ -22,203 +43,228 @@ describe Enumerable do
         end
       end
 
-      context 'nonempty' do
-        context 'evaluates to true' do
-          context 'always' do
-            context 'array, range, or hash' do
-              describe '#my_all?' do
-                it 'should return true' do
-                  expect(array.my_all? { true }).to be_truthy
-                  expect(range.my_all? { true }).to be_truthy
-                  expect(hash.my_all? { true }).to be_truthy
-                end
-              end
-
-              describe '#my_none?' do
-                it 'should return false' do
-                  expect(array.my_none? { true }).to be_falsy
-                  expect(range.my_none? { true }).to be_falsy
-                  expect(hash.my_none? { true }).to be_falsy
-                end
-              end
-
-              describe '#my_any?' do
-                it 'should returns true' do
-                  expect(array.my_any? { true }).to be_truthy
-                  expect(range.my_any? { true }).to be_truthy
-                  expect(hash.my_any? { true }).to be_truthy
-                end
-              end
-            end
-          end
-
-          context 'not always' do
-            context 'array, range, or hash' do
-              describe '#my_all?' do
-                it 'should be false' do
-                  expect(get_bool :my_all?, array).to be_falsy
-                  expect(get_bool :my_all?, range).to be_falsy
-                  expect(get_bool :my_all?, hash).to be_falsy
-                end
-              end
-
-              describe '#my_none?' do
-                it 'should be false' do
-                  expect(get_bool :my_none?, array).to be_falsy
-                  expect(get_bool :my_none?, range).to be_falsy
-                  expect(get_bool :my_none?, hash).to be_falsy
-                end
-              end
-
-              describe '#my_any?' do
-                it 'should be true' do
-                  expect(get_bool :my_any?, array).to be_truthy
-                  expect(get_bool :my_any?, range).to be_truthy
-                  expect(get_bool :my_any?, hash).to be_truthy
-                end
-              end
-            end
+      context 'block always evaluates to true' do
+        describe '#my_all?' do
+          it 'should return true' do
+            expect(array.my_all? { true }).to be_truthy
+            expect(range.my_all? { true }).to be_truthy
+            expect(hash.my_all? { true }).to be_truthy
           end
         end
 
-        context 'evaluates to false' do
-          context 'always' do
-            context 'array, range, or hash' do
-              describe '#my_all?' do
-                it 'should return false' do
-                  expect(array.my_all? { false }).to be_falsy
-                  expect(range.my_all? { false }).to be_falsy
-                  expect(hash.my_all? { false }).to be_falsy
-                end
-              end
-
-              describe '#my_none?' do
-                it 'should return true' do
-                  expect(array.my_none? { false }).to be_truthy
-                  expect(range.my_none? { false }).to be_truthy
-                  expect(hash.my_none? { false }).to be_truthy
-                end
-              end
-
-              describe '#my_any?' do
-                it 'should return false' do
-                  expect(array.my_any? { false }).to be_falsy
-                  expect(range.my_any? { false }).to be_falsy
-                  expect(hash.my_any? { false }).to be_falsy
-                end
-              end
-            end
+        describe '#my_none?' do
+          it 'should return false' do
+            expect(array.my_none? { true }).to be_falsy
+            expect(range.my_none? { true }).to be_falsy
+            expect(hash.my_none? { true }).to be_falsy
           end
+        end
 
-          context 'not always' do
-            context 'array, range, or hash' do
-              describe '#my_all?' do
-                it 'should return false' do
-                  expect(get_bool :my_all?, array, false).to be_falsy
-                  expect(get_bool :my_all?, range, false).to be_falsy
-                  expect(get_bool :my_all?, hash, false).to be_falsy
-                end
-              end
-
-              describe '#my_none?' do
-                it 'should return false' do
-                  expect(get_bool :my_none?, array, false).to be_falsy
-                  expect(get_bool :my_none?, range, false).to be_falsy
-                  expect(get_bool :my_none?, hash, false).to be_falsy
-                end
-              end
-
-              describe '#my_any?' do
-                it 'should return true' do
-                  expect(get_bool :my_any?, array, false).to be_truthy
-                  expect(get_bool :my_any?, range, false).to be_truthy
-                  expect(get_bool :my_any?, hash, false).to be_truthy
-                end
-              end
-            end
+        describe '#my_any?' do
+          it 'should returns true' do
+            expect(array.my_any? { true }).to be_truthy
+            expect(range.my_any? { true }).to be_truthy
+            expect(hash.my_any? { true }).to be_truthy
           end
         end
       end
 
-      context 'empty' do
-        context 'array, range, or hash' do
+      context 'block not always evaluates to true' do
+        describe '#my_all?' do
+          it 'should be false' do
+            expect(get_bool :my_all?, array).to be_falsy
+            expect(get_bool :my_all?, range).to be_falsy
+            expect(get_bool :my_all?, hash).to be_falsy
+          end
+        end
+
+        describe '#my_none?' do
+          it 'should be false' do
+            expect(get_bool :my_none?, array).to be_falsy
+            expect(get_bool :my_none?, range).to be_falsy
+            expect(get_bool :my_none?, hash).to be_falsy
+          end
+        end
+
+        describe '#my_any?' do
+          it 'should be true' do
+            expect(get_bool :my_any?, array).to be_truthy
+            expect(get_bool :my_any?, range).to be_truthy
+            expect(get_bool :my_any?, hash).to be_truthy
+          end
+        end
+      end
+
+      context 'block always evaluates to false' do
+        describe '#my_all?' do
+          it 'should return false' do
+            expect(array.my_all? { false }).to be_falsy
+            expect(range.my_all? { false }).to be_falsy
+            expect(hash.my_all? { false }).to be_falsy
+          end
+        end
+
+        describe '#my_none?' do
+          it 'should return true' do
+            expect(array.my_none? { false }).to be_truthy
+            expect(range.my_none? { false }).to be_truthy
+            expect(hash.my_none? { false }).to be_truthy
+          end
+        end
+
+        describe '#my_any?' do
+          it 'should return false' do
+            expect(array.my_any? { false }).to be_falsy
+            expect(range.my_any? { false }).to be_falsy
+            expect(hash.my_any? { false }).to be_falsy
+          end
+        end
+      end
+
+      context 'block not always evaluates to false' do
+        describe '#my_all?' do
+          it 'should return false' do
+            expect(get_bool :my_all?, array, false).to be_falsy
+            expect(get_bool :my_all?, range, false).to be_falsy
+            expect(get_bool :my_all?, hash, false).to be_falsy
+          end
+        end
+
+        describe '#my_none?' do
+          it 'should return false' do
+            expect(get_bool :my_none?, array, false).to be_falsy
+            expect(get_bool :my_none?, range, false).to be_falsy
+            expect(get_bool :my_none?, hash, false).to be_falsy
+          end
+        end
+
+        describe '#my_any?' do
+          it 'should return true' do
+            expect(get_bool :my_any?, array, false).to be_truthy
+            expect(get_bool :my_any?, range, false).to be_truthy
+            expect(get_bool :my_any?, hash, false).to be_truthy
+          end
+        end
+      end
+    end
+
+    context 'block with 1 variable' do
+      context 'array, range, or hash' do
+        context 'all elements meet the condition' do
           describe '#my_all?' do
             it 'should return true' do
-              expect([].my_all? { true }).to be_truthy
-              expect(get_bool :my_all?, []).to be_truthy
-              expect([].my_all? { false }).to be_truthy
-              expect(get_bool :my_all?, [], false).to be_truthy
-              # empty range
-              expect((0..-1).my_all? { true }).to be_truthy
-              expect(get_bool :my_all?, (0..-1)).to be_truthy
-              expect((0..-1).my_all? { false }).to be_truthy
-              expect(get_bool :my_all?, (0..-1), false).to be_truthy
-              # empty hash
-              expect({}.my_all? { true }).to be_truthy
-              expect(get_bool :my_all?, {}).to be_truthy
-              expect({}.my_all? { false }).to be_truthy
-              expect(get_bool :my_all?, {}, false).to be_truthy
+              expect(array_of_strings.my_all? { |v| v.instance_of? String }).to be_truthy
+              expect(range.my_all? { |v| v.instance_of? Integer }).to be_truthy
+              expect(hash.my_all? { |v| v.is_a? Array }.to be_truthy
             end
           end
 
           describe '#my_none?' do
-            it 'should return true' do
-              expect([].my_none? { true }).to be_truthy
-              expect(get_bool :my_none?, []).to be_truthy
-              expect([].my_none? { false }).to be_truthy
-              expect(get_bool :my_none?, [], false).to be_truthy
-              # empty range
-              expect((0..-1).my_none? { true }).to be_truthy
-              expect(get_bool :my_none?, (0..-1)).to be_truthy
-              expect((0..-1).my_none? { false }).to be_truthy
-              expect(get_bool :my_none?, (0..-1), false).to be_truthy
-              # empty hash
-              expect({}.my_none? { true }).to be_truthy
-              expect(get_bool :my_none?, {}).to be_truthy
-              expect({}.my_none? { false }).to be_truthy
-              expect(get_bool :my_none?, {}, false).to be_truthy
+            it 'should return false' do
+              expect(array_of_strings.my_none? { |v| v.instance_of? String }).to be_falsy
+              expect(range.my_none? { |v| v.instance_of? Integer }).to be_falsy
+              expect(hash.my_none? { |v| v.is_a? Array }.to be_falsy
             end
           end
 
           describe '#my_any?' do
             it 'should return true' do
-              expect([].my_any? { true }).to be_truthy
-              expect(get_bool :my_any?, []).to be_truthy
-              expect([].my_any? { false }).to be_truthy
-              expect(get_bool :my_any?, [], false).to be_truthy
-              # empty range
-              expect((0..-1).my_any? { true }).to be_truthy
-              expect(get_bool :my_any?, (0..-1)).to be_truthy
-              expect((0..-1).my_any? { false }).to be_truthy
-              expect(get_bool :my_any?, (0..-1), false).to be_truthy
-              # empty hash
-              expect({}.my_any? { true }).to be_truthy
-              expect(get_bool :my_any?, {}).to be_truthy
-              expect({}.my_any? { false }).to be_truthy
-              expect(get_bool :my_any?, {}, false).to be_truthy
+              expect(array_of_strings.my_any? { |v| v.instance_of? String }).to be_truthy
+              expect(range.my_any? { |v| v.instance_of? Integer }).to be_truthy
+              expect(hash.my_any? { |v| v.is_a? Array }.to be_truthy
+            end
+          end
+        end
+
+        context 'some elements meet the condition' do
+          describe '#my_all?' do
+            it 'should return false' do
+              expect(array.my_all? { |v| v.instance_of? Symbol }).to be_falsy
+              expect(range.my_all? { |v| v > 5 }).to be_falsy
+              expect(hash.my_all? { |v| v[0].eql? :job }).to be_falsy
+            end
+          end
+
+          describe '#my_none?' do
+            it 'should return false' do
+              expect(array.my_none? { |v| v.instance_of? Symbol }).to be_falsy
+              expect(range.my_none? { |v| v > 5 }).to be_falsy
+              expect(hash.my_none? { |v| v[0].eql? :job }).to be_falsy
+            end
+          end
+
+          describe '#my_any?' do
+            it 'should return true' do
+              expect(array.my_any? { |v| v.instance_of? Symbol }).to be_truthy
+              expect(range.my_any? { |v| v > 5 }).to be_truthy
+              expect(hash.my_any? { |v| v[0].eql? :job }).to be_truthy
+            end
+          end
+        end
+
+        context 'none of the elements meet the condition' do
+          describe '#my_all?' do
+            it 'should return false' do
+              expect(array_of_numbers.my_all? { |v| v == 3.56713 }).to be_falsy
+              expect(range.my_all? { |v| v.is_a? Proc }).to be_falsy
+              expect(hash.my_all? { |v| v[1].eql? 'thanos' }).to be_falsy
+            end
+          end
+
+          describe '#my_none?' do
+            it 'should return true' do
+              expect(array_of_numbers.my_none? { |v| v == 3.56713 }).to be_truthy
+              expect(range.my_none? { |v| v.is_a? Proc }).to be_truthy
+              expect(hash.my_none? { |v| v[1].eql? 'thanos' }).to be_truthy
+            end
+          end
+
+          describe '#my_any?' do
+            it 'should return false' do
+              expect(array_of_numbers.my_any? { |v| v == 3.56713 }).to be_falsy
+              expect(range.my_any? { |v| v.is_a? Proc }).to be_falsy
+              expect(hash.my_any? { |v| v[1].eql? 'thanos' }).to be_falsy
             end
           end
         end
       end
     end
 
-    context 'with 1 variable' do
-      context 'array, range, or hash' do
+    context 'with 2 variables' do
+      context 'array or range' do
         context 'empty' do
+          describe '#my_all?' do
+            it 'should return true' do
+            end
+          end
+
+          describe '#my_none?' do
+            it 'should return true' do
+            end
+          end
+
+          describe '#my_any?' do
+            it 'should return false' do
+            end
+          end
         end
 
         context 'nonempty' do
+          describe '#my_all?' do
+            it 'should behave as with 1 variable' do
+            end
+          end
+
+          describe '#my_none?' do
+            it 'should behave as with 1 variable' do
+            end
+          end
+
+          describe '#my_any?' do
+            it 'should behave as with 1 variable' do
+            end
+          end
         end
-      end
-      context 'array and range' do
-      end
-
-      context 'hash' do
-      end
-    end
-
-    context 'with 2 variables' do
-      context 'array and range' do
       end
 
       context 'hash' do
