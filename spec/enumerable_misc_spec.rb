@@ -125,13 +125,16 @@ describe Enumerable do
         it 'return zero in empty array ' do
           expect([].my_count).to eq(0)
         end
-        it 'not empty array return number of elments ' do
+        it ' return number of elments  in case not empty array' do
           expect(array.my_count).to eq(6)
         end
       end
       context 'Range ' do
         it 'return zero in empty Range ' do
           expect((0..-1).my_count).to eq(0)
+        end
+        it ' return number of elments in case not empty range' do
+          expect((1..10).my_count).to eq(10)
         end
       end
     end
@@ -156,7 +159,46 @@ describe Enumerable do
     end
 
     describe '#my_inject' do
-      it 'send block to function and should return value after applied the operation applied by operation ' do
+      describe 'Array' do
+        it 'return nil in empty array ' do
+          expect([].my_inject { |sum, n| sum + n }).to eq(nil)
+        end
+
+        it ' return value of applying binary operation spesified by block ' do
+          expect(array.my_inject { |sum, n| sum + n }) .to eq(17)
+        end
+      end
+
+      describe 'Range' do
+        it 'return nil in empty array ' do
+          expect((0..-1).my_inject { |sum, n| sum + n }).to eq(nil)
+        end
+
+        it 'return value of applying binary operation spesified by block ' do
+          expect(range.my_inject { |sum, n| sum + n }).to eq(55)
+        end
+      end
+    end
+
+    describe '#my_select' do
+      describe 'Array' do
+        it ' Return empty array in empty array' do
+          expect([].my_select { |element| element > 2 }).to eq([])
+        end
+
+        it ' Return matching elements of applying binary operation spesified by block ' do
+          expect(array.my_select { |element| element > 2 }) .to eq([3, 4, 5])
+        end
+      end
+
+      describe 'Range' do
+        it ' Return empty array in Range array' do
+          expect((0..-1).my_select { |element| element > 2 }).to eq([])
+        end
+
+        it 'return value of applying binary operation spesified by block ' do
+          expect(range.my_select { |element| element > 2 }).to eq([3, 4, 5, 6, 7, 8, 9, 10])
+        end
       end
     end
   end
