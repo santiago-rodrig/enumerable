@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../enumerable.rb'
+require_relative '../enumerable'
 
 describe Enumerable do
   let(:array) { [1, 2, 3, 'dog', 'cow', :symbol, (1..10), { name: 'antonio', job: 'engineer' }] }
@@ -614,67 +614,4 @@ describe Enumerable do
       end # hash or range
     end # without arguments
   end # without block
-
-  context 'with a block' do
-    context 'with arguments'
-    context 'without variables' do
-      context 'evaluates to true' do
-        context 'always' do
-          describe '#my_all?' do
-            it 'should return true' do
-              expect(array.my_all? { true }).to be_truthy
-            end
-          end
-
-          describe '#my_none?' do
-            expect()
-          end
-
-          describe '#my_any?' do
-          end
-        end
-
-        context 'not always' do
-          describe '#my_all?' do
-          end
-
-          describe '#my_none?' do
-          end
-
-          describe '#my_any?' do
-          end
-        end
-      end
-
-      context 'evaluates to false' do
-        context 'always' do
-          describe '#my_all?' do
-          end
-
-          describe '#my_none?' do
-          end
-
-          describe '#my_any?' do
-          end
-        end
-
-        context 'not always' do
-          describe '#my_all?' do
-          end
-
-          describe '#my_none?' do
-          end
-
-          describe '#my_any?' do
-          end
-        end
-      end
-    end
-    context 'with 1 variable' do
-    end
-    context 'with 2 variables' do
-    end
-    context 'with more than 2 variables' do
-    end
-  end
 end
