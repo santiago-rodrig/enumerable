@@ -14,11 +14,7 @@ module Enumerable
   end
 
   def all_from_class?(class_name)
-    if is_a? Hash
-      my_each { |k, v| return false unless both_of_class(k, v, class_name) }
-    else
-      my_each { |v| return false unless v.is_a? class_name }
-    end
+    my_each { |v| return false unless v.is_a? class_name }
     true
   end
 
@@ -47,8 +43,8 @@ module Enumerable
     true
   end
 
-  def none_from_class?(class_name)
-    my_each { |v| return false if v.is_a? class_name } unless is_a? Hash
+  def none_of_class?(class_name)
+    my_each { |v| return false if v.is_a? class_name }
     true
   end
 
@@ -59,11 +55,18 @@ module Enumerable
 
   # enumerable methods
 
-  def my_each
+  def my_each(&block)
     return to_enum :my_each unless block_given?
 
     as_array = to_a
-    size.times { |i| yield as_array[i][0], as_array[i][1] } if is_a? Hash
+    if is_a? Hash
+      case block.parameters.size
+      when 1
+        size.times { |i| yield as_array[i] }
+      else
+        size.times { |i| yield as_array[i][0], as_array[i][1] }
+      end
+    end
     size.times { |i| yield as_array[i] } unless is_a? Hash
     self
   end
@@ -92,6 +95,8 @@ module Enumerable
   def my_all?(*args)
     return true if to_a.empty?
 
+    raise ArgumentError, 'only 1 argument allowed' if args.size > 1
+
     unless args.empty?
       arg = args[0]
       return all_from_class?(arg) if arg.is_a? Class
@@ -111,6 +116,8 @@ module Enumerable
 
   def my_any?(*args)
     return false if to_a.empty?
+
+    raise ArgumentError, 'only 1 argument allowed' if args.size > 1
 
     unless args.empty?
       arg = args[0]
@@ -134,9 +141,11 @@ module Enumerable
   def my_none?(*args)
     return true if to_a.empty?
 
+    raise ArgumentError, 'only 1 argument allowed' if args.size > 1
+
     unless args.empty?
       arg = args[0]
-      return none_from_class?(arg) if arg.is_a? Class
+      return none_of_class?(arg) if arg.is_a? Class
       return none_match?(arg) if arg.is_a? Regexp
 
       return none_the_same? arg
