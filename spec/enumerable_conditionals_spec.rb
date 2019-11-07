@@ -345,19 +345,19 @@ describe Enumerable do
       context 'more than 1 argument' do
         describe '#my_all?' do
           it 'should raise ArgumentError' do
-            expect { array.my_all? Integer /./ }.to raise_error(ArgumentError)
+            expect { array.my_all? Integer, /./ }.to raise_error(ArgumentError)
           end
         end
 
         describe '#my_none?' do
           it 'should raise ArgumentError' do
-            expect { array.my_none? String /\S*/ }.to raise_error(ArgumentError)
+            expect { array.my_none? String, /\S*/ }.to raise_error(ArgumentError)
           end
         end
 
         describe '#my_any?' do
           it 'should raise ArgumentError' do
-            expect { array.my_any? Symbol /\w+\d*[A-Z]?/ }.to raise_error(ArgumentError)
+            expect { array.my_any? Symbol, /\w+\d*[A-Z]?/ }.to raise_error(ArgumentError)
           end
         end
       end # more than 1 argument
