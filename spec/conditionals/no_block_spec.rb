@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../enumerable'
+require_relative '../../enumerable'
 
 describe Enumerable do
   let(:array) { [1, 2, 3, 'dog', 'cow', :symbol, (1..10), { name: 'antonio', job: 'engineer' }] }
