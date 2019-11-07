@@ -15,7 +15,7 @@ module Enumerable
 
   def all_from_class?(class_name)
     if is_a? Hash
-      my_each { |k, v| return false unless both_of_class(k, v, class_name) }
+      my_each { |p| return false unless p.is_a? Array }
     else
       my_each { |v| return false unless v.is_a? class_name }
     end
