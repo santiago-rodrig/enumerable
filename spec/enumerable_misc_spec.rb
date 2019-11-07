@@ -202,15 +202,4 @@ describe Enumerable do
       end
     end
   end
-
-  context 'with a block' do
-    context 'without variables' do
-    end
-    context 'with 1 variable' do
-    end
-    context 'with 2 variables' do
-    end
-    context 'with more than 2 variables' do
-    end
-  end
 end
