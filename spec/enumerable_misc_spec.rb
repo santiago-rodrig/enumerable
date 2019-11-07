@@ -53,14 +53,43 @@ describe Enumerable do
 
       describe '#my_inject' do
         context 'symbol argument' do
-          it ' initial value with symbol return value of applying binary operation spesified by symbol ' do
-            expect(array.my_inject(:+)).to eq(17)
+          describe 'Array' do
+            it 'return nil in empty array ' do
+              expect([].my_inject(:+)).to eq(nil)
+            end
+
+            it ' initial value with symbol return value of applying binary operation spesified by symbol ' do
+              expect(array.my_inject(:+)).to eq(17)
+            end
+          end
+
+          describe 'Range' do
+            it 'return nil in empty array ' do
+              expect((0..-1).my_inject(:+)).to eq(nil)
+            end
+
+            it ' initial value with symbol return value of applying binary operation spesified by symbol ' do
+              expect(range.my_inject(:+)).to eq(55)
+            end
           end
         end
 
-        context 'block and argument with inital value ' do
-          it ' initial value with symbol return value of applying binary operation spesified by block ' do
-            expect(array.my_inject(10) { |sum, element| sum + element }).to eq(27)
+        context 'Inital Value ' do
+          describe 'Array' do
+            it 'return value of applying binary operation spesified by block ' do
+              expect(array.my_inject(10) { |sum, element| sum + element }).to eq(27)
+            end
+            it 'return initial value in case empty array' do
+              expect([].my_inject(10) { |sum, element| sum + element }).to eq(10)
+            end
+          end
+          describe 'Range' do
+            it 'return value of applying binary operation spesified by block starting with the inital value' do
+              expect(range.my_inject(10) { |sum, element| sum + element }).to eq(65)
+            end
+            it 'return initial value in case empty Range' do
+              expect((0..-1).my_inject(10) { |sum, element| sum + element }).to eq(10)
+            end
           end
         end
       end
