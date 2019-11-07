@@ -92,6 +92,8 @@ module Enumerable
   def my_all?(*args)
     return true if to_a.empty?
 
+    raise ArgumentError, 'only 1 argument allowed' if args.size > 1
+
     unless args.empty?
       arg = args[0]
       return all_from_class?(arg) if arg.is_a? Class
@@ -111,6 +113,8 @@ module Enumerable
 
   def my_any?(*args)
     return false if to_a.empty?
+
+    raise ArgumentError, 'only 1 argument allowed' if args.size > 1
 
     unless args.empty?
       arg = args[0]
@@ -133,6 +137,8 @@ module Enumerable
 
   def my_none?(*args)
     return true if to_a.empty?
+
+    raise ArgumentError, 'only 1 argument allowed' if args.size > 1
 
     unless args.empty?
       arg = args[0]
