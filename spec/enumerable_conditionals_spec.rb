@@ -37,8 +37,8 @@ describe Enumerable do
                 context "one or more strings don't match" do
                   describe '#my_all?' do
                     it 'should return false' do
-                      expect(array_of_strings.my_all?(/\d*/)).to be_falsy
-                      expect(array_of_strings.my_all?(/d/)).to be_falsy
+                      expect(array_of_strings.my_all? /\d+/).to be_falsy
+                      expect(array_of_strings.my_all? /d/).to be_falsy
                     end
                   end
 
@@ -65,7 +65,7 @@ describe Enumerable do
                 context 'none of the elements is a string' do
                   describe '#my_all?' do
                     it 'should return false' do
-                      expect(array_of_numbers.my_all?(/./)).to be_falsy
+                      expect(array_of_numbers.my_all? /./).to be_falsy
                     end
                   end
 
@@ -80,8 +80,8 @@ describe Enumerable do
 
             context 'empty' do
               it 'should always return true' do
-                expect([].my_all?(/./)).to be_truthy
-                expect([].my_all?(/\d\w\s[a-z0-9]/)).to be_truthy
+                expect([].my_all? /./).to be_truthy
+                expect([].my_all? /\d\w\s[a-z0-9]/).to be_truthy
               end
             end # empty
           end # array
@@ -90,8 +90,8 @@ describe Enumerable do
             context 'nonempty' do
               describe '#my_all?' do
                 it 'should return false' do
-                  expect(hash.my_all?(/./)).to be_falsy
-                  expect(range.my_all?(/\d+/)).to be_falsy
+                  expect(hash.my_all? /./).to be_falsy
+                  expect(range.my_all? /\d+/).to be_falsy
                 end
               end
 

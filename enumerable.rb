@@ -59,11 +59,18 @@ module Enumerable
 
   # enumerable methods
 
-  def my_each
+  def my_each(&block)
     return to_enum :my_each unless block_given?
 
     as_array = to_a
-    size.times { |i| yield as_array[i][0], as_array[i][1] } if is_a? Hash
+    if is_a? Hash
+      case block.parameters.size
+      when 1
+        size.times { |i| yield as_array[i] }
+      else
+        size.times { |i| yield as_array[i][0], as_array[i][1] }
+      end
+    end
     size.times { |i| yield as_array[i] } unless is_a? Hash
     self
   end
