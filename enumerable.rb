@@ -14,11 +14,7 @@ module Enumerable
   end
 
   def all_from_class?(class_name)
-    if is_a? Hash
-      my_each { |p| return false unless p.is_a? Array }
-    else
-      my_each { |v| return false unless v.is_a? class_name }
-    end
+    my_each { |v| return false unless v.is_a? class_name }
     true
   end
 
@@ -47,8 +43,8 @@ module Enumerable
     true
   end
 
-  def none_from_class?(class_name)
-    my_each { |v| return false if v.is_a? class_name } unless is_a? Hash
+  def none_of_class?(class_name)
+    my_each { |v| return false if v.is_a? class_name }
     true
   end
 
@@ -149,7 +145,7 @@ module Enumerable
 
     unless args.empty?
       arg = args[0]
-      return none_from_class?(arg) if arg.is_a? Class
+      return none_of_class?(arg) if arg.is_a? Class
       return none_match?(arg) if arg.is_a? Regexp
 
       return none_the_same? arg
