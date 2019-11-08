@@ -281,7 +281,7 @@ describe Enumerable do
             end
           end
         end
-      end # at most 1 argument
+      end
 
       context 'with 1 argument' do
         context 'regular expression' do
@@ -315,7 +315,7 @@ describe Enumerable do
                       expect(array_of_strings.my_any?(/\w/) { |foo, bar, baz| baz }).to be_truthy
                     end
                   end
-                end # all the strings match
+                end
 
                 context "one or more strings don't match" do
                   context "some strings don't match, but not all" do
@@ -345,9 +345,9 @@ describe Enumerable do
                         expect(array_of_strings.my_any?(/d/) { |foo, bar, baz| baz }).to be_truthy
                       end
                     end
-                  end # some strings don't match, but not all
+                  end
 
-                  context "none of the strings match" do
+                  context 'none of the strings match' do
                     describe '#my_all?' do
                       it 'should be false' do
                         expect(array_of_strings.my_all?(/\d/) { false }).to be_falsy
@@ -374,9 +374,9 @@ describe Enumerable do
                         expect(array_of_strings.my_any?(/\d/) { |foo, bar, baz| baz }).to be_falsy
                       end
                     end
-                  end # none of the strings match
-                end # one or more strings don't match
-              end # is made of strings
+                  end
+                end
+              end
 
               context 'is not made of strings' do
                 context 'some elements are strings, but not all' do
@@ -407,7 +407,7 @@ describe Enumerable do
                         expect(array.my_any?(/o/) { |foo, bar, baz| baz }).to be_truthy
                       end
                     end
-                  end # all the strings match
+                  end
 
                   context 'some strings match' do
                     describe '#my_all?' do
@@ -436,7 +436,7 @@ describe Enumerable do
                         expect(array.my_any?(/w/) { |foo, bar, baz| baz }).to be_truthy
                       end
                     end
-                  end # some strings match
+                  end
 
                   context 'none of the strings match' do
                     describe '#my_all?' do
@@ -465,8 +465,8 @@ describe Enumerable do
                         expect(array.my_any?(/\W/) { |foo, bar, baz| baz }).to be_falsy
                       end
                     end
-                  end # none of the strings match
-                end # some elements are strings, but not all
+                  end
+                end
 
                 context 'none of the elements is a string' do
                   describe '#my_all?' do
@@ -495,10 +495,10 @@ describe Enumerable do
                       expect(array_of_numbers.my_any?(/\a\s/) { |foo, bar, baz| baz }).to be_falsy
                     end
                   end
-                end # none of the elements is a string
-              end # is not made of strings
-            end # nonempty
-          end # array
+                end
+              end
+            end
+          end
 
           context 'hash or range' do
             context 'nonempty' do
@@ -540,9 +540,9 @@ describe Enumerable do
                   expect(range.my_any?(/\a\.$/) { |foo, bar, baz| baz }).to be_falsy
                 end
               end
-            end # nonempty
-          end # hash or range
-        end # regular expression
+            end
+          end
+        end
 
         context 'class' do
           context 'array' do
@@ -574,7 +574,7 @@ describe Enumerable do
                     expect(array_of_numbers.my_any?(Integer) { |foo, bar, baz| baz }).to be_truthy
                   end
                 end
-              end # all the elements are of the same class
+              end
 
               context 'one or more elements are not of the same class' do
                 context 'all elements are not of the same class' do
@@ -604,7 +604,7 @@ describe Enumerable do
                       expect(array.my_any?(Proc) { |foo, bar, baz| baz }).to be_falsy
                     end
                   end
-                end # all elements are not of the same class
+                end
 
                 context 'some elements are not of the same class, but not all' do
                   describe '#my_all?' do
@@ -633,10 +633,10 @@ describe Enumerable do
                       expect(array.my_any?(String) { |foo, bar, baz| baz }).to be_truthy
                     end
                   end
-                end # some elements are not of the same class, but not all
-              end # one or more elements are not of the same class
-            end # nonempty
-          end # array
+                end
+              end
+            end
+          end
 
           context 'range' do
             context 'nonemty' do
@@ -703,7 +703,7 @@ describe Enumerable do
                     expect(range.my_any?(BasicObject) { |foo, bar, baz| baz }).to be_truthy
                   end
                 end
-              end # the class is Integer, Numeric, Object, or BasicObject
+              end
 
               context 'the class is neither Integer, Numeric, Object, nor BasicObject' do
                 describe '#my_all?' do
@@ -732,9 +732,9 @@ describe Enumerable do
                     expect(range.my_any?(String) { |foo, bar, baz| baz }).to be_falsy
                   end
                 end
-              end # the class is neither Integer, Numeric, Object, nor BasicObject
-            end # nonempty
-          end # range
+              end
+            end
+          end
 
           context 'hash' do
             context 'nonempty' do
@@ -789,7 +789,7 @@ describe Enumerable do
                     expect(hash.my_any?(BasicObject) { |foo, bar, baz| baz }).to be_truthy
                   end
                 end
-              end # the class is Array, Object, or BasicObject
+              end
 
               context 'the class is neither Array, Object, nor BasicObject' do
                 describe '#my_all?' do
@@ -818,10 +818,10 @@ describe Enumerable do
                     expect(hash.my_any?(Symbol) { |foo, bar, baz| baz }).to be_falsy
                   end
                 end
-              end # the class is neither Array, Object, nor BasicObject
-            end # nonempty
-          end # hash
-        end # class
+              end
+            end
+          end
+        end
 
         context 'object' do
           context 'array' do
@@ -886,28 +886,28 @@ describe Enumerable do
             context 'all the elements are different' do
               describe '#my_all?' do
                 it 'should return false' do
-                  expect(array.my_all?(45675.3691282376) { false }).to be_falsy
-                  expect(array.my_all?(45675.3691282376) { |foo| foo }).to be_falsy
-                  expect(array.my_all?(45675.3691282376) { |foo, bar| bar }).to be_falsy
-                  expect(array.my_all?(45675.3691282376) { |foo, bar, baz| baz }).to be_falsy
+                  expect(array.my_all?(45_675.3691282376) { false }).to be_falsy
+                  expect(array.my_all?(45_675.3691282376) { |foo| foo }).to be_falsy
+                  expect(array.my_all?(45_675.3691282376) { |foo, bar| bar }).to be_falsy
+                  expect(array.my_all?(45_675.3691282376) { |foo, bar, baz| baz }).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return true' do
-                  expect(array.my_none?(45675.3691282376) { true }).to be_truthy
-                  expect(array.my_none?(45675.3691282376) { |foo| !foo }).to be_truthy
-                  expect(array.my_none?(45675.3691282376) { |foo, bar| !bar }).to be_truthy
-                  expect(array.my_none?(45675.3691282376) { |foo, bar, baz| !baz }).to be_truthy
+                  expect(array.my_none?(45_675.3691282376) { true }).to be_truthy
+                  expect(array.my_none?(45_675.3691282376) { |foo| !foo }).to be_truthy
+                  expect(array.my_none?(45_675.3691282376) { |foo, bar| !bar }).to be_truthy
+                  expect(array.my_none?(45_675.3691282376) { |foo, bar, baz| !baz }).to be_truthy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return false' do
-                  expect(array.my_any?(45675.3691282376) { false }).to be_falsy
-                  expect(array.my_any?(45675.3691282376) { |foo| foo }).to be_falsy
-                  expect(array.my_any?(45675.3691282376) { |foo, bar| bar }).to be_falsy
-                  expect(array.my_any?(45675.3691282376) { |foo, bar, baz| baz }).to be_falsy
+                  expect(array.my_any?(45_675.3691282376) { false }).to be_falsy
+                  expect(array.my_any?(45_675.3691282376) { |foo| foo }).to be_falsy
+                  expect(array.my_any?(45_675.3691282376) { |foo, bar| bar }).to be_falsy
+                  expect(array.my_any?(45_675.3691282376) { |foo, bar, baz| baz }).to be_falsy
                 end
               end
             end
@@ -1157,7 +1157,7 @@ describe Enumerable do
             end
           end
         end
-      end # with 1 argument
+      end
 
       context 'more than 1 argument' do
         context 'array, range, or hash' do
@@ -1214,7 +1214,7 @@ describe Enumerable do
             end
           end
         end
-      end # more than 1 argument
+      end
     end
   end
 end

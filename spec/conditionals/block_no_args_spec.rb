@@ -16,57 +16,57 @@ describe Enumerable do
           describe '#my_all?' do
             it 'should return true' do
               expect([].my_all? { false }).to be_truthy
-              expect([].my_all? { |foo| foo }).to be_truthy
-              expect([].my_all? { |foo, bar| bar }).to be_truthy
-              expect([].my_all? { |foo, bar, baz| baz }).to be_truthy
+              expect([].my_all? { |foo| _foo }).to be_truthy
+              expect([].my_all? { |foo, bar| _bar }).to be_truthy
+              expect([].my_all? { |foo, bar, baz| _baz }).to be_truthy
               # empty range
               expect((0..-1).my_all? { false }).to be_truthy
-              expect((0..-1).my_all? { |foo| foo }).to be_truthy
-              expect((0..-1).my_all? { |foo, bar| bar }).to be_truthy
-              expect((0..-1).my_all? { |foo, bar, baz| baz }).to be_truthy
+              expect((0..-1).my_all? { |foo| _foo }).to be_truthy
+              expect((0..-1).my_all? { |foo, bar| _bar }).to be_truthy
+              expect((0..-1).my_all? { |foo, bar, baz| _baz }).to be_truthy
               # empty hash
               expect({}.my_all? { false }).to be_truthy
-              expect({}.my_all? { |foo| foo }).to be_truthy
-              expect({}.my_all? { |foo, bar| bar }).to be_truthy
-              expect({}.my_all? { |foo, bar, baz| baz }).to be_truthy
+              expect({}.my_all? { |foo| _foo }).to be_truthy
+              expect({}.my_all? { |foo, bar| _bar }).to be_truthy
+              expect({}.my_all? { |foo, bar, baz| _baz }).to be_truthy
             end
           end
 
           describe '#my_none?' do
             it 'should return true' do
               expect([].my_none? { true }).to be_truthy
-              expect([].my_none? { |foo| !foo }).to be_truthy
-              expect([].my_none? { |foo, bar| !bar }).to be_truthy
-              expect([].my_none? { |foo, bar, baz| !baz }).to be_truthy
+              expect([].my_none? { |foo| !_foo }).to be_truthy
+              expect([].my_none? { |foo, bar| !_bar }).to be_truthy
+              expect([].my_none? { |foo, bar, baz| !_baz }).to be_truthy
               # empty range
               expect((0..-1).my_none? { true }).to be_truthy
-              expect((0..-1).my_none? { |foo| !foo }).to be_truthy
-              expect((0..-1).my_none? { |foo, bar| !bar }).to be_truthy
-              expect((0..-1).my_none? { |foo, bar, baz| !baz }).to be_truthy
+              expect((0..-1).my_none? { |foo| !_foo }).to be_truthy
+              expect((0..-1).my_none? { |foo, bar| !_bar }).to be_truthy
+              expect((0..-1).my_none? { |foo, bar, baz| !_baz }).to be_truthy
               # empty hash
               expect({}.my_none? { true }).to be_truthy
-              expect({}.my_none? { |foo| !foo }).to be_truthy
-              expect({}.my_none? { |foo, bar| !bar }).to be_truthy
-              expect({}.my_none? { |foo, bar, baz| !baz }).to be_truthy
+              expect({}.my_none? { |foo| !_foo }).to be_truthy
+              expect({}.my_none? { |foo, bar| !_bar }).to be_truthy
+              expect({}.my_none? { |foo, bar, baz| !_baz }).to be_truthy
             end
           end
 
           describe '#my_any?' do
             it 'should return false' do
               expect([].my_any? { true }).to be_falsy
-              expect([].my_any? { |foo| !foo }).to be_falsy
-              expect([].my_any? { |foo, bar| !bar }).to be_falsy
-              expect([].my_any? { |foo, bar, baz| !baz }).to be_falsy
+              expect([].my_any? { |foo| !_foo }).to be_falsy
+              expect([].my_any? { |foo, bar| !_bar }).to be_falsy
+              expect([].my_any? { |foo, bar, baz| !_baz }).to be_falsy
               # empty range
               expect((0..-1).my_any? { true }).to be_falsy
-              expect((0..-1).my_any? { |foo| !foo }).to be_falsy
-              expect((0..-1).my_any? { |foo, bar| !bar }).to be_falsy
-              expect((0..-1).my_any? { |foo, bar, baz| !baz }).to be_falsy
+              expect((0..-1).my_any? { |foo| !_foo }).to be_falsy
+              expect((0..-1).my_any? { |foo, bar| !_bar }).to be_falsy
+              expect((0..-1).my_any? { |foo, bar, baz| !_baz }).to be_falsy
               # empty hash
               expect({}.my_any? { true }).to be_falsy
-              expect({}.my_any? { |foo| !foo }).to be_falsy
-              expect({}.my_any? { |foo, bar| !bar }).to be_falsy
-              expect({}.my_any? { |foo, bar, baz| !baz }).to be_falsy
+              expect({}.my_any? { |foo| !_foo }).to be_falsy
+              expect({}.my_any? { |foo, bar| !_bar }).to be_falsy
+              expect({}.my_any? { |foo, bar, baz| !_baz }).to be_falsy
             end
           end
         end
@@ -114,25 +114,25 @@ describe Enumerable do
           context 'block not always evaluates to true' do
             describe '#my_all?' do
               it 'should be false' do
-                expect(get_bool :my_all?, array).to be_falsy
-                expect(get_bool :my_all?, range).to be_falsy
-                expect(get_bool :my_all?, hash).to be_falsy
+                expect(get_bool(:my_all?, array)).to be_falsy
+                expect(get_bool(:my_all?, range)).to be_falsy
+                expect(get_bool(:my_all?, hash)).to be_falsy
               end
             end
 
             describe '#my_none?' do
               it 'should be false' do
-                expect(get_bool :my_none?, array).to be_falsy
-                expect(get_bool :my_none?, range).to be_falsy
-                expect(get_bool :my_none?, hash).to be_falsy
+                expect(get_bool(:my_none?, array)).to be_falsy
+                expect(get_bool(:my_none?, range)).to be_falsy
+                expect(get_bool(:my_none?, hash)).to be_falsy
               end
             end
 
             describe '#my_any?' do
               it 'should be true' do
-                expect(get_bool :my_any?, array).to be_truthy
-                expect(get_bool :my_any?, range).to be_truthy
-                expect(get_bool :my_any?, hash).to be_truthy
+                expect(get_bool(:my_any?, array)).to be_truthy
+                expect(get_bool(:my_any?, range)).to be_truthy
+                expect(get_bool(:my_any?, hash)).to be_truthy
               end
             end
           end
@@ -166,25 +166,25 @@ describe Enumerable do
           context 'block not always evaluates to false' do
             describe '#my_all?' do
               it 'should return false' do
-                expect(get_bool :my_all?, array, false).to be_falsy
-                expect(get_bool :my_all?, range, false).to be_falsy
-                expect(get_bool :my_all?, hash, false).to be_falsy
+                expect(get_bool(:my_all?, array, false)).to be_falsy
+                expect(get_bool(:my_all?, range, false)).to be_falsy
+                expect(get_bool(:my_all?, hash, false)).to be_falsy
               end
             end
 
             describe '#my_none?' do
               it 'should return false' do
-                expect(get_bool :my_none?, array, false).to be_falsy
-                expect(get_bool :my_none?, range, false).to be_falsy
-                expect(get_bool :my_none?, hash, false).to be_falsy
+                expect(get_bool(:my_none?, array, false)).to be_falsy
+                expect(get_bool(:my_none?, range, false)).to be_falsy
+                expect(get_bool(:my_none?, hash, false)).to be_falsy
               end
             end
 
             describe '#my_any?' do
               it 'should return true' do
-                expect(get_bool :my_any?, array, false).to be_truthy
-                expect(get_bool :my_any?, range, false).to be_truthy
-                expect(get_bool :my_any?, hash, false).to be_truthy
+                expect(get_bool(:my_any?, array, false)).to be_truthy
+                expect(get_bool(:my_any?, range, false)).to be_truthy
+                expect(get_bool(:my_any?, hash, false)).to be_truthy
               end
             end
           end
