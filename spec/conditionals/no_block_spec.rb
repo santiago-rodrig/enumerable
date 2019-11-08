@@ -80,19 +80,19 @@ describe Enumerable do
       context 'hash or range' do
         context 'nonempty' do
           describe '#my_all?' do
-            it 'return true ' do
+            it 'should return true' do
               expect(hash.my_all?).to be_truthy
             end
           end
 
           describe '#my_any?' do
-            it 'return true ' do
+            it 'should return true' do
               expect(hash.my_any?).to be_truthy
             end
           end
 
           describe '#my_none?' do
-            it 'return false ' do
+            it 'should return false' do
               expect(hash.my_none?).to_not be_truthy
             end
           end
@@ -184,7 +184,7 @@ describe Enumerable do
       end
     end # at most 1 argument
 
-    context '1 argument' do
+    context 'with 1 argument' do
       context 'regular expression' do
         context 'array' do
           context 'nonempty' do
@@ -534,7 +534,13 @@ describe Enumerable do
           end # nonempty
         end # hash
       end # class
-    end # 1 argument
+
+      # TODO
+      context 'object' do
+        context 'array' do
+        end
+      end
+    end # with 1 argument
 
     context 'more than 1 argument' do
       context 'array, range, or hash' do
