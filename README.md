@@ -43,7 +43,8 @@ $ gem install bundler
 
 Make sure that your current directory is the one that corresponds to this repository on you local machine (_obiously_).
 
-Now, install the required gems for running the tests.
+Now, install the required gems for running the tests. The utility used for testing the methods
+is [RSpec](https://rspec.info/).
 
 ```console
 $ bundle install
