@@ -8,8 +8,11 @@ describe Enumerable do
   let(:array_of_strings) { %w[dog cat lion] }
   let(:array_of_nils) { [nil, nil, nil] }
   let(:array_with_one_nil) { [1, nil, 3] }
+  let(:array_of_0s) { Array.new(87, 0) }
   let(:hash) { { name: 'mohamed', job: 'developer' } }
+  let(:hash_of_1_pair) { name: 'rowmina' }
   let(:range) { (1..10) }
+  let(:range_of_1_number) { (1...2) }
 
   context 'without a block' do
     context 'no arguments' do
@@ -535,22 +538,24 @@ describe Enumerable do
         end # hash
       end # class
 
-      # TODO
       context 'object' do
         context 'array' do
           context 'all the elements are equal' do
             describe '#my_all?' do
               it 'should return true' do
+                expect(array_of_0s.my_all? 0).to be_truthy
               end
             end
 
             describe '#my_none?' do
               it 'should return false' do
+                expect(array_of_0s.my_none? 0).to be_falsy
               end
             end
 
             describe '#my_any?' do
               it 'should return true' do
+                expect(array_of_0s.my_any? 0).to be_truthy
               end
             end
           end
@@ -558,16 +563,19 @@ describe Enumerable do
           context 'some of the elements are different' do
             describe '#my_all?' do
               it 'should return false' do
+                expect(array.all? 3).to be_falsy
               end
             end
 
             describe '#my_none?' do
               it 'should return false' do
+                expect(array.none? 3).to be_falsy
               end
             end
 
             describe '#my_any?' do
               it 'should return true' do
+                expect(aray.my_any? 3).to be_truthy
               end
             end
           end
@@ -575,16 +583,19 @@ describe Enumerable do
           context 'all the elements are different' do
             describe '#my_all?' do
               it 'should return false' do
+                expect(array.my_all? 45675.3691282376).to be_falsy
               end
             end
 
             describe '#my_none?' do
               it 'should return true' do
+                expect(array.my_none? 45675.3691282376).to be_truthy
               end
             end
 
             describe '#my_any?' do
               it 'should return false' do
+                expect(array.my_any? 45675.3691282376).to be_falsy
               end
             end
           end
@@ -595,16 +606,19 @@ describe Enumerable do
             context 'the number is equal' do
               describe '#my_all?' do
                 it 'should return true' do
+                  expect(range_of_1_number.my_all? 1).to be_truthy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return false' do
+                  expect(range_of_1_number.my_none? 1).to be_falsy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return true' do
+                  expect(range_of_1_number.my_any? 1).to be_truthy
                 end
               end
             end
@@ -612,16 +626,19 @@ describe Enumerable do
             context 'the number is different' do
               describe '#my_all?' do
                 it 'should return false' do
+                  expect(range_of_1_number.my_all? 2).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return true' do
+                  expect(range_of_1_number.my_none? 2).to be_truthy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return false' do
+                  expect(range_of_1_number.my_any? 2).to be_falsy
                 end
               end
             end
@@ -631,16 +648,19 @@ describe Enumerable do
             context 'all numbers are different' do
               describe '#my_all?' do
                 it 'should return false' do
+                  expect(range.my_all? 11).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return true' do
+                  expect(range.my_none? 11).to be_truthy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return false' do
+                  expect(range.my_any? 11).to be_falsy
                 end
               end
             end
@@ -648,16 +668,19 @@ describe Enumerable do
             context 'some of the numbers are different' do
               describe '#my_all?' do
                 it 'should return false' do
+                  expect(range.my_all? 5).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return false' do
+                  expect(range.my_none? 5).to be_falsy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return true' do
+                  expect(range.my_any? 5).to be_falsy
                 end
               end
             end
@@ -669,16 +692,19 @@ describe Enumerable do
             context 'the key-value pair is equal' do
               describe '#my_all?' do
                 it 'should return true' do
+                  expect(hash_of_1_pair.my_all? [:name, 'rowmina']).to be_truthy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return false' do
+                  expect(hash_of_1_pair.my_none? [:name, 'rowmina']).to be_falsy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return true' do
+                  expect(hash_of_1_pair.my_any? [:name, 'rowmina']).to be_truthy
                 end
               end
             end
@@ -686,16 +712,19 @@ describe Enumerable do
             context 'the key-value pair is different' do
               describe '#my_all?' do
                 it 'should return false' do
+                  expect(hash_of_1_pair.my_all? [:job, 'journalist']).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return true' do
+                  expect(hash_of_1_pair.my_none? [:job, 'journalist']).to be_truthy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return false' do
+                  expect(hash_of_1_pair.my_any? [:job, 'journalist']).to be_falsy
                 end
               end
             end
@@ -705,16 +734,19 @@ describe Enumerable do
             context 'one of the key-value pairs is equal' do
               describe '#my_all?' do
                 it 'should return false' do
+                  expect(hash.my_all? [:name, 'mohamed']).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return false' do
+                  expect(hash.my_none? [:name, 'mohamed']).to be_falsy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return true' do
+                  expect(hash.my_any? [:name, 'mohamed']).to be_truthy
                 end
               end
             end
@@ -722,16 +754,19 @@ describe Enumerable do
             context 'all the key-value pairs are different' do
               describe '#my_all?' do
                 it 'should return false' do
+                  expect(hash.my_all? [:hobby, 'dancing']).to be_falsy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return true' do
+                  expect(hash.my_none? [:hobby, 'dancing']).to be_truthy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return false' do
+                  expect(hash.my_any? [:hobby, 'dancing']).to be_falsy
                 end
               end
             end

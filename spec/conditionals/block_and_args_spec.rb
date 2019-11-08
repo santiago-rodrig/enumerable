@@ -817,9 +817,338 @@ describe Enumerable do
           end # hash
         end # class
 
-        # TODO
         context 'object' do
           context 'array' do
+            context 'all the elements are equal' do
+              describe '#my_all?' do
+                it 'should return true' do
+                  expect(array_of_0s.my_all?(0) { false }).to be_truthy
+                  expect(array_of_0s.my_all?(0) { |foo| foo }).to be_truthy
+                  expect(array_of_0s.my_all?(0) { |foo, bar| bar }).to be_truthy
+                  expect(array_of_0s.my_all?(0) { |foo, bar, baz| baz }).to be_truthy
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return false' do
+                  expect(array_of_0s.my_none?(0) { true }).to be_falsy
+                  expect(array_of_0s.my_none?(0) { |foo| !foo }).to be_falsy
+                  expect(array_of_0s.my_none?(0) { |foo, bar| !bar }).to be_falsy
+                  expect(array_of_0s.my_none?(0) { |foo, bar, baz| !baz }).to be_falsy
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return true' do
+                  expect(array_of_0s.my_any?(0) { false }).to be_truthy
+                  expect(array_of_0s.my_any?(0) { |foo| foo }).to be_truthy
+                  expect(array_of_0s.my_any?(0) { |foo, bar| bar }).to be_truthy
+                  expect(array_of_0s.my_any?(0) { |foo, bar, baz| baz }).to be_truthy
+                end
+              end
+            end
+
+            context 'some of the elements are different' do
+              describe '#my_all?' do
+                it 'should return false' do
+                  expect(array.all?(3) { false }).to be_falsy
+                  expect(array.all?(3) { |foo| foo }).to be_falsy
+                  expect(array.all?(3) { |foo, bar| bar }).to be_falsy
+                  expect(array.all?(3) { |foo, bar, baz| baz }).to be_falsy
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return false' do
+                  expect(array.none?(3) { true }).to be_falsy
+                  expect(array.none?(3) { |foo| !foo }).to be_falsy
+                  expect(array.none?(3) { |foo, bar| !bar }).to be_falsy
+                  expect(array.none?(3) { |foo, bar, baz| !baz }).to be_falsy
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return true' do
+                  expect(aray.my_any?(3) { false }).to be_truthy
+                  expect(aray.my_any?(3) { |foo| foo }).to be_truthy
+                  expect(aray.my_any?(3) { |foo, bar| bar }).to be_truthy
+                  expect(aray.my_any?(3) { |foo, bar, baz| baz }).to be_truthy
+                end
+              end
+            end
+
+            context 'all the elements are different' do
+              describe '#my_all?' do
+                it 'should return false' do
+                  expect(array.my_all?(45675.3691282376) { false }).to be_falsy
+                  expect(array.my_all?(45675.3691282376) { |foo| foo }).to be_falsy
+                  expect(array.my_all?(45675.3691282376) { |foo, bar| bar }).to be_falsy
+                  expect(array.my_all?(45675.3691282376) { |foo, bar, baz| baz }).to be_falsy
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return true' do
+                  expect(array.my_none?(45675.3691282376) { true }).to be_truthy
+                  expect(array.my_none?(45675.3691282376) { |foo| !foo }).to be_truthy
+                  expect(array.my_none?(45675.3691282376) { |foo, bar| !bar }).to be_truthy
+                  expect(array.my_none?(45675.3691282376) { |foo, bar, baz| !baz }).to be_truthy
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return false' do
+                  expect(array.my_any?(45675.3691282376) { false }).to be_falsy
+                  expect(array.my_any?(45675.3691282376) { |foo| foo }).to be_falsy
+                  expect(array.my_any?(45675.3691282376) { |foo, bar| bar }).to be_falsy
+                  expect(array.my_any?(45675.3691282376) { |foo, bar, baz| baz }).to be_falsy
+                end
+              end
+            end
+          end
+
+          context 'range' do
+            context 'the range consists of only 1 number' do
+              context 'the number is equal' do
+                describe '#my_all?' do
+                  it 'should return true' do
+                    expect(range_of_1_number.my_all?(1) { false }).to be_truthy
+                    expect(range_of_1_number.my_all?(1) { |foo| foo }).to be_truthy
+                    expect(range_of_1_number.my_all?(1) { |foo, bar| bar }).to be_truthy
+                    expect(range_of_1_number.my_all?(1) { |foo, bar, baz| baz }).to be_truthy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return false' do
+                    expect(range_of_1_number.my_none?(1) { true }).to be_falsy
+                    expect(range_of_1_number.my_none?(1) { |foo| !foo }).to be_falsy
+                    expect(range_of_1_number.my_none?(1) { |foo, bar| !bar }).to be_falsy
+                    expect(range_of_1_number.my_none?(1) { |foo, bar, baz| !baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return true' do
+                    expect(range_of_1_number.my_any?(1) { false }).to be_truthy
+                    expect(range_of_1_number.my_any?(1) { |foo| foo }).to be_truthy
+                    expect(range_of_1_number.my_any?(1) { |foo, bar| bar }).to be_truthy
+                    expect(range_of_1_number.my_any?(1) { |foo, bar, baz| baz }).to be_truthy
+                  end
+                end
+              end
+
+              context 'the number is different' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(range_of_1_number.my_all?(2) { false }).to be_falsy
+                    expect(range_of_1_number.my_all?(2) { |foo| foo }).to be_falsy
+                    expect(range_of_1_number.my_all?(2) { |foo, bar| bar }).to be_falsy
+                    expect(range_of_1_number.my_all?(2) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return true' do
+                    expect(range_of_1_number.my_none?(2) { true }).to be_truthy
+                    expect(range_of_1_number.my_none?(2) { |foo| !foo }).to be_truthy
+                    expect(range_of_1_number.my_none?(2) { |foo, bar| !bar }).to be_truthy
+                    expect(range_of_1_number.my_none?(2) { |foo, bar, baz| !baz }).to be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return false' do
+                    expect(range_of_1_number.my_any?(2) { false }).to be_falsy
+                    expect(range_of_1_number.my_any?(2) { |foo| foo }).to be_falsy
+                    expect(range_of_1_number.my_any?(2) { |foo, bar| bar }).to be_falsy
+                    expect(range_of_1_number.my_any?(2) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+              end
+            end
+
+            context 'the range has more than 1 number' do
+              context 'all numbers are different' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(range.my_all?(11) { false }).to be_falsy
+                    expect(range.my_all?(11) { |foo| foo }).to be_falsy
+                    expect(range.my_all?(11) { |foo, bar| bar }).to be_falsy
+                    expect(range.my_all?(11) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return true' do
+                    expect(range.my_none?(11) { true }).to be_truthy
+                    expect(range.my_none?(11) { |foo| !foo }).to be_truthy
+                    expect(range.my_none?(11) { |foo, bar| !bar }).to be_truthy
+                    expect(range.my_none?(11) { |foo, bar, baz| !baz }).to be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return false' do
+                    expect(range.my_any?(11) { false }).to be_falsy
+                    expect(range.my_any?(11) { |foo| foo }).to be_falsy
+                    expect(range.my_any?(11) { |foo, bar| bar }).to be_falsy
+                    expect(range.my_any?(11) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+              end
+
+              context 'some of the numbers are different' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(range.my_all?(5) { false }).to be_falsy
+                    expect(range.my_all?(5) { |foo| foo }).to be_falsy
+                    expect(range.my_all?(5) { |foo, bar| bar }).to be_falsy
+                    expect(range.my_all?(5) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return false' do
+                    expect(range.my_none?(5) { true }).to be_falsy
+                    expect(range.my_none?(5) { |foo| !foo }).to be_falsy
+                    expect(range.my_none?(5) { |foo, bar| !bar }).to be_falsy
+                    expect(range.my_none?(5) { |foo, bar, baz| !baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return true' do
+                    expect(range.my_any?(5) { false }).to be_falsy
+                    expect(range.my_any?(5) { |foo| foo }).to be_falsy
+                    expect(range.my_any?(5) { |foo, bar| bar }).to be_falsy
+                    expect(range.my_any?(5) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+              end
+            end
+          end
+
+          context 'hash' do
+            context 'the hash only contains 1 key-value pair' do
+              context 'the key-value pair is equal' do
+                describe '#my_all?' do
+                  it 'should return true' do
+                    expect(hash_of_1_pair.my_all?([:name, 'rowmina']) { false }).to be_truthy
+                    expect(hash_of_1_pair.my_all?([:name, 'rowmina']) { |foo| foo }).to be_truthy
+                    expect(hash_of_1_pair.my_all?([:name, 'rowmina']) { |foo, bar| bar }).to be_truthy
+                    expect(hash_of_1_pair.my_all?([:name, 'rowmina']) { |foo, bar, baz| baz }).to be_truthy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return false' do
+                    expect(hash_of_1_pair.my_none?([:name, 'rowmina']) { true }).to be_falsy
+                    expect(hash_of_1_pair.my_none?([:name, 'rowmina']) { |foo| !foo }).to be_falsy
+                    expect(hash_of_1_pair.my_none?([:name, 'rowmina']) { |foo, bar| !bar }).to be_falsy
+                    expect(hash_of_1_pair.my_none?([:name, 'rowmina']) { |foo, bar, baz| !baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return true' do
+                    expect(hash_of_1_pair.my_any?([:name, 'rowmina']) { false }).to be_truthy
+                    expect(hash_of_1_pair.my_any?([:name, 'rowmina']) { |foo| foo }).to be_truthy
+                    expect(hash_of_1_pair.my_any?([:name, 'rowmina']) { |foo, bar| bar }).to be_truthy
+                    expect(hash_of_1_pair.my_any?([:name, 'rowmina']) { |foo, bar, baz| baz }).to be_truthy
+                  end
+                end
+              end
+
+              context 'the key-value pair is different' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(hash_of_1_pair.my_all?([:job, 'journalist']) { false }).to be_falsy
+                    expect(hash_of_1_pair.my_all?([:job, 'journalist']) { |foo| foo }).to be_falsy
+                    expect(hash_of_1_pair.my_all?([:job, 'journalist']) { |foo, bar| bar }).to be_falsy
+                    expect(hash_of_1_pair.my_all?([:job, 'journalist']) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return true' do
+                    expect(hash_of_1_pair.my_none?([:job, 'journalist']) { true }).to be_truthy
+                    expect(hash_of_1_pair.my_none?([:job, 'journalist']) { |foo| !foo }).to be_truthy
+                    expect(hash_of_1_pair.my_none?([:job, 'journalist']) { |foo, bar| !bar }).to be_truthy
+                    expect(hash_of_1_pair.my_none?([:job, 'journalist']) { |foo, bar, baz| !baz }).to be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return false' do
+                    expect(hash_of_1_pair.my_any?([:job, 'journalist']) { false }).to be_falsy
+                    expect(hash_of_1_pair.my_any?([:job, 'journalist']) { |foo| foo }).to be_falsy
+                    expect(hash_of_1_pair.my_any?([:job, 'journalist']) { |foo, bar| bar }).to be_falsy
+                    expect(hash_of_1_pair.my_any?([:job, 'journalist']) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+              end
+            end
+
+            context 'the hash has more than 1 key-value pair' do
+              context 'one of the key-value pairs is equal' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(hash.my_all?([:name, 'mohamed']) { false }).to be_falsy
+                    expect(hash.my_all?([:name, 'mohamed']) { |foo| foo }).to be_falsy
+                    expect(hash.my_all?([:name, 'mohamed']) { |foo, bar| bar }).to be_falsy
+                    expect(hash.my_all?([:name, 'mohamed']) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return false' do
+                    expect(hash.my_none?([:name, 'mohamed']) { true }).to be_falsy
+                    expect(hash.my_none?([:name, 'mohamed']) { |foo| !foo }).to be_falsy
+                    expect(hash.my_none?([:name, 'mohamed']) { |foo, bar| !bar }).to be_falsy
+                    expect(hash.my_none?([:name, 'mohamed']) { |foo, bar, baz| !baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return true' do
+                    expect(hash.my_any?([:name, 'mohamed']) { false }).to be_truthy
+                    expect(hash.my_any?([:name, 'mohamed']) { |foo| foo }).to be_truthy
+                    expect(hash.my_any?([:name, 'mohamed']) { |foo, bar| bar }).to be_truthy
+                    expect(hash.my_any?([:name, 'mohamed']) { |foo, bar, baz| baz }).to be_truthy
+                  end
+                end
+              end
+
+              context 'all the key-value pairs are different' do
+                describe '#my_all?' do
+                  it 'should return false' do
+                    expect(hash.my_all?([:hobby, 'dancing']) { false }).to be_falsy
+                    expect(hash.my_all?([:hobby, 'dancing']) { |foo| foo }).to be_falsy
+                    expect(hash.my_all?([:hobby, 'dancing']) { |foo, bar| bar }).to be_falsy
+                    expect(hash.my_all?([:hobby, 'dancing']) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+
+                describe '#my_none?' do
+                  it 'should return true' do
+                    expect(hash.my_none?([:hobby, 'dancing']) { true }).to be_truthy
+                    expect(hash.my_none?([:hobby, 'dancing']) { |foo| !foo }).to be_truthy
+                    expect(hash.my_none?([:hobby, 'dancing']) { |foo, bar| !bar }).to be_truthy
+                    expect(hash.my_none?([:hobby, 'dancing']) { |foo, bar, baz| !baz }).to be_truthy
+                  end
+                end
+
+                describe '#my_any?' do
+                  it 'should return false' do
+                    expect(hash.my_any?([:hobby, 'dancing']) { false }).to be_falsy
+                    expect(hash.my_any?([:hobby, 'dancing']) { |foo| foo }).to be_falsy
+                    expect(hash.my_any?([:hobby, 'dancing']) { |foo, bar| bar }).to be_falsy
+                    expect(hash.my_any?([:hobby, 'dancing']) { |foo, bar, baz| baz }).to be_falsy
+                  end
+                end
+              end
+            end
           end
         end
       end # with 1 argument
