@@ -36,7 +36,7 @@ describe Enumerable do
                 expect(array_with_one_nil.my_any?).to be_truthy
               end
             end
-          end # some of the elements evaluates to false
+          end
 
           context 'all of the elements evaluates to false' do
             describe '#my_all?' do
@@ -56,7 +56,7 @@ describe Enumerable do
                 expect(array_of_nils.my_any?).to be_falsy
               end
             end
-          end # all of the elements evaluates to false
+          end
 
           context 'none of the elements evaluates to false' do
             describe '#my_all?' do
@@ -76,9 +76,9 @@ describe Enumerable do
                 expect(array.my_any?).to be_truthy
               end
             end
-          end # none of the elements evaluates to false
-        end # nonempty
-      end # array
+          end
+        end
+      end
 
       context 'hash or range' do
         context 'nonempty' do
@@ -99,9 +99,9 @@ describe Enumerable do
               expect(hash.my_none?).to be_falsy
             end
           end
-        end # nonempty
-      end # hash or range
-    end # no arguments
+        end
+      end
+    end
 
     context 'with at most 1 argument' do
       context 'array, range, or hash' do
@@ -185,7 +185,7 @@ describe Enumerable do
           end
         end
       end
-    end # at most 1 argument
+    end
 
     context 'with 1 argument' do
       context 'regular expression' do
@@ -210,7 +210,7 @@ describe Enumerable do
                     expect(array_of_strings.my_any? /\w/).to be_truthy
                   end
                 end
-              end # all the strings match
+              end
 
               context "one or more strings don't match" do
                 context "some strings don't match, but not all" do
@@ -231,7 +231,7 @@ describe Enumerable do
                       expect(array_of_strings.my_any? /d/).to be_truthy
                     end
                   end
-                end # some strings don't match, but not all
+                end
 
                 context "none of the strings match" do
                   describe '#my_all?' do
@@ -251,9 +251,9 @@ describe Enumerable do
                       expect(array_of_strings.my_any? /\d/).to be_falsy
                     end
                   end
-                end # none of the strings match
-              end # one or more strings don't match
-            end # is made of strings
+                end
+              end
+            end
 
             context 'is not made of strings' do
               context 'some elements are strings, but not all' do
@@ -275,7 +275,7 @@ describe Enumerable do
                       expect(array.my_any? /o/).to be_truthy
                     end
                   end
-                end # all the strings match
+                end
 
                 context 'some strings match' do
                   describe '#my_all?' do
@@ -295,7 +295,7 @@ describe Enumerable do
                       expect(array.my_any? /w/).to be_truthy
                     end
                   end
-                end # some strings match
+                end
 
                 context 'none of the strings match' do
                   describe '#my_all?' do
@@ -315,8 +315,8 @@ describe Enumerable do
                       expect(array.my_any? /\W/).to be_falsy
                     end
                   end
-                end # none of the strings match
-              end # some elements are strings, but not all
+                end
+              end
 
               context 'none of the elements is a string' do
                 describe '#my_all?' do
@@ -336,10 +336,10 @@ describe Enumerable do
                     expect(array_of_numbers.my_any? /\a\s/).to be_falsy
                   end
                 end
-              end # none of the elements is a string
-            end # is not made of strings
-          end # nonempty
-        end # array
+              end
+            end
+          end
+        end
 
         context 'hash or range' do
           context 'nonempty' do
@@ -363,9 +363,9 @@ describe Enumerable do
                 expect(range.my_any? /\a\.$/).to be_falsy
               end
             end
-          end # nonempty
-        end # hash or range
-      end # regular expression
+          end
+        end
+      end
 
       context 'class' do
         context 'array' do
@@ -388,7 +388,7 @@ describe Enumerable do
                   expect(array_of_numbers.my_any? Integer).to be_truthy
                 end
               end
-            end # all the elements are of the same class
+            end
 
             context 'one or more elements are not of the same class' do
               context 'all elements are not of the same class' do
@@ -409,7 +409,7 @@ describe Enumerable do
                     expect(array.my_any? Proc).to be_falsy
                   end
                 end
-              end # all elements are not of the same class
+              end
 
               context 'some elements are not of the same class, but not all' do
                 describe '#my_all?' do
@@ -429,10 +429,10 @@ describe Enumerable do
                     expect(array.my_any? String).to be_truthy
                   end
                 end
-              end # some elements are not of the same class, but not all
-            end # one or more elements are not of the same class
-          end # nonempty
-        end # array
+              end
+            end
+          end
+        end
 
         context 'range' do
           context 'nonemty' do
@@ -463,7 +463,7 @@ describe Enumerable do
                   expect(range.my_any? BasicObject).to be_truthy
                 end
               end
-            end # the class is Integer, Numeric, Object, or BasicObject
+            end
 
             context 'the class is neither Integer, Numeric, Object, nor BasicObject' do
               describe '#my_all?' do
@@ -483,9 +483,9 @@ describe Enumerable do
                   expect(range.my_any? String).to be_falsy
                 end
               end
-            end # the class is neither Integer, Numeric, Object, nor BasicObject
-          end # nonempty
-        end # range
+            end
+          end
+        end
 
         context 'hash' do
           context 'nonempty' do
@@ -513,7 +513,7 @@ describe Enumerable do
                   expect(hash.my_any? BasicObject).to be_truthy
                 end
               end
-            end # the class is Array, Object, or BasicObject
+            end
 
             context 'the class is neither Array, Object, nor BasicObject' do
               describe '#my_all?' do
@@ -533,10 +533,10 @@ describe Enumerable do
                   expect(hash.my_any? Symbol).to be_falsy
                 end
               end
-            end # the class is neither Array, Object, nor BasicObject
-          end # nonempty
-        end # hash
-      end # class
+            end
+          end
+        end
+      end
 
       context 'object' do
         context 'array' do
@@ -773,7 +773,7 @@ describe Enumerable do
           end
         end
       end
-    end # with 1 argument
+    end
 
     context 'more than 1 argument' do
       context 'array, range, or hash' do
@@ -803,6 +803,6 @@ describe Enumerable do
           end
         end
       end
-    end # more than 1 argument
-  end # without a block
+    end
+  end
 end
