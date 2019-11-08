@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# this is for suppressing messages of unused blocks
+$VERBOSE = nil
+
 require_relative '../../enumerable'
 
 describe Enumerable do

@@ -248,7 +248,7 @@ describe Enumerable do
 
                   describe '#my_any?' do
                     it 'should be false' do
-                      expect (array_of_strings.my_any? /\d/).to be_falsy
+                      expect(array_of_strings.my_any? /\d/).to be_falsy
                     end
                   end
                 end # none of the strings match
@@ -327,13 +327,13 @@ describe Enumerable do
 
                 describe '#my_none?' do
                   it 'should return true' do
-                    expect(array_of_number.my_none? /\a/).to be_truthy
+                    expect(array_of_numbers.my_none? /\a/).to be_truthy
                   end
                 end
 
                 describe '#my_any?' do
                   it 'should return false' do
-                    expect(array_of_number.my_any? /\a\s/).to be_falsy
+                    expect(array_of_numbers.my_any? /\a\s/).to be_falsy
                   end
                 end
               end # none of the elements is a string
@@ -373,19 +373,19 @@ describe Enumerable do
             context 'all the elements are of the same class' do
               describe '#my_all?' do
                 it 'should return true' do
-                  expect(array_of_number.my_all? Integer).to be_truthy
+                  expect(array_of_numbers.my_all? Integer).to be_truthy
                 end
               end
 
               describe '#my_none?' do
                 it 'should return false' do
-                  expect(array_of_number.my_none? Integer).to be_falsy
+                  expect(array_of_numbers.my_none? Integer).to be_falsy
                 end
               end
 
               describe '#my_any?' do
                 it 'should return true' do
-                  expect(array_of_number.my_any? Integer).to be_truthy
+                  expect(array_of_numbers.my_any? Integer).to be_truthy
                 end
               end
             end # all the elements are of the same class
@@ -575,7 +575,7 @@ describe Enumerable do
 
             describe '#my_any?' do
               it 'should return true' do
-                expect(aray.my_any? 3).to be_truthy
+                expect(array.my_any? 3).to be_truthy
               end
             end
           end
@@ -680,7 +680,7 @@ describe Enumerable do
 
               describe '#my_any?' do
                 it 'should return true' do
-                  expect(range.my_any? 5).to be_falsy
+                  expect(range.my_any? 5).to be_truthy
                 end
               end
             end
