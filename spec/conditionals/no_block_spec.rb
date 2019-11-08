@@ -630,23 +630,35 @@ describe Enumerable do
           context 'the range has more than 1 number' do
             context 'all numbers are different' do
               describe '#my_all?' do
+                it 'should return false' do
+                end
               end
 
               describe '#my_none?' do
+                it 'should return true' do
+                end
               end
 
               describe '#my_any?' do
+                it 'should return false' do
+                end
               end
             end
 
             context 'some of the numbers are different' do
               describe '#my_all?' do
+                it 'should return false' do
+                end
               end
 
               describe '#my_none?' do
+                it 'should return false' do
+                end
               end
 
               describe '#my_any?' do
+                it 'should return true' do
+                end
               end
             end
           end
@@ -654,24 +666,74 @@ describe Enumerable do
 
         context 'hash' do
           context 'the hash only contains 1 key-value pair' do
-            describe '#my_all?' do
+            context 'the key-value pair is equal' do
+              describe '#my_all?' do
+                it 'should return true' do
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return false' do
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return true' do
+                end
+              end
             end
 
-            describe '#my_none?' do
-            end
+            context 'the key-value pair is different' do
+              describe '#my_all?' do
+                it 'should return false' do
+                end
+              end
 
-            describe '#my_any?' do
+              describe '#my_none?' do
+                it 'should return true' do
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return false' do
+                end
+              end
             end
           end
 
           context 'the hash has more than 1 key-value pair' do
-            describe '#my_all?' do
+            context 'one of the key-value pairs is equal' do
+              describe '#my_all?' do
+                it 'should return false' do
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return false' do
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return true' do
+                end
+              end
             end
 
-            describe '#my_none?' do
-            end
+            context 'all the key-value pairs are different' do
+              describe '#my_all?' do
+                it 'should return false' do
+                end
+              end
 
-            describe '#my_any?' do
+              describe '#my_none?' do
+                it 'should return true' do
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return false' do
+                end
+              end
             end
           end
         end
