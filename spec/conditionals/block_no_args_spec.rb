@@ -6,7 +6,7 @@ describe Enumerable do
   let(:array) { [1, 2, 3, 'dog', 'cow', :symbol, (1..10), { name: 'antonio', job: 'engineer' }] }
   let(:array_of_numbers) { [1, 2, 3, 4, 5] }
   let(:array_of_strings) { %w[dog cat lion] }
-  let(:hash) { { name: 'mohamed', job: 'developer' } }
+  let(:hash) { { name: 'mohamed', job: 'developer', hobby: 'chess', glasses: 'golden' } }
   let(:range) { (1..10) }
 
   context 'with a block and no arguments' do
@@ -34,39 +34,39 @@ describe Enumerable do
 
           describe '#my_none?' do
             it 'should return true' do
-              expect([].my_all? { true }).to be_truthy
-              expect([].my_all? { |foo| !foo }).to be_truthy
-              expect([].my_all? { |foo, bar| !bar }).to be_truthy
-              expect([].my_all? { |foo, bar, baz| !baz }).to be_truthy
+              expect([].my_none? { true }).to be_truthy
+              expect([].my_none? { |foo| !foo }).to be_truthy
+              expect([].my_none? { |foo, bar| !bar }).to be_truthy
+              expect([].my_none? { |foo, bar, baz| !baz }).to be_truthy
               # empty range
-              expect((0..-1).my_all? { true }).to be_truthy
-              expect((0..-1).my_all? { |foo| !foo }).to be_truthy
-              expect((0..-1).my_all? { |foo, bar| !bar }).to be_truthy
-              expect((0..-1).my_all? { |foo, bar, baz| !baz }).to be_truthy
+              expect((0..-1).my_none? { true }).to be_truthy
+              expect((0..-1).my_none? { |foo| !foo }).to be_truthy
+              expect((0..-1).my_none? { |foo, bar| !bar }).to be_truthy
+              expect((0..-1).my_none? { |foo, bar, baz| !baz }).to be_truthy
               # empty hash
-              expect({}.my_all? { true }).to be_truthy
-              expect({}.my_all? { |foo| !foo }).to be_truthy
-              expect({}.my_all? { |foo, bar| !bar }).to be_truthy
-              expect({}.my_all? { |foo, bar, baz| !baz }).to be_truthy
+              expect({}.my_none? { true }).to be_truthy
+              expect({}.my_none? { |foo| !foo }).to be_truthy
+              expect({}.my_none? { |foo, bar| !bar }).to be_truthy
+              expect({}.my_none? { |foo, bar, baz| !baz }).to be_truthy
             end
           end
 
           describe '#my_any?' do
             it 'should return false' do
-              expect([].my_all? { true }).to be_falsy
-              expect([].my_all? { |foo| !foo }).to be_falsy
-              expect([].my_all? { |foo, bar| !bar }).to be_falsy
-              expect([].my_all? { |foo, bar, baz| !baz }).to be_falsy
+              expect([].my_any? { true }).to be_falsy
+              expect([].my_any? { |foo| !foo }).to be_falsy
+              expect([].my_any? { |foo, bar| !bar }).to be_falsy
+              expect([].my_any? { |foo, bar, baz| !baz }).to be_falsy
               # empty range
-              expect((0..-1).my_all? { true }).to be_falsy
-              expect((0..-1).my_all? { |foo| !foo }).to be_falsy
-              expect((0..-1).my_all? { |foo, bar| !bar }).to be_falsy
-              expect((0..-1).my_all? { |foo, bar, baz| !baz }).to be_falsy
+              expect((0..-1).my_any? { true }).to be_falsy
+              expect((0..-1).my_any? { |foo| !foo }).to be_falsy
+              expect((0..-1).my_any? { |foo, bar| !bar }).to be_falsy
+              expect((0..-1).my_any? { |foo, bar, baz| !baz }).to be_falsy
               # empty hash
-              expect({}.my_all? { true }).to be_falsy
-              expect({}.my_all? { |foo| !foo }).to be_falsy
-              expect({}.my_all? { |foo, bar| !bar }).to be_falsy
-              expect({}.my_all? { |foo, bar, baz| !baz }).to be_falsy
+              expect({}.my_any? { true }).to be_falsy
+              expect({}.my_any? { |foo| !foo }).to be_falsy
+              expect({}.my_any? { |foo, bar| !bar }).to be_falsy
+              expect({}.my_any? { |foo, bar, baz| !baz }).to be_falsy
             end
           end
         end
@@ -79,6 +79,7 @@ describe Enumerable do
         data_structure.method(method).call do
           counter += 1
           condition = !condition if counter.eql?(3)
+          condition
         end
       end
 

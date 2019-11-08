@@ -88,7 +88,7 @@ module Enumerable
     selection
   end
 
-  def my_all?(*args)
+  def my_all?(*args, &block)
     return true if to_a.empty?
 
     raise ArgumentError, 'only 1 argument allowed' if args.size > 1
@@ -102,15 +102,22 @@ module Enumerable
     end
 
     if block_given?
-      my_each { |k, v| return false unless yield k, v } if is_a? Hash
-      my_each { |v| return false unless yield v } unless is_a? Hash
+      case block.parameters.size
+      when 0
+        size.times { return false unless yield }
+      when 1
+        to_a.my_each { |v| return false unless yield(v) }
+      else
+        to_a.my_each { |v| return false unless yield(v) } unless is_a? Hash
+        my_each { |k, v| return false unless yield(k, v) } if is_a? Hash
+      end
     else
-      is_a?(Array) ? my_each { |v| return false unless v } : true
+      to_a.my_each { |v| return false unless v }
     end
     true
   end
 
-  def my_any?(*args)
+  def my_any?(*args, &block)
     return false if to_a.empty?
 
     raise ArgumentError, 'only 1 argument allowed' if args.size > 1
@@ -124,17 +131,22 @@ module Enumerable
     end
 
     if block_given?
-      my_each { |k, v| return true if yield k, v } if is_a? Hash
-      my_each { |v| return true if yield v } unless is_a? Hash
+      case block.parameters.size
+      when 0
+        size.times { return true if yield }
+      when 1
+        to_a.my_each { |v| return true if yield(v) }
+      else
+        to_a.my_each { |v| return true if yield(v) } unless is_a? Hash
+        my_each { |k, v| return true if yield(k, v) } if is_a? Hash
+      end
     else
-      return true if is_a? Hash
-
-      my_each { |v| return true if v }
+      to_a.my_each { |v| return true if v }
     end
     false
   end
 
-  def my_none?(*args)
+  def my_none?(*args, &block)
     return true if to_a.empty?
 
     raise ArgumentError, 'only 1 argument allowed' if args.size > 1
@@ -148,12 +160,17 @@ module Enumerable
     end
 
     if block_given?
-      my_each { |k, v| return false if yield k, v } if is_a? Hash
-      my_each { |v| return false if yield v } unless is_a? Hash
+      case block.parameters.size
+      when 0
+        size.times { return false if yield }
+      when 1
+        to_a.my_each { |v| return false if yield(v) }
+      else
+        to_a.my_each { |v| return false if yield(v) } unless is_a? Hash
+        my_each { |k, v| return false if yield(k, v) } if is_a? Hash
+      end
     else
-      return false unless is_a? Array
-
-      my_each { |v| return false if v } if is_a? Array
+      to_a.my_each { |v| return false if v }
     end
     true
   end

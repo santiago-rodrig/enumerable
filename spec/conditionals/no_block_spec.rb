@@ -96,7 +96,7 @@ describe Enumerable do
 
           describe '#my_none?' do
             it 'should return false' do
-              expect(hash.my_none?).to_not be_truthy
+              expect(hash.my_none?).to be_falsy
             end
           end
         end # nonempty
@@ -161,26 +161,26 @@ describe Enumerable do
           describe '#my_any?' do
             it 'should return true' do
               # regex
-              expect([].my_any? /./).to be_truthy
-              expect([].my_any? /\d\w\s[a-z0-9]/).to be_truthy
-              expect((0..-1).my_any? /./).to be_truthy
-              expect((0..-1).my_any? /\d\w\s[a-z0-9]/).to be_truthy
-              expect({}.my_any? /./).to be_truthy
-              expect({}.my_any? /\d\w\s[a-z0-9]/).to be_truthy
+              expect([].my_any? /./).to be_falsy
+              expect([].my_any? /\d\w\s[a-z0-9]/).to be_falsy
+              expect((0..-1).my_any? /./).to be_falsy
+              expect((0..-1).my_any? /\d\w\s[a-z0-9]/).to be_falsy
+              expect({}.my_any? /./).to be_falsy
+              expect({}.my_any? /\d\w\s[a-z0-9]/).to be_falsy
               # class
-              expect([].my_any? String).to be_truthy
-              expect([].my_any? Integer).to be_truthy
-              expect((0..-1).my_any? Method).to be_truthy
-              expect((0..-1).my_any? Proc).to be_truthy
-              expect({}.my_any? Class).to be_truthy
-              expect({}.my_any? Float).to be_truthy
+              expect([].my_any? String).to be_falsy
+              expect([].my_any? Integer).to be_falsy
+              expect((0..-1).my_any? Method).to be_falsy
+              expect((0..-1).my_any? Proc).to be_falsy
+              expect({}.my_any? Class).to be_falsy
+              expect({}.my_any? Float).to be_falsy
               # object
-              expect([].my_any? 12).to be_truthy
-              expect([].my_any? nil).to be_truthy
-              expect((0..-1).my_any? false).to be_truthy
-              expect((0..-1).my_any? :hey).to be_truthy
-              expect({}.my_any? 'dude').to be_truthy
-              expect({}.my_any? 3.1415926539).to be_truthy
+              expect([].my_any? 12).to be_falsy
+              expect([].my_any? nil).to be_falsy
+              expect((0..-1).my_any? false).to be_falsy
+              expect((0..-1).my_any? :hey).to be_falsy
+              expect({}.my_any? 'dude').to be_falsy
+              expect({}.my_any? 3.1415926539).to be_falsy
             end
           end
         end
@@ -201,13 +201,13 @@ describe Enumerable do
 
                 describe '#my_none?' do
                   it 'should return false' do
-                    expect(array_of_strings.my_all? /\w/).to be_falsy
+                    expect(array_of_strings.my_none? /\w/).to be_falsy
                   end
                 end
 
                 describe '#my_any?' do
                   it 'should return true' do
-                    expect(array_of_strings.my_all? /\w/).to be_truthy
+                    expect(array_of_strings.my_any? /\w/).to be_truthy
                   end
                 end
               end # all the strings match
