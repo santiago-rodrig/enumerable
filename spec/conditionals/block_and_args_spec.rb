@@ -8,8 +8,11 @@ describe Enumerable do
   let(:array_of_strings) { %w[dog cat lion] }
   let(:array_of_nils) { [nil, nil, nil] }
   let(:array_with_one_nil) { [1, nil, 3] }
+  let(:array_of_0s) { Array.new(87, 0) }
   let(:hash) { { name: 'mohamed', job: 'developer' } }
+  let(:hash_of_1_pair) { { name: 'rowmina' } }
   let(:range) { (1..10) }
+  let(:range_of_1_number) { (1...2) }
 
   context 'with block and args' do
     context 'block with any number of variables' do
@@ -191,86 +194,86 @@ describe Enumerable do
             describe '#my_any?' do
               it 'should return true' do
                 # regex, empty array
-                expect([].my_any?(/./) { false }).to be_truthy
-                expect([].my_any?(/./) { |foo| foo }).to be_truthy
-                expect([].my_any?(/./) { |foo, bar| bar }).to be_truthy
-                expect([].my_any?(/./) { |foo, bar, baz| baz }).to be_truthy
-                expect([].my_any?(/\d\w\s[a-z0-9]/) { false }).to be_truthy
-                expect([].my_any?(/\d\w\s[a-z0-9]/) { |foo| foo }).to be_truthy
-                expect([].my_any?(/\d\w\s[a-z0-9]/) { |foo, bar| bar }).to be_truthy
-                expect([].my_any?(/\d\w\s[a-z0-9]/) { |foo, bar, baz| baz }).to be_truthy
+                expect([].my_any?(/./) { false }).to be_falsy
+                expect([].my_any?(/./) { |foo| foo }).to be_falsy
+                expect([].my_any?(/./) { |foo, bar| bar }).to be_falsy
+                expect([].my_any?(/./) { |foo, bar, baz| baz }).to be_falsy
+                expect([].my_any?(/\d\w\s[a-z0-9]/) { false }).to be_falsy
+                expect([].my_any?(/\d\w\s[a-z0-9]/) { |foo| foo }).to be_falsy
+                expect([].my_any?(/\d\w\s[a-z0-9]/) { |foo, bar| bar }).to be_falsy
+                expect([].my_any?(/\d\w\s[a-z0-9]/) { |foo, bar, baz| baz }).to be_falsy
                 # regex, empty range
-                expect((0..-1).my_any?(/./) { false }).to be_truthy
-                expect((0..-1).my_any?(/./) { |foo| foo }).to be_truthy
-                expect((0..-1).my_any?(/./) { |foo, bar| bar }).to be_truthy
-                expect((0..-1).my_any?(/./) { |foo, bar, baz| baz }).to be_truthy
-                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { false }).to be_truthy
-                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { |foo| foo }).to be_truthy
-                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { |foo, bar| bar }).to be_truthy
-                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { |foo, bar, baz| baz }).to be_truthy
+                expect((0..-1).my_any?(/./) { false }).to be_falsy
+                expect((0..-1).my_any?(/./) { |foo| foo }).to be_falsy
+                expect((0..-1).my_any?(/./) { |foo, bar| bar }).to be_falsy
+                expect((0..-1).my_any?(/./) { |foo, bar, baz| baz }).to be_falsy
+                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { false }).to be_falsy
+                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { |foo| foo }).to be_falsy
+                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { |foo, bar| bar }).to be_falsy
+                expect((0..-1).my_any?(/\d\w\s[a-z0-9]/) { |foo, bar, baz| baz }).to be_falsy
                 # regex, empty hash
-                expect({}.my_any?(/./) { false }).to be_truthy
-                expect({}.my_any?(/./) { |foo| foo }).to be_truthy
-                expect({}.my_any?(/./) { |foo, bar| bar }).to be_truthy
-                expect({}.my_any?(/./) { |foo, bar, baz| baz }).to be_truthy
-                expect({}.my_any?(/\d\w\s[a-z0-9]/) { false }).to be_truthy
-                expect({}.my_any?(/\d\w\s[a-z0-9]/) { |foo| foo }).to be_truthy
-                expect({}.my_any?(/\d\w\s[a-z0-9]/) { |foo, bar| bar }).to be_truthy
-                expect({}.my_any?(/\d\w\s[a-z0-9]/) { |foo, bar, baz| baz }).to be_truthy
+                expect({}.my_any?(/./) { false }).to be_falsy
+                expect({}.my_any?(/./) { |foo| foo }).to be_falsy
+                expect({}.my_any?(/./) { |foo, bar| bar }).to be_falsy
+                expect({}.my_any?(/./) { |foo, bar, baz| baz }).to be_falsy
+                expect({}.my_any?(/\d\w\s[a-z0-9]/) { false }).to be_falsy
+                expect({}.my_any?(/\d\w\s[a-z0-9]/) { |foo| foo }).to be_falsy
+                expect({}.my_any?(/\d\w\s[a-z0-9]/) { |foo, bar| bar }).to be_falsy
+                expect({}.my_any?(/\d\w\s[a-z0-9]/) { |foo, bar, baz| baz }).to be_falsy
                 # class, empty array
-                expect([].my_any?(String) { false }).to be_truthy
-                expect([].my_any?(String) { |foo| foo }).to be_truthy
-                expect([].my_any?(String) { |foo, bar| bar }).to be_truthy
-                expect([].my_any?(String) { |foo, bar, baz| baz }).to be_truthy
-                expect([].my_any?(Integer) { false }).to be_truthy
-                expect([].my_any?(Integer) { |foo| foo }).to be_truthy
-                expect([].my_any?(Integer) { |foo, bar| bar }).to be_truthy
-                expect([].my_any?(Integer) { |foo, bar, baz| baz }).to be_truthy
+                expect([].my_any?(String) { false }).to be_falsy
+                expect([].my_any?(String) { |foo| foo }).to be_falsy
+                expect([].my_any?(String) { |foo, bar| bar }).to be_falsy
+                expect([].my_any?(String) { |foo, bar, baz| baz }).to be_falsy
+                expect([].my_any?(Integer) { false }).to be_falsy
+                expect([].my_any?(Integer) { |foo| foo }).to be_falsy
+                expect([].my_any?(Integer) { |foo, bar| bar }).to be_falsy
+                expect([].my_any?(Integer) { |foo, bar, baz| baz }).to be_falsy
                 # class, empty range
-                expect((0..-1).my_any?(Method) { false }).to be_truthy
-                expect((0..-1).my_any?(Method) { |foo| foo }).to be_truthy
-                expect((0..-1).my_any?(Method) { |foo, bar| bar }).to be_truthy
-                expect((0..-1).my_any?(Method) { |foo, bar, baz| baz }).to be_truthy
-                expect((0..-1).my_any?(Proc) { false }).to be_truthy
-                expect((0..-1).my_any?(Proc) { |foo| foo }).to be_truthy
-                expect((0..-1).my_any?(Proc) { |foo, bar| bar }).to be_truthy
-                expect((0..-1).my_any?(Proc) { |foo, bar, baz| baz }).to be_truthy
+                expect((0..-1).my_any?(Method) { false }).to be_falsy
+                expect((0..-1).my_any?(Method) { |foo| foo }).to be_falsy
+                expect((0..-1).my_any?(Method) { |foo, bar| bar }).to be_falsy
+                expect((0..-1).my_any?(Method) { |foo, bar, baz| baz }).to be_falsy
+                expect((0..-1).my_any?(Proc) { false }).to be_falsy
+                expect((0..-1).my_any?(Proc) { |foo| foo }).to be_falsy
+                expect((0..-1).my_any?(Proc) { |foo, bar| bar }).to be_falsy
+                expect((0..-1).my_any?(Proc) { |foo, bar, baz| baz }).to be_falsy
                 # class, empty hash
-                expect({}.my_any?(Class) { false }).to be_truthy
-                expect({}.my_any?(Class) { |foo| foo }).to be_truthy
-                expect({}.my_any?(Class) { |foo, bar| bar }).to be_truthy
-                expect({}.my_any?(Class) { |foo, bar, baz| baz }).to be_truthy
-                expect({}.my_any?(Float) { false }).to be_truthy
-                expect({}.my_any?(Float) { |foo| foo }).to be_truthy
-                expect({}.my_any?(Float) { |foo, bar| bar }).to be_truthy
-                expect({}.my_any?(Float) { |foo, bar, baz| baz }).to be_truthy
+                expect({}.my_any?(Class) { false }).to be_falsy
+                expect({}.my_any?(Class) { |foo| foo }).to be_falsy
+                expect({}.my_any?(Class) { |foo, bar| bar }).to be_falsy
+                expect({}.my_any?(Class) { |foo, bar, baz| baz }).to be_falsy
+                expect({}.my_any?(Float) { false }).to be_falsy
+                expect({}.my_any?(Float) { |foo| foo }).to be_falsy
+                expect({}.my_any?(Float) { |foo, bar| bar }).to be_falsy
+                expect({}.my_any?(Float) { |foo, bar, baz| baz }).to be_falsy
                 # object, empty array
-                expect([].my_any?(12) { false }).to be_truthy
-                expect([].my_any?(12) { |foo| foo }).to be_truthy
-                expect([].my_any?(12) { |foo, bar| bar }).to be_truthy
-                expect([].my_any?(12) { |foo, bar, baz| baz }).to be_truthy
-                expect([].my_any?(nil) { false }).to be_truthy
-                expect([].my_any?(nil) { |foo| foo }).to be_truthy
-                expect([].my_any?(nil) { |foo, bar| bar }).to be_truthy
-                expect([].my_any?(nil) { |foo, bar, baz| baz }).to be_truthy
+                expect([].my_any?(12) { false }).to be_falsy
+                expect([].my_any?(12) { |foo| foo }).to be_falsy
+                expect([].my_any?(12) { |foo, bar| bar }).to be_falsy
+                expect([].my_any?(12) { |foo, bar, baz| baz }).to be_falsy
+                expect([].my_any?(nil) { false }).to be_falsy
+                expect([].my_any?(nil) { |foo| foo }).to be_falsy
+                expect([].my_any?(nil) { |foo, bar| bar }).to be_falsy
+                expect([].my_any?(nil) { |foo, bar, baz| baz }).to be_falsy
                 # object, empty range
-                expect((0..-1).my_any?(false) { false }).to be_truthy
-                expect((0..-1).my_any?(false) { |foo| foo }).to be_truthy
-                expect((0..-1).my_any?(false) { |foo, bar| bar }).to be_truthy
-                expect((0..-1).my_any?(false) { |foo, bar, baz| baz }).to be_truthy
-                expect((0..-1).my_any?(:hey) { false }).to be_truthy
-                expect((0..-1).my_any?(:hey) { |foo| foo }).to be_truthy
-                expect((0..-1).my_any?(:hey) { |foo, bar| bar }).to be_truthy
-                expect((0..-1).my_any?(:hey) { |foo, bar, baz| baz }).to be_truthy
+                expect((0..-1).my_any?(false) { false }).to be_falsy
+                expect((0..-1).my_any?(false) { |foo| foo }).to be_falsy
+                expect((0..-1).my_any?(false) { |foo, bar| bar }).to be_falsy
+                expect((0..-1).my_any?(false) { |foo, bar, baz| baz }).to be_falsy
+                expect((0..-1).my_any?(:hey) { false }).to be_falsy
+                expect((0..-1).my_any?(:hey) { |foo| foo }).to be_falsy
+                expect((0..-1).my_any?(:hey) { |foo, bar| bar }).to be_falsy
+                expect((0..-1).my_any?(:hey) { |foo, bar, baz| baz }).to be_falsy
                 # object, empty hash
-                expect({}.my_any?('dude') { false }).to be_truthy
-                expect({}.my_any?('dude') { |foo| foo }).to be_truthy
-                expect({}.my_any?('dude') { |foo, bar| bar }).to be_truthy
-                expect({}.my_any?('dude') { |foo, bar, baz| baz }).to be_truthy
-                expect({}.my_any?(3.1415926539) { false }).to be_truthy
-                expect({}.my_any?(3.1415926539) { |foo| foo }).to be_truthy
-                expect({}.my_any?(3.1415926539) { |foo, bar| bar }).to be_truthy
-                expect({}.my_any?(3.1415926539) { |foo, bar, baz| baz }).to be_truthy
+                expect({}.my_any?('dude') { false }).to be_falsy
+                expect({}.my_any?('dude') { |foo| foo }).to be_falsy
+                expect({}.my_any?('dude') { |foo, bar| bar }).to be_falsy
+                expect({}.my_any?('dude') { |foo, bar, baz| baz }).to be_falsy
+                expect({}.my_any?(3.1415926539) { false }).to be_falsy
+                expect({}.my_any?(3.1415926539) { |foo| foo }).to be_falsy
+                expect({}.my_any?(3.1415926539) { |foo, bar| bar }).to be_falsy
+                expect({}.my_any?(3.1415926539) { |foo, bar, baz| baz }).to be_falsy
               end
             end
           end
@@ -285,28 +288,28 @@ describe Enumerable do
                 context 'all the strings match' do
                   describe '#my_all?' do
                     it 'should return true' do
-                      expect(array_of_strings.my_all?(/\w+/) { false })).to be_truthy
-                      expect(array_of_strings.my_all?(/\w+/) { |foo| foo })).to be_truthy
-                      expect(array_of_strings.my_all?(/\w+/) { |foo, bar| bar })).to be_truthy
-                      expect(array_of_strings.my_all?(/\w+/) { |foo, bar, baz| baz })).to be_truthy
+                      expect(array_of_strings.my_all?(/\w+/) { false }).to be_truthy
+                      expect(array_of_strings.my_all?(/\w+/) { |foo| foo }).to be_truthy
+                      expect(array_of_strings.my_all?(/\w+/) { |foo, bar| bar }).to be_truthy
+                      expect(array_of_strings.my_all?(/\w+/) { |foo, bar, baz| baz }).to be_truthy
                     end
                   end
 
                   describe '#my_none?' do
                     it 'should return false' do
-                      expect(array_of_strings.my_all?(/\w/) { true }).to be_falsy
-                      expect(array_of_strings.my_all?(/\w/) { |foo| !foo }).to be_falsy
-                      expect(array_of_strings.my_all?(/\w/) { |foo, bar| !bar }).to be_falsy
-                      expect(array_of_strings.my_all?(/\w/) { |foo, bar, baz| !baz }).to be_falsy
+                      expect(array_of_strings.my_none?(/\w/) { true }).to be_falsy
+                      expect(array_of_strings.my_none?(/\w/) { |foo| !foo }).to be_falsy
+                      expect(array_of_strings.my_none?(/\w/) { |foo, bar| !bar }).to be_falsy
+                      expect(array_of_strings.my_none?(/\w/) { |foo, bar, baz| !baz }).to be_falsy
                     end
                   end
 
                   describe '#my_any?' do
                     it 'should return true' do
-                      expect(array_of_strings.my_all?(/\w/) { false }).to be_truthy
-                      expect(array_of_strings.my_all?(/\w/) { |foo| foo }).to be_truthy
-                      expect(array_of_strings.my_all?(/\w/) { |foo, bar| bar }).to be_truthy
-                      expect(array_of_strings.my_all?(/\w/) { |foo, bar, baz| baz }).to be_truthy
+                      expect(array_of_strings.my_any?(/\w/) { false }).to be_truthy
+                      expect(array_of_strings.my_any?(/\w/) { |foo| foo }).to be_truthy
+                      expect(array_of_strings.my_any?(/\w/) { |foo, bar| bar }).to be_truthy
+                      expect(array_of_strings.my_any?(/\w/) { |foo, bar, baz| baz }).to be_truthy
                     end
                   end
                 end # all the strings match
@@ -362,10 +365,10 @@ describe Enumerable do
 
                     describe '#my_any?' do
                       it 'should be false' do
-                        expect (array_of_strings.my_any?(/\d/) { false }).to be_falsy
-                        expect (array_of_strings.my_any?(/\d/) { |foo| foo }).to be_falsy
-                        expect (array_of_strings.my_any?(/\d/) { |foo, bar| bar }).to be_falsy
-                        expect (array_of_strings.my_any?(/\d/) { |foo, bar, baz| baz }).to be_falsy
+                        expect(array_of_strings.my_any?(/\d/) { false }).to be_falsy
+                        expect(array_of_strings.my_any?(/\d/) { |foo| foo }).to be_falsy
+                        expect(array_of_strings.my_any?(/\d/) { |foo, bar| bar }).to be_falsy
+                        expect(array_of_strings.my_any?(/\d/) { |foo, bar, baz| baz }).to be_falsy
                       end
                     end
                   end # none of the strings match
@@ -474,19 +477,19 @@ describe Enumerable do
 
                   describe '#my_none?' do
                     it 'should return true' do
-                      expect(array_of_number.my_none?(/\a/) { true }).to be_truthy
-                      expect(array_of_number.my_none?(/\a/) { |foo| !foo }).to be_truthy
-                      expect(array_of_number.my_none?(/\a/) { |foo, bar| !bar }).to be_truthy
-                      expect(array_of_number.my_none?(/\a/) { |foo, bar, baz| !baz }).to be_truthy
+                      expect(array_of_numbers.my_none?(/\a/) { true }).to be_truthy
+                      expect(array_of_numbers.my_none?(/\a/) { |foo| !foo }).to be_truthy
+                      expect(array_of_numbers.my_none?(/\a/) { |foo, bar| !bar }).to be_truthy
+                      expect(array_of_numbers.my_none?(/\a/) { |foo, bar, baz| !baz }).to be_truthy
                     end
                   end
 
                   describe '#my_any?' do
                     it 'should return false' do
-                      expect(array_of_number.my_any?(/\a\s/) { false }).to be_falsy
-                      expect(array_of_number.my_any?(/\a\s/) { |foo| foo }).to be_falsy
-                      expect(array_of_number.my_any?(/\a\s/) { |foo, bar| bar }).to be_falsy
-                      expect(array_of_number.my_any?(/\a\s/) { |foo, bar, baz| baz }).to be_falsy
+                      expect(array_of_numbers.my_any?(/\a\s/) { false }).to be_falsy
+                      expect(array_of_numbers.my_any?(/\a\s/) { |foo| foo }).to be_falsy
+                      expect(array_of_numbers.my_any?(/\a\s/) { |foo, bar| bar }).to be_falsy
+                      expect(array_of_numbers.my_any?(/\a\s/) { |foo, bar, baz| baz }).to be_falsy
                     end
                   end
                 end # none of the elements is a string
@@ -544,28 +547,28 @@ describe Enumerable do
               context 'all the elements are of the same class' do
                 describe '#my_all?' do
                   it 'should return true' do
-                    expect(array_of_number.my_all?(Integer) { false }).to be_truthy
-                    expect(array_of_number.my_all?(Integer) { |foo| foo }).to be_truthy
-                    expect(array_of_number.my_all?(Integer) { |foo, bar| bar }).to be_truthy
-                    expect(array_of_number.my_all?(Integer) { |foo, bar, baz| baz }).to be_truthy
+                    expect(array_of_numbers.my_all?(Integer) { false }).to be_truthy
+                    expect(array_of_numbers.my_all?(Integer) { |foo| foo }).to be_truthy
+                    expect(array_of_numbers.my_all?(Integer) { |foo, bar| bar }).to be_truthy
+                    expect(array_of_numbers.my_all?(Integer) { |foo, bar, baz| baz }).to be_truthy
                   end
                 end
 
                 describe '#my_none?' do
                   it 'should return false' do
-                    expect(array_of_number.my_none?(Integer) { true }).to be_falsy
-                    expect(array_of_number.my_none?(Integer) { |foo| !foo }).to be_falsy
-                    expect(array_of_number.my_none?(Integer) { |foo, bar| !bar }).to be_falsy
-                    expect(array_of_number.my_none?(Integer) { |foo, bar, baz| !baz }).to be_falsy
+                    expect(array_of_numbers.my_none?(Integer) { true }).to be_falsy
+                    expect(array_of_numbers.my_none?(Integer) { |foo| !foo }).to be_falsy
+                    expect(array_of_numbers.my_none?(Integer) { |foo, bar| !bar }).to be_falsy
+                    expect(array_of_numbers.my_none?(Integer) { |foo, bar, baz| !baz }).to be_falsy
                   end
                 end
 
                 describe '#my_any?' do
                   it 'should return true' do
-                    expect(array_of_number.my_any?(Integer) { false }).to be_truthy
-                    expect(array_of_number.my_any?(Integer) { |foo| foo }).to be_truthy
-                    expect(array_of_number.my_any?(Integer) { |foo, bar| bar }).to be_truthy
-                    expect(array_of_number.my_any?(Integer) { |foo, bar, baz| baz }).to be_truthy
+                    expect(array_of_numbers.my_any?(Integer) { false }).to be_truthy
+                    expect(array_of_numbers.my_any?(Integer) { |foo| foo }).to be_truthy
+                    expect(array_of_numbers.my_any?(Integer) { |foo, bar| bar }).to be_truthy
+                    expect(array_of_numbers.my_any?(Integer) { |foo, bar, baz| baz }).to be_truthy
                   end
                 end
               end # all the elements are of the same class
@@ -702,10 +705,10 @@ describe Enumerable do
               context 'the class is neither Integer, Numeric, Object, nor BasicObject' do
                 describe '#my_all?' do
                   it 'should return false' do
-                    expect(range.my_all?(String) { false })).to_not be_truthy
-                    expect(range.my_all?(String) { |foo| foo })).to_not be_truthy
-                    expect(range.my_all?(String) { |foo, bar| bar })).to_not be_truthy
-                    expect(range.my_all?(String) { |foo, bar, baz| baz })).to_not be_truthy
+                    expect(range.my_all?(String) { false }).to_not be_truthy
+                    expect(range.my_all?(String) { |foo| foo }).to_not be_truthy
+                    expect(range.my_all?(String) { |foo, bar| bar }).to_not be_truthy
+                    expect(range.my_all?(String) { |foo, bar, baz| baz }).to_not be_truthy
                   end
                 end
 
@@ -869,10 +872,10 @@ describe Enumerable do
 
               describe '#my_any?' do
                 it 'should return true' do
-                  expect(aray.my_any?(3) { false }).to be_truthy
-                  expect(aray.my_any?(3) { |foo| foo }).to be_truthy
-                  expect(aray.my_any?(3) { |foo, bar| bar }).to be_truthy
-                  expect(aray.my_any?(3) { |foo, bar, baz| baz }).to be_truthy
+                  expect(array.my_any?(3) { false }).to be_truthy
+                  expect(array.my_any?(3) { |foo| foo }).to be_truthy
+                  expect(array.my_any?(3) { |foo, bar| bar }).to be_truthy
+                  expect(array.my_any?(3) { |foo, bar, baz| baz }).to be_truthy
                 end
               end
             end
@@ -1019,10 +1022,10 @@ describe Enumerable do
 
                 describe '#my_any?' do
                   it 'should return true' do
-                    expect(range.my_any?(5) { false }).to be_falsy
-                    expect(range.my_any?(5) { |foo| foo }).to be_falsy
-                    expect(range.my_any?(5) { |foo, bar| bar }).to be_falsy
-                    expect(range.my_any?(5) { |foo, bar, baz| baz }).to be_falsy
+                    expect(range.my_any?(5) { false }).to be_truthy
+                    expect(range.my_any?(5) { |foo| foo }).to be_truthy
+                    expect(range.my_any?(5) { |foo, bar| bar }).to be_truthy
+                    expect(range.my_any?(5) { |foo, bar, baz| baz }).to be_truthy
                   end
                 end
               end

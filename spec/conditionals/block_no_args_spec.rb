@@ -197,19 +197,19 @@ describe Enumerable do
           context 'all arrays of key-value pairs meet the condition' do
             describe '#my_all?' do
               it 'should return true' do
-                expect(hash.my_all? { |v| v.is_a? Array }.to be_truthy
+                expect(hash.my_all? { |v| v.is_a? Array }).to be_truthy
               end
             end
 
             describe '#my_none?' do
               it 'should return false' do
-                expect(hash.my_none? { |v| v.is_a? Array }.to be_falsy
+                expect(hash.my_none? { |v| v.is_a? Array }).to be_falsy
               end
             end
 
             describe '#my_any?' do
               it 'should return true' do
-                expect(hash.my_any? { |v| v.is_a? Array }.to be_truthy
+                expect(hash.my_any? { |v| v.is_a? Array }).to be_truthy
               end
             end
           end

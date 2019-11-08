@@ -5,51 +5,47 @@ module Enumerable
   # helper methods
 
   def all_match?(regex)
-    my_each { |v| return false unless v =~ regex }
+    to_a.my_each { |v| return false unless v =~ regex }
     true
   end
 
-  def both_of_class(val1, val2, class_name)
-    val1.is_a?(class_name) && val2.is_a?(class_name)
-  end
-
   def all_from_class?(class_name)
-    my_each { |v| return false unless v.is_a? class_name }
+    to_a.my_each { |v| return false unless v.is_a? class_name }
     true
   end
 
   def all_the_same?(object)
-    my_each { |v| return false unless v == object }
+    to_a.my_each { |v| return false unless v == object }
     true
   end
 
   def any_from_class?(class_name)
-    my_each { |v| return true if v.is_a? class_name }
+    to_a.my_each { |v| return true if v.is_a? class_name }
     false
   end
 
   def any_the_same?(object)
-    my_each { |v| return true if v == object }
+    to_a.my_each { |v| return true if v == object }
     false
   end
 
   def any_match?(regex)
-    my_each { |v| return true if regex =~ v }
+    to_a.my_each { |v| return true if v.instance_of?(String) && v.match(regex) }
     false
   end
 
   def none_match?(regex)
-    my_each { |v| return false if v =~ regex } if is_a? Array
+    to_a.my_each { |v| return false if v =~ regex } if is_a? Array
     true
   end
 
   def none_of_class?(class_name)
-    my_each { |v| return false if v.is_a? class_name }
+    to_a.my_each { |v| return false if v.is_a? class_name }
     true
   end
 
   def none_the_same?(object)
-    my_each { |v| return false if v == object } unless is_a? Hash
+    to_a.my_each { |v| return false if v == object }
     true
   end
 

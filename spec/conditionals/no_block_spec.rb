@@ -10,7 +10,7 @@ describe Enumerable do
   let(:array_with_one_nil) { [1, nil, 3] }
   let(:array_of_0s) { Array.new(87, 0) }
   let(:hash) { { name: 'mohamed', job: 'developer' } }
-  let(:hash_of_1_pair) { name: 'rowmina' }
+  let(:hash_of_1_pair) { { name: 'rowmina' } }
   let(:range) { (1..10) }
   let(:range_of_1_number) { (1...2) }
 
