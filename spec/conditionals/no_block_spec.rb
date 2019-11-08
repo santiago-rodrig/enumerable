@@ -538,6 +538,142 @@ describe Enumerable do
       # TODO
       context 'object' do
         context 'array' do
+          context 'all the elements are equal' do
+            describe '#my_all?' do
+              it 'should return true' do
+              end
+            end
+
+            describe '#my_none?' do
+              it 'should return false' do
+              end
+            end
+
+            describe '#my_any?' do
+              it 'should return true' do
+              end
+            end
+          end
+
+          context 'some of the elements are different' do
+            describe '#my_all?' do
+              it 'should return false' do
+              end
+            end
+
+            describe '#my_none?' do
+              it 'should return false' do
+              end
+            end
+
+            describe '#my_any?' do
+              it 'should return true' do
+              end
+            end
+          end
+
+          context 'all the elements are different' do
+            describe '#my_all?' do
+              it 'should return false' do
+              end
+            end
+
+            describe '#my_none?' do
+              it 'should return true' do
+              end
+            end
+
+            describe '#my_any?' do
+              it 'should return false' do
+              end
+            end
+          end
+        end
+
+        context 'range' do
+          context 'the range consists of only 1 number' do
+            context 'the number is equal' do
+              describe '#my_all?' do
+                it 'should return true' do
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return false' do
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return true' do
+                end
+              end
+            end
+
+            context 'the number is different' do
+              describe '#my_all?' do
+                it 'should return false' do
+                end
+              end
+
+              describe '#my_none?' do
+                it 'should return true' do
+                end
+              end
+
+              describe '#my_any?' do
+                it 'should return false' do
+                end
+              end
+            end
+          end
+
+          context 'the range has more than 1 number' do
+            context 'all numbers are different' do
+              describe '#my_all?' do
+              end
+
+              describe '#my_none?' do
+              end
+
+              describe '#my_any?' do
+              end
+            end
+
+            context 'some of the numbers are different' do
+              describe '#my_all?' do
+              end
+
+              describe '#my_none?' do
+              end
+
+              describe '#my_any?' do
+              end
+            end
+          end
+        end
+
+        context 'hash' do
+          context 'the hash only contains 1 key-value pair' do
+            describe '#my_all?' do
+            end
+
+            describe '#my_none?' do
+            end
+
+            describe '#my_any?' do
+            end
+          end
+
+          context 'the hash has more than 1 key-value pair' do
+            describe '#my_all?' do
+            end
+
+            describe '#my_none?' do
+            end
+
+            describe '#my_any?' do
+            end
+          end
         end
       end
     end # with 1 argument
