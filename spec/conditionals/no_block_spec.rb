@@ -9,10 +9,9 @@ describe Enumerable do
   let(:array_of_nils) { [nil, nil, nil] }
   let(:array_with_one_nil) { [1, nil, 3] }
   let(:hash) { { name: 'mohamed', job: 'developer' } }
-  let(:hash_of_strings) { { 'name' => 'moahmed', 'school' => 'cairo school', 'age' => '25' } }
   let(:range) { (1..10) }
 
-  context 'without block' do
+  context 'without a block' do
     context 'no arguments' do
       context 'array' do
         context 'nonempty' do
@@ -183,7 +182,7 @@ describe Enumerable do
           end
         end
       end
-    end
+    end # at most 1 argument
 
     context '1 argument' do
       context 'regular expression' do
@@ -566,6 +565,5 @@ describe Enumerable do
         end
       end
     end # more than 1 argument
-
-  end # without block
+  end # without a block
 end
