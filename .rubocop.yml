@@ -18,25 +18,11 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 150
 Metrics/BlockLength:
-  Max: 200
-  ExcludedMethods: ['describe', 'context', 'it']
-Metrics/ModuleLength:
-  Max: 300
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/PerceivedComplexity:
-  Enabled: false
-Metrics/BlockNesting:
-  Enabled: false
-
-Lint/UnusedBlockArgument:
-  Enabled: false
+  ExcludedMethods: ['describe']
 
 Style/Documentation:
   Enabled: false
 Style/ClassAndModuleChildren:
-  Enabled: false
-Style/SymbolProc:
   Enabled: false
 
 Layout/AlignHash:
