@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe '#my_all?' do
-  let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92323), ['a', :b, /c/]] }
+  let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92_323), ['a', :b, /c/]] }
   let(:array_nil) { ['stuart', :sarah, nil, { distro: 'debian' }] }
   let(:array_falses) { Array.new(876, false) }
   let(:array_words) { %w[dog chicken cat cow person monkey lion zebra jiraffe elephant] }
-  let(:hash) { { true: 'yes', diablo_four: 'true', 'thanos' => 'exists' } }
+  let(:hash) { { name: 'yes', diablo_four: 'blood', 'thanos' => 'exists' } }
   let(:hash_one_pair) { { destiny: 'greatness' } }
   let(:range) { (1..875) }
   let(:range_one_integer) { (1...2) }
@@ -25,6 +25,7 @@ describe '#my_all?' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'with 1 argument' do
     context 'the argument is a regular expression' do
       context 'all the elements match' do
@@ -128,7 +129,7 @@ describe '#my_all?' do
 
         context 'hash' do
           it 'should return false' do
-            expect(hash.my_all?(['thanos', 'exists'])).to be_falsy
+            expect(hash.my_all?(%w[thanos exists])).to be_falsy
           end
         end
 
@@ -140,6 +141,7 @@ describe '#my_all?' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with more than 1 argument' do
     context 'array' do
@@ -189,6 +191,7 @@ describe '#my_all?' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'with a block of 0 variables' do
     context 'the block always evaluates to true' do
       context 'array' do
@@ -302,6 +305,7 @@ describe '#my_all?' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with a block of 2 variables' do
     context 'hash' do

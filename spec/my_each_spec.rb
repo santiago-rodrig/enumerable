@@ -3,8 +3,8 @@
 require_relative '../enumerable'
 
 describe '#my_each' do
-  let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92323), ['a', :b, /c/]] }
-  let(:hash) { { true: 'yes', diablo_four: 'true', 'thanos' => 'exists' } }
+  let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92_323), ['a', :b, /c/]] }
+  let(:hash) { { name: 'yes', diablo_four: 'blood', 'thanos' => 'exists' } }
   let(:range) { (1..875) }
   let(:counter) { 0 }
   let(:test_array) { [] }
@@ -49,6 +49,7 @@ describe '#my_each' do
     end
   end
 
+  # rubocop:disable Lint/UselessAssignment
   context 'with a block of 0 variables' do
     context 'array' do
       it 'should iterate over each value' do
@@ -71,6 +72,7 @@ describe '#my_each' do
       end
     end
   end
+  # rubocop:enable Lint/UselessAssignment
 
   context 'with a block of 1 variable' do
     context 'array' do

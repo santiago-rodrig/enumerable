@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe '#my_any?' do
-  let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92323), ['a', :b, /c/]] }
+  let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92_323), ['a', :b, /c/]] }
   let(:array_nil) { ['stuart', :sarah, nil, { distro: 'debian' }] }
   let(:array_falses) { Array.new(876, false) }
   let(:array_words) { %w[dog chicken cat cow person monkey lion zebra jiraffe elephant] }
-  let(:hash) { { true: 'yes', diablo_four: 'true', 'thanos' => 'exists' } }
+  let(:hash) { { name: 'yes', diablo_four: 'blood', 'thanos' => 'exists' } }
   let(:hash_one_pair) { { destiny: 'greatness' } }
   let(:range) { (1..875) }
   let(:range_one_integer) { (1...2) }
@@ -25,6 +25,7 @@ describe '#my_any?' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'with 1 argument' do
     context 'the argument is a regular expression' do
       context 'at least one element matches' do
@@ -77,7 +78,7 @@ describe '#my_any?' do
         end
       end
 
-      context "none of the elements pertain to the class" do
+      context 'none of the elements pertain to the class' do
         context 'array' do
           it 'should return false' do
             expect(array.my_any?(Method)).to be_falsy
@@ -140,6 +141,7 @@ describe '#my_any?' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with more than 1 argument' do
     context 'array' do
@@ -189,6 +191,7 @@ describe '#my_any?' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'with a block of 0 variables' do
     context 'the block always evaluates to false' do
       context 'array' do
@@ -264,9 +267,11 @@ describe '#my_any?' do
 
     context 'the block always evaluates to false' do
       context 'array' do
+        # rubocop:disable Style/SymbolProc
         it 'should return true' do
           expect(array.my_any? { |value| value.nil? }).to be_truthy
         end
+        # rubocop:enable Style/SymbolProc
       end
 
       context 'hash' do
@@ -302,6 +307,7 @@ describe '#my_any?' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with a block of 2 variables' do
     context 'hash' do
