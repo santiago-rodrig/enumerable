@@ -7,71 +7,148 @@ describe Enumerable do
   let(:hash) { { name: 'susan', job: 'cooker', age: 35, 1 => [1, 2, false] } }
   let(:range) { (1..78) }
 
-  context 'with arguments' do
+  context 'with more than 1 argument and no block' do
     describe '#my_each' do
-      it 'should raise ArgumentError' do
-        expect { array.my_each(1, 2, false) }.to raise_error(ArgumentError)
-        expect { hash.my_each(1, 2, false) }.to raise_error(ArgumentError)
-        expect { range.my_each(1, 2, false) }.to raise_error(ArgumentError)
+      context 'hash' do
+        it 'should raise ArgumentError' do
+          expect { hash.my_each(1, 2, false) }.to raise_error(ArgumentError)
+        end
+      end
+      context 'array' do
+        it 'should raise ArgumentError' do
+          expect { array.my_each(1, 2, false) }.to raise_error(ArgumentError)
+        end
+      end
+      context 'range' do
+        it 'dhould raise ArgumentError' do
+          expect { range.my_each(1, 2, false) }.to raise_error(ArgumentError)
+        end
       end
     end
     describe '#my_each_with_index' do
-      it 'should raise ArgumentError' do
-        expect { array.my_each_with_index(1, 2, false) }.to raise_error(ArgumentError)
-        expect { hash.my_each_with_index(1, 2, false) }.to raise_error(ArgumentError)
-        expect { range.my_each_with_index(1, 2, false) }.to raise_error(ArgumentError)
+      context 'array' do
+        it 'should raise ArgumentError' do
+          expect { array.my_each_with_index(1, 2, false) }.to raise_error(ArgumentError)
+        end
+      end
+      context 'hash' do
+        it 'should raise ArgumentError' do
+          expect { hash.my_each_with_index(1, 2, false) }.to raise_error(ArgumentError)
+        end
+      end
+      context 'range' do
+        it 'should raise ArgumentError' do
+          expect { range.my_each_with_index(1, 2, false) }.to raise_error(ArgumentError)
+        end
       end
     end
   end
 
-  context 'without block' do
+  context 'without block and no arguments' do
     describe '#my_each' do
-      it 'should return an enumerable' do
-        expect(array.my_each.is_a?(Enumerable)).to be_truthy
-        expect(hash.my_each.is_a?(Enumerable)).to be_truthy
-        expect(range.my_each.is_a?(Enumerable)).to be_truthy
+      context 'array' do
+        it 'should return an Enumerator' do
+          expect(array.my_each.is_a?(Enumerator)).to be_truthy
+        end
+      end
+
+      context 'hash' do
+        it 'should return an Enumerator' do
+          expect(hash.my_each.is_a?(Enumerator)).to be_truthy
+        end
+      end
+
+      context 'range' do
+        it 'should return an Enumerator' do
+          expect(range.my_each.is_a?(Enumerator)).to be_truthy
+        end
       end
     end
     describe '#my_each_with_index' do
-      it 'should return an enumerable' do
-        expect(array.my_each_with_index.is_a?(Enumerable)).to be_truthy
-        expect(hash.my_each_with_index.is_a?(Enumerable)).to be_truthy
-        expect(range.my_each_with_index.is_a?(Enumerable)).to be_truthy
+      context 'array' do
+        it 'should return an Enumerator' do
+          expect(array.my_each_with_index.is_a?(Enumerator)).to be_truthy
+        end
+      end
+
+      context 'hash' do
+        it 'should return an Enumerator' do
+          expect(hash.my_each_with_index.is_a?(Enumerator)).to be_truthy
+        end
+      end
+
+      context 'range' do
+        it 'should return an Enumerator' do
+          expect(range.my_each_with_index.is_a?(Enumerator)).to be_truthy
+        end
       end
     end
   end
 
-  context 'with a block' do
-    context 'with no variables' do
+  context 'with a block with no variables' do
       describe '#my_each' do
-        it 'should iterate without yielding anything' do
-          counter = 0
-          array.my_each { counter += 1 }
-          expect(counter).to eq(array.size)
-          counter = 0
-          hash.my_each { counter += 1 }
-          expect(counter).to eq(hash.size)
-          counter = 0
-          range.my_each { counter += 1 }
-          expect(counter).to eq(range.size)
+        context 'array' do
+          it 'should iterate over each element' do
+            counter = 0
+            array.my_each { counter += 1 }
+            expect(counter).to eq(array.size)
+          end
         end
-      end
-      describe '#my_each_with_index' do
-        it 'should iterate without yielding anything' do
-          counter = 0
-          array.my_each_with_index { counter += 1 }
-          expect(counter).to eq(array.size)
-          counter = 0
-          hash.my_each_with_index { counter += 1 }
-          expect(counter).to eq(hash.size)
-          counter = 0
-          range.my_each_with_index { counter += 1 }
-          expect(counter).to eq(range.size)
-        end
-      end
-    end
 
-    context 'with 1 variable' do
+        context 'hash' do
+          it 'should iterate over each key-value pair' do
+            counter = 0
+            hash.my_each { counter += 1 }
+            expect(counter).to eq(hash.size)
+          end
+        end
+
+        context 'range' do
+          it 'should iterate over each integer' do
+            counter = 0
+            range.my_each { counter += 1 }
+            expect(counter).to eq(range.size)
+          end
+        end
+      end
+
+      describe '#my_each_with_index' do
+        context 'array' do
+          it 'should iterate over each element' do
+            counter = 0
+            array.my_each_with_index { counter += 1 }
+            expect(counter).to eq(array.size)
+          end
+        end
+
+        context 'hash' do
+          it 'should iterate over each key-value pair' do
+            counter = 0
+            hash.my_each_with_index { counter += 1 }
+            expect(counter).to eq(hash.size)
+          end
+        end
+
+        context 'range' do
+          it 'should iterate over each integer' do
+            counter = 0
+            range.my_each_with_index { counter += 1 }
+            expect(counter).to eq(range.size)
+          end
+        end
+      end
+
+    context 'with a block with 1 variable' do
+      describe '#my_all' do
+        context 'array' do
+        end
+
+        context 'hash' do
+        end
+
+        context 'range' do
+        end
+      end
       context 'arrays and ranges' do
         describe '#my_each' do
           it 'should iterate yielding values' do
