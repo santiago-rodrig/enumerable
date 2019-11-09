@@ -1,6 +1,6 @@
 ﻿# Enumerable methods
 
-This proyect has as a goal the recreation of some of the methods provided by the
+This project has as a goal the recreation of some of the methods provided by the
 [Enumerable](https://ruby-doc.org/core-2.6.3/Enumerable.html) module.
 Project instructions are in [The Odin Project](https://www.theodinproject.com/courses/ruby-programming/lessons/advanced-building-blocks#project-2-enumerable-methods).
 
