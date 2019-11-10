@@ -13,6 +13,7 @@ describe Enumerable do
   let(:hash) { { 'name' => 'mohamed', 'age' => 20 } }
   let(:range) { (1..10) }
 
+  # rubocop:disable Metrics/BlockLength
   context 'With arguments' do
     context 'one argument ' do
       describe '#my_count' do
@@ -202,4 +203,5 @@ describe Enumerable do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end
