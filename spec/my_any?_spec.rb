@@ -13,15 +13,21 @@ describe '#my_any?' do
 
   context 'empty collection' do
     context 'array' do
-      expect([].my_any?).to be_false
+      it 'returns false' do
+        expect([].my_any?).to be_falsy
+      end
     end
 
     context 'hash' do
-      expect({}.my_any?).to be_false
+      it 'returns false' do
+        expect({}.my_any?).to be_falsy
+      end
     end
 
     context 'range' do
-      expect((0..-1).my_any?).to be_falsy
+      it 'returns false' do
+        expect((0..-1).my_any?).to be_falsy
+      end
     end
   end
 
@@ -186,7 +192,9 @@ describe '#my_any?' do
 
     context 'none of the elements evaluates to true' do
       context 'array' do
-        expect(array_falses.my_any?).to be_falsy
+        it 'returns false' do
+          expect(array_falses.my_any?).to be_falsy
+        end
       end
     end
   end
@@ -246,21 +254,21 @@ describe '#my_any?' do
   context 'with a block of 1 variable' do
     context 'array' do
       it 'should yield the values' do
-        array.my_any? { |value| test_array << value }
+        array.my_any? { |value| test_array << value && false }
         expect(test_array).to eq(array)
       end
     end
 
     context 'hash' do
       it 'should yield the pairs' do
-        hash.my_any? { |pair| test_array << pair }
+        hash.my_any? { |pair| test_array << pair && false }
         expect(test_array).to eq(hash.to_a)
       end
     end
 
     context 'range' do
       it 'should yield the integers' do
-        range.my_any? { |integer| test_array << integer }
+        range.my_any? { |integer| test_array << integer && false }
         expect(test_array).to eq(range.to_a)
       end
     end
@@ -268,41 +276,41 @@ describe '#my_any?' do
     context 'the block always evaluates to false' do
       context 'array' do
         # rubocop:disable Style/SymbolProc
-        it 'should return true' do
-          expect(array.my_any? { |value| value.nil? }).to be_truthy
+        it 'should return false' do
+          expect(array.my_any? { |value| value.nil? }).to be_falsy
         end
         # rubocop:enable Style/SymbolProc
       end
 
       context 'hash' do
-        it 'should return true' do
-          expect(hash.my_any? { |pair| pair.instance_of?(Float) }).to be_truthy
+        it 'should return false' do
+          expect(hash.my_any? { |pair| pair.instance_of?(Float) }).to be_falsy
         end
       end
 
       context 'range' do
-        it 'should return true' do
-          expect(range.my_any? { |integer| integer.eql?(3.1415926539) }).to be_truthy
+        it 'should return false' do
+          expect(range.my_any? { |integer| integer.eql?(3.1415926539) }).to be_falsy
         end
       end
     end
 
     context 'the block not always evaluates to false' do
       context 'array' do
-        it 'should return false' do
-          expect(array.my_any? { |value| value == 3 }).to be_falsy
+        it 'should return true' do
+          expect(array.my_any? { |value| value == 3 }).to be_truthy
         end
       end
 
       context 'hash' do
-        it 'should return false' do
-          expect(hash.my_any? { |pair| pair.include?('thanos') }).to be_falsy
+        it 'should return true' do
+          expect(hash.my_any? { |pair| pair.include?('thanos') }).to be_truthy
         end
       end
 
       context 'range' do
-        it 'should return false' do
-          expect(range.my_any? { |integer| integer.eql?(98) }).to be_falsy
+        it 'should return true' do
+          expect(range.my_any? { |integer| integer.eql?(98) }).to be_truthy
         end
       end
     end
@@ -312,7 +320,7 @@ describe '#my_any?' do
   context 'with a block of 2 variables' do
     context 'hash' do
       it 'should yield key and value' do
-        hash.my_any? { |key, value| test_array.push(key, value) }
+        hash.my_any? { |key, value| test_array.push(key, value) && false }
         expect(test_array).to eq(hash.to_a.flatten)
       end
     end
@@ -320,7 +328,7 @@ describe '#my_any?' do
     context 'the block always evaluates to false' do
       context 'hash' do
         it 'should return false' do
-          expect(hash.my_any? { |key, value| key.instance_of?(Proc) && value.is_a?(NilClass) }).to be_truthy
+          expect(hash.my_any? { |key, value| key.instance_of?(Proc) && value.is_a?(NilClass) }).to be_falsy
         end
       end
     end
@@ -328,7 +336,7 @@ describe '#my_any?' do
     context 'the block not always evaluates to false' do
       context 'hash' do
         it 'should return true' do
-          expect(hash.my_any? { |key, value| key.eql?('thanos') && value == 'exists' }).to be_falsy
+          expect(hash.my_any? { |key, value| key.eql?('thanos') && value == 'exists' }).to be_truthy
         end
       end
     end

@@ -6,7 +6,6 @@ describe '#my_each' do
   let(:array) { [1, 2, 3, :bob, :sam, :beth, 'dancing', 'on the floor', (1...92_323), ['a', :b, /c/]] }
   let(:hash) { { name: 'yes', diablo_four: 'blood', 'thanos' => 'exists' } }
   let(:range) { (1..875) }
-  let(:counter) { 0 }
   let(:test_array) { [] }
 
   context 'with arguments' do
@@ -53,6 +52,7 @@ describe '#my_each' do
   context 'with a block of 0 variables' do
     context 'array' do
       it 'should iterate over each value' do
+        counter = 0
         array.my_each { counter += 1 }
         expect(counter).to eq(array.size)
       end
@@ -60,6 +60,7 @@ describe '#my_each' do
 
     context 'hash' do
       it 'should iterate over each key-value pair' do
+        counter = 0
         hash.my_each { counter += 1 }
         expect(counter).to eq(hash.size)
       end
@@ -67,6 +68,7 @@ describe '#my_each' do
 
     context 'range' do
       it 'should iterate over each integer' do
+        counter = 0
         range.my_each { counter += 1 }
         expect(counter).to eq(range.size)
       end

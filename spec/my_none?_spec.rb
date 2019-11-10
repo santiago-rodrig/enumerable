@@ -13,15 +13,21 @@ describe '#my_none?' do
 
   context 'empty collection' do
     context 'array' do
-      expect([].my_none?).to be_truthy
+      it 'returns true' do
+        expect([].my_none?).to be_truthy
+      end
     end
 
     context 'hash' do
-      expect({}.my_none?).to be_truthy
+      it 'returns true' do
+        expect({}.my_none?).to be_truthy
+      end
     end
 
     context 'range' do
-      expect((0..-1).my_none?).to be_truthy
+      it 'returns true' do
+        expect((0..-1).my_none?).to be_truthy
+      end
     end
   end
 
@@ -51,7 +57,7 @@ describe '#my_none?' do
       context 'at least 1 element matches' do
         context 'array' do
           it 'should return false' do
-            expect(array.my_none?(/k/)).to be_falsy
+            expect(array_words.my_none?(/k/)).to be_falsy
           end
         end
       end
@@ -174,7 +180,9 @@ describe '#my_none?' do
 
     context 'at least 1 element evaluates to true' do
       context 'array' do
-        expect(array_nil.my_none?).to be_falsy
+        it 'returns false' do
+          expect(array_nil.my_none?).to be_falsy
+        end
       end
     end
   end
@@ -234,21 +242,21 @@ describe '#my_none?' do
   context 'with a block of 1 variable' do
     context 'array' do
       it 'should yield the values' do
-        array.my_none? { |value| test_array << value }
+        array.my_none? { |value| test_array << value && false }
         expect(test_array).to eq(array)
       end
     end
 
     context 'hash' do
       it 'should yield the pairs' do
-        hash.my_none? { |pair| test_array << pair }
+        hash.my_none? { |pair| test_array << pair && false }
         expect(test_array).to eq(hash.to_a)
       end
     end
 
     context 'range' do
       it 'should yield the integers' do
-        range.my_none? { |integer| test_array << integer }
+        range.my_none? { |integer| test_array << integer && false }
         expect(test_array).to eq(range.to_a)
       end
     end
@@ -300,20 +308,24 @@ describe '#my_none?' do
   context 'with a block of 2 variables' do
     context 'hash' do
       it 'should yield key and value' do
-        hash.my_none? { |key, value| test_array.push(key, value) }
+        hash.my_none? { |key, value| test_array.push(key, value) && false }
         expect(test_array).to eq(hash.to_a.flatten)
       end
     end
 
     context 'the block always evaluates to false' do
       context 'hash' do
-        expect(hash.my_none? { |key, value| key.instance_of?(Proc) && value.is_a?(Method) }).to be_truthy
+        it 'returns true' do
+          expect(hash.my_none? { |key, value| key.instance_of?(Proc) && value.is_a?(Method) }).to be_truthy
+        end
       end
     end
 
     context 'the block not always evaluates to false' do
       context 'hash' do
-        expect(hash.my_none? { |key, value| key.eql?('thanos') && value == 'exists' }).to be_falsy
+        it 'returns false' do
+          expect(hash.my_none? { |key, value| key.eql?('thanos') && value == 'exists' }).to be_falsy
+        end
       end
     end
   end

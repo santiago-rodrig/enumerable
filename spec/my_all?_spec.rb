@@ -13,15 +13,21 @@ describe '#my_all?' do
 
   context 'empty collection' do
     context 'array' do
-      expect([].my_all?).to be_truthy
+      it 'returns true' do
+        expect([].my_all?).to be_truthy
+      end
     end
 
     context 'hash' do
-      expect({}.my_all?).to be_truthy
+      it 'returns true' do
+        expect({}.my_all?).to be_truthy
+      end
     end
 
     context 'range' do
-      expect((0..-1).my_all?).to be_truthy
+      it 'returns true' do
+        expect((0..-1).my_all?).to be_truthy
+      end
     end
   end
 
@@ -186,7 +192,9 @@ describe '#my_all?' do
 
     context 'at least 1 element evaluates to false' do
       context 'array' do
-        expect(array_nil.my_all?).to be_falsy
+        it 'returns false' do
+          expect(array_nil.my_all?).to be_falsy
+        end
       end
     end
   end
@@ -317,13 +325,17 @@ describe '#my_all?' do
 
     context 'the block always evaluates to true' do
       context 'hash' do
-        expect(hash.my_all? { |key, value| key.instance_of?(Symbol) && value.is_a?(String) }).to be_truthy
+        it 'returns true' do
+          expect(hash.my_all? { |key, value| key.is_a?(Object) && value.is_a?(String) }).to be_truthy
+        end
       end
     end
 
     context 'the block not always evaluates to true' do
       context 'hash' do
-        expect(hash.my_all? { |key, value| key.eql?('thanos') && value == 'exists' }).to be_falsy
+        it 'returns false' do
+          expect(hash.my_all? { |key, value| key.eql?('thanos') && value == 'exists' }).to be_falsy
+        end
       end
     end
   end

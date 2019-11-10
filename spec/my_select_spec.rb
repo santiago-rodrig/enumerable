@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require '../enumerable'
+require_relative '../enumerable'
 
 describe '#my_select' do
   let(:array) { [1, 2, 3, 3, 6, 9, 2, 'yes', 'no', :a, :b, :c, :c, true, false, nil, nil, nil, { name: 'susan' }] }
   let(:range) { 1..968 }
-  let(:hash) { { car: '198-786-998', member: true, vip: false, started: 2010, age: 32, employed: true } }
+  let(:hash) { { card: '198-786-998', member: true, vip: false, started: 2010, age: 32, employed: true } }
   let(:test_array) { [] }
 
   context 'arguments given' do
@@ -71,6 +71,7 @@ describe '#my_select' do
     end
 
     context 'that not always evaluates to true' do
+      let(:some) { get_some(collection) }
       def get_some(collection)
         counter = 0
         condition = true
@@ -78,18 +79,20 @@ describe '#my_select' do
           condition = false if counter % 3 == 0
           condition = true unless counter % 3 == 0
           counter += 1
+          condition
         end
       end
 
       context 'an array' do
-        some = get_some(array)
+        let(:collection) { array }
+        let(:some) { get_some(collection) }
 
         it 'should return some of its values' do
-          expect(some.all? { |value| array.include?(value) }).to be_truthy
+          expect(some.all? { |value| collection.include?(value) }).to be_truthy
         end
 
         it 'should return less values' do
-          expect(some.size).to be < array.size
+          expect(some.size).to be < collection.size
         end
 
         it 'should return an array' do
@@ -98,14 +101,15 @@ describe '#my_select' do
       end
 
       context 'a range' do
-        some = get_bool(range)
+        let(:collection) { range }
+        let(:some) { get_some(collection) }
 
         it 'should return some of its integers' do
-          expect(some.all? { |value| range.include?(value) }).to be_truthy
+          expect(some.all? { |value| collection.include?(value) }).to be_truthy
         end
 
         it 'should return less integers' do
-          expect(some.size).to be < range.size
+          expect(some.size).to be < collection.size
         end
 
         it 'should return an array' do
@@ -114,8 +118,9 @@ describe '#my_select' do
       end
 
       context 'a hash' do
-        some = get_some(hash)
-        as_array = hash.to_a
+        let(:collection) { hash }
+        let(:as_array) { collection.to_a }
+        let(:some) { get_some(collection) }
 
         it 'should return a hash' do
           expect(some).to be_instance_of(Hash)
@@ -126,7 +131,7 @@ describe '#my_select' do
         end
 
         it 'should return less key-value pairs' do
-          expect(some.size).to be < hash.size
+          expect(some.size).to be < collection.size
         end
       end
     end
@@ -180,9 +185,9 @@ describe '#my_select' do
     end
 
     context 'a hash' do
-      it 'should yield its key-value pairs' do
-        hash.my_select { |pair| test_array << pair }
-        expect(test_array).to eq(hash.to_a)
+      it 'should yield its keys' do
+        hash.my_select { |key| test_array << key }
+        expect(test_array).to eq(hash.keys)
       end
     end
 
@@ -201,7 +206,7 @@ describe '#my_select' do
 
       context 'a hash' do
         it 'should return a copy of the hash' do
-          expect(hash.my_select { |pair| pair.size == 2 }).to eq(hash)
+          expect(hash.my_select { |key| key.instance_of?(Symbol) }).to eq(hash)
         end
       end
     end
@@ -240,7 +245,7 @@ describe '#my_select' do
       end
 
       context 'a hash' do
-        subject { hash.my_select { |pair| pair[1].is_a?(String) } }
+        subject { hash.my_select { |key| key != :card } }
 
         it 'returns pairs in the array version of the hash' do
           as_array = hash.to_a
@@ -283,7 +288,7 @@ describe '#my_select' do
       end
 
       context 'a hash' do
-        subject { hash.my_select { |pair| pair.size > 3 } }
+        subject { hash.my_select { |key| key == 9 } }
 
         it 'returns an empty collection' do
           should be_empty
@@ -316,7 +321,7 @@ describe '#my_select' do
 
     context 'that not always evaluates to true using the two variables' do
       context 'a hash' do
-        subject { hash.my_select { |key, value| key != age && value != 32 } }
+        subject { hash.my_select { |key, value| key != :age && value != 32 } }
 
         it 'returns keys and values included in the hash' do
           as_array = hash.to_a
