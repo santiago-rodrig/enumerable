@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 # this is my own implementation of the Enumerable module methods
+
+# rubocop:disable Metrics/ModuleLength, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 module Enumerable
   # helper methods
 
@@ -195,7 +197,6 @@ module Enumerable
     counter
   end
 
-  # using a proc and a block in a method call gives a syntax error, use one of them, not both
   def my_map(&block)
     return to_enum :my_map unless block_given?
 
@@ -232,3 +233,4 @@ module Enumerable
     result
   end
 end
+# rubocop:enable Metrics/ModuleLength, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
