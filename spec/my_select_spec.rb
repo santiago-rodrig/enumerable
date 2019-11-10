@@ -3,9 +3,9 @@
 require '../enumerable'
 
 describe '#my_select' do
-  let(:array) { [1, 2, 3, 3, 3, 6, 9, 9, 2, 'yes', 'no', :a, :b, :c, :c, true, false, nil, nil, nil, { :name => 'susan' }] }
+  let(:array) { [1, 2, 3, 3, 6, 9, 2, 'yes', 'no', :a, :b, :c, :c, true, false, nil, nil, nil, { name: 'susan' }] }
   let(:range) { 1..968 }
-  let(:hash) { { car: '198-786-998', member: true, vip: false, started: 2010, age: 32, employed: true, position: 'boss' } }
+  let(:hash) { { car: '198-786-998', member: true, vip: false, started: 2010, age: 32, employed: true } }
   let(:test_array) { [] }
 
   context 'arguments given' do
@@ -48,6 +48,7 @@ describe '#my_select' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'given a block with 0 variables' do
     context 'that always evaluates to true' do
       context 'an array' do
@@ -74,8 +75,8 @@ describe '#my_select' do
         counter = 0
         condition = true
         collection.my_select do
-          condition = false if counter % 3 == 0 
-          condition = true unless counter % 3 == 0 
+          condition = false if counter % 3 == 0
+          condition = true unless counter % 3 == 0
           counter += 1
         end
       end
@@ -188,13 +189,13 @@ describe '#my_select' do
     context 'that always evaluates to true using the variable' do
       context 'an array' do
         it 'should return a copy of the array' do
-          expect(array.my_select { |value| value.is_a?(Object) }).to eq(array) 
+          expect(array.my_select { |value| value.is_a?(Object) }).to eq(array)
         end
       end
 
       context 'a range' do
         it 'should return an array version of the range' do
-          expect(range.my_select { |integer| integer % 1 == 0 }).to eq(range.to_a) 
+          expect(range.my_select { |integer| integer % 1 == 0 }).to eq(range.to_a)
         end
       end
 
@@ -207,10 +208,10 @@ describe '#my_select' do
 
     context 'that not always evaluates to true using the variable' do
       context 'an array' do
-        subject { array.my_select { |value| value.nil? } }
+        subject { array.my_select { |value| !value.instance_of?(NilClass) } }
 
         it 'returns values in the array' do
-          should be_all { |value| array.include?(value) } 
+          expect(subject.all? { |value| array.include?(value) }).to be_truthy
         end
 
         it 'returns an array' do
@@ -218,7 +219,7 @@ describe '#my_select' do
         end
 
         it "doesn't return a copy of the array" do
-          should_not eq(Array) 
+          should_not eq(Array)
         end
       end
 
@@ -226,7 +227,7 @@ describe '#my_select' do
         subject { range.my_select { |integer| integer % 5 == 0 } }
 
         it 'returns integers in the range' do
-          should be_all { |value| range.include?(value) }
+          expect(subject.all? { |integer| range.include?(integer) }).to be_truthy
         end
 
         it 'returns an array' do
@@ -242,7 +243,8 @@ describe '#my_select' do
         subject { hash.my_select { |pair| pair[1].is_a?(String) } }
 
         it 'returns pairs in the array version of the hash' do
-          should be_all { |pair| hash.include?(pair[0]) } 
+          as_array = hash.to_a
+          expect(subject.all? { |pair| as_array.include?(pair) }).to be_truthy
         end
 
         it 'returns a hash' do
@@ -302,13 +304,48 @@ describe '#my_select' do
       end
     end
 
-    context 'that always evaluates to true' do
+    context 'that always evaluates to true using the two variables' do
+      context 'a hash' do
+        subject { hash.my_select { |key, value| key || value } }
+
+        it 'should return a copy of the hash' do
+          should eq(hash)
+        end
+      end
     end
 
-    context 'that not always evaluates to true' do
+    context 'that not always evaluates to true using the two variables' do
+      context 'a hash' do
+        subject { hash.my_select { |key, value| key != age && value != 32 } }
+
+        it 'returns keys and values included in the hash' do
+          as_array = hash.to_a
+          expect(subject.all? { |pair| as_array.include?(pair) }).to be_truthy
+        end
+
+        it 'returns a hash' do
+          should be_a(Hash)
+        end
+
+        it 'returns different hash' do
+          should_not eq(hash)
+        end
+      end
     end
 
-    context 'that always evaluates to false' do
+    context 'that always evaluates to false using the two variables' do
+      context 'a hash' do
+        subject { hash.my_select { |key, value| key.is_a?(Proc) && value.instance_of?(Method) } }
+
+        it 'returns a hash' do
+          should be_a(Hash)
+        end
+
+        it 'returns an empty collection' do
+          should be_empty
+        end
+      end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end
