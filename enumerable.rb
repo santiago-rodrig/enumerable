@@ -82,20 +82,20 @@ module Enumerable
 
     if is_a?(Hash)
       selection = {}
-    case block.parameters.size
-    when 0
-      my_each { |k, v| selection[k] = v if yield }
-    when 1
-      my_each { |k, v| selection[k] = v if yield(k) }
-    else
-      my_each { |k, v| selection[k] = v if yield(k, v) }
-    end
+      case block.parameters.size
+      when 0
+        my_each { |k, v| selection[k] = v if yield }
+      when 1
+        my_each { |k, v| selection[k] = v if yield(k) }
+      else
+        my_each { |k, v| selection[k] = v if yield(k, v) }
+      end
     else
       selection = []
       my_each { |v| selection << v if yield } if block.parameters.size.zero?
       my_each { |v| selection << v if yield(v) } if block.parameters.size.positive?
     end
-    return selection
+    selection
   end
 
   def my_all?(*args, &block)

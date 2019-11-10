@@ -47,8 +47,6 @@ describe '#my_each_with_index' do
       end
     end
   end
-
-  # rubocop:disable Lint/UselessAssignment
   context 'with a block of 0 variables' do
     context 'array' do
       it 'should iterate over each value' do
@@ -74,7 +72,6 @@ describe '#my_each_with_index' do
       end
     end
   end
-  # rubocop:enable Lint/UselessAssignment
 
   context 'with a block of 1 variable' do
     context 'array' do
