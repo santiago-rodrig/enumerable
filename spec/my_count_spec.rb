@@ -10,6 +10,50 @@ describe '#my_count' do
   let(:hash) { { who: 'maria', when: 'yesterday', alone: true, married: false, pet: 'bubbles' } }
   let(:hash_one) { { name: 'smithers' } }
 
+  context 'collection is empty' do
+    context 'array' do
+      it 'returns 0 with a block passed' do
+        expect([].my_count { true }).to eq(0)
+      end
+
+      it 'returns 0 without a block and with 1 argument' do
+        expect([].my_count(25)).to eq(0)
+      end
+
+      it 'returns 0 without block nor agument' do
+        expect([].my_count).to eq(0)
+      end
+    end
+
+    context 'range' do
+      it 'returns 0 with a block passed' do
+        expect((0..-1).my_count { true }).to eq(0)
+      end
+
+      it 'returns 0 without a block and with 1 argument' do
+        expect((0..-1).my_count(15)).to eq(0)
+      end
+
+      it 'returns 0 without block nor argument' do
+        expect((0..-1).my_count).to eq(0)
+      end
+    end
+
+    context 'hash' do
+      it 'returns 0 with a block passed' do
+        expect({}.my_count { true }).to eq(0)
+      end
+
+      it 'returns 0 without a block and with 1 argument' do
+        expect({}.my_count([:name, 'bob']).to eq(0)
+      end
+
+      it 'returns 0 wihout block nor argument' do
+        expect({}.my_count).to eq(0)
+      end
+    end
+  end
+
   context 'with no arguments nor block' do
     context 'an array' do
       it 'returns its size' do
