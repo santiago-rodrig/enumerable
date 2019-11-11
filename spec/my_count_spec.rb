@@ -84,17 +84,26 @@ describe '#my_count' do
         let(:element) { 23 }
 
         it 'returns the size of the collection' do
+          should eq(collection.size)
         end
       end
 
       context 'a range' do
         let(:collection) { range_one }
         let(:element) { 1 }
+
+        it 'returns the size of the collection' do
+          should eq(collection.size)
+        end
       end
 
       context 'a hash' do
         let(:collection) { hash_one }
         let(:element) { [:name, 'smither'] }
+
+        it 'returns the size of the collection' do
+          should eq(collection.size)
+        end
       end
     end
 
