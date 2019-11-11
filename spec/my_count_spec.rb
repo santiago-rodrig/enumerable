@@ -138,29 +138,55 @@ describe '#my_count' do
       end
     end
 
-    context 'with more of one argument' do
-      context 'array' do
-      end
+    context 'none of the elements is the same' do
+      subject { collection.my_count(proc { |x| x * 2 }) }
 
-      context 'range' do
-      end
-
-      context 'hash' do
-      end
-    end
-
-    context 'none of the elements are the same' do
       context 'an array' do
+        let(:collection) { array }
+
+        it 'returns 0' do
+          should be_zero
+        end
       end
 
       context 'a range' do
+        let(:collection) { range }
+
+        it 'returns 0' do
+          should be_zero
+        end
       end
 
       context 'a hash' do
+        let(:collection) { hash }
+
+        it 'returns 0' do
+          should be_zero
+        end
       end
     end
   end
   # rubocop:enable Metrics/BlockLength
+
+  context 'with more of one argument' do
+    context 'array' do
+      it 'raises ArgumentError' do
+        expect { array.my_count(2, 3) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'range' do
+      it 'raises ArgumentError' do
+        expect { range.my_count(2, 3) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'hash' do
+      it 'raises ArgumentError' do
+        expect { hash.my_count(2, 3) }.to raise_error(ArgumentError)
+      end
+    end
+  end
 
   context 'with a block of 0 variables' do
     context 'that always evaluates to true' do
