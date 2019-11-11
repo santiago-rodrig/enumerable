@@ -298,13 +298,30 @@ describe '#my_count' do
 
   context 'with a block of 1 variable' do
     context 'that always evaluates to true using the variable' do
+      subject { collection.my_count { |element| element.is_a?(Object) } }
+
       context 'an array' do
+        let(:collection) { array }
+
+        it 'returns its size' do
+          should eq(collection.size)
+        end
       end
 
       context 'a range' do
+        let(:collection) { array }
+
+        it 'returns its size' do
+          should eq(collection.size)
+        end
       end
 
       context 'a hash' do
+        let(:collection) { array }
+
+        it 'returns its size' do
+          should eq(collection.size)
+        end
       end
     end
 
