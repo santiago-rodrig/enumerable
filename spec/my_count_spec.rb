@@ -351,14 +351,24 @@ describe '#my_count' do
       end
     end
 
-    context 'that never evaluates to true' do
+    context 'that never evaluates to true using the variable' do
       context 'an array' do
+        subject { array.my_count { |value| value.is_a?(Class) } }
+
+        it 'returns 0' do
+        end
       end
 
       context 'a range' do
+        subject { range.my_count { |integer| integer == '1' } }
+
+        it('returns 0') { should be_zero }
       end
 
       context 'a hash' do
+        subject { hash.my_count { |pair| pair.size == 3 } }
+
+        it('returns 0') { should be_zero }
       end
     end
   end
