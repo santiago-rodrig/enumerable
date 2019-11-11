@@ -374,18 +374,35 @@ describe '#my_count' do
   end
 
   context 'with a block of 2 variables' do
+    context 'hash' do
+      it 'yields key and value' do
+        test_array = []
+        hash.my_count { |key, value| test_array.push(key, value) }
+        expect(test_array).to eq(hash.to_a.flatten)
+      end
+    end
+
     context 'that always evaluates to true using both variables' do
       context 'a hash' do
+        subject { hash.my_count { |key, value| key || value } }
+
+        it('returns its size') { should eq(hash.size) }
       end
     end
 
     context 'that not always evaluates to true using both variables' do
       context 'a hash' do
+        subject { hash.my_count { |key, value| key != :pet && value != 'bubbles' } }
+
+        it('returns the number of coincidences') { should eq(hash.size - 1) }
       end
     end
 
     context 'that never evaluates to true using both variables' do
       context 'a hash' do
+        subject { hash.my_count { |key, value| key == 2 && value.instance_of?(Regexp) } }
+
+        it('returns 0') { should be_zero }
       end
     end
   end
