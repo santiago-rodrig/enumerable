@@ -3,15 +3,44 @@
 require_relative '../enumerable'
 
 describe '#my_count' do
+  let(:array_same) { Array.new(23, 23) }
+  let(:array) { [1, 2, 3, 3, 3, 5, nil, nil, false, :job, :jub, 'morty', 'rick'] }
+  let(:range) { 1..1_234 }
+  let(:range_one) { 1...2 }
+  let(:hash) { { who: 'maria', when: 'yesterday', alone: true, married: false, pet: 'bubles' } }
+  let(:hash_one) { { name: 'smithers' } }
+
+  context 'with no arguments nor block' do
+    context 'array' do
+    end
+
+    context 'range' do
+    end
+
+    context 'hash' do
+    end
+  end
+
   context 'with one argument' do
     context 'all elements are the same' do
+      subject { collection.my_count(element) }
+
       context 'an array' do
+        let(:collection) { array_same }
+        let(:element) { 23 }
+
+        it 'returns the size of the collection' do
+        end
       end
 
       context 'a range' do
+        let(:collection) { range_one }
+        let(:element) { 1 }
       end
 
       context 'a hash' do
+        let(:collection) { hash_one }
+        let(:element) { [:name, 'smither'] }
       end
     end
 
@@ -23,6 +52,17 @@ describe '#my_count' do
       end
 
       context 'a hash' do
+      end
+    end
+
+    context 'with more of one argument' do
+      context 'array' do
+      end
+
+      context 'range' do
+      end
+
+      context 'hash' do
       end
     end
 
