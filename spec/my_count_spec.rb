@@ -11,13 +11,22 @@ describe '#my_count' do
   let(:hash_one) { { name: 'smithers' } }
 
   context 'with no arguments nor block' do
-    context 'array' do
+    context 'an array' do
+      it 'returns its size' do
+        expect(array.my_count).to eq(array.size)
+      end
     end
 
-    context 'range' do
+    context 'a range' do
+      it 'returns its size' do
+        expect(range.my_count).to eq(range.size)
+      end
     end
 
-    context 'hash' do
+    context 'a hash' do
+      it 'returns its size' do
+        expect(hash.my_count).to eq(hash.size)
+      end
     end
   end
 
@@ -46,13 +55,33 @@ describe '#my_count' do
     end
 
     context 'some elements are the same' do
+      subject { collection.my_count(element) }
+
       context 'an array' do
+        let(:collection) { array }
+        let(:element) { 3 }
+
+        it 'returns the count of coincidences' do
+          should eq(3) 
+        end
       end
 
       context 'a range' do
+        let(:colection) { range }
+        let(:element) { 13 }
+
+        it 'returns the count of coincidences' do
+          should eq(1)
+        end
       end
 
       context 'a hash' do
+        let(:collection) { hash }
+        let(:element) { [:who, 'maria'] }
+
+        it 'returns the count of coincidences' do
+          should eq(1)
+        end
       end
     end
 
