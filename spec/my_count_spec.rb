@@ -62,7 +62,7 @@ describe '#my_count' do
         let(:element) { 3 }
 
         it 'returns the count of coincidences' do
-          should eq(3) 
+          should eq(3)
         end
       end
 
