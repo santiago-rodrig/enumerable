@@ -10,6 +10,7 @@ describe '#my_count' do
   let(:hash) { { who: 'maria', when: 'yesterday', alone: true, married: false, pet: 'bubbles' } }
   let(:hash_one) { { name: 'smithers' } }
 
+  # rubocop:disable Metrics/BlockLength
   context 'collection is empty' do
     context 'array' do
       it 'returns 0 with a block passed' do
@@ -45,7 +46,7 @@ describe '#my_count' do
       end
 
       it 'returns 0 without a block and with 1 argument' do
-        expect({}.my_count([:name, 'bob']).to eq(0)
+        expect({}.my_count([:name, 'bob'])).to eq(0)
       end
 
       it 'returns 0 wihout block nor argument' do
@@ -54,27 +55,6 @@ describe '#my_count' do
     end
   end
 
-  context 'with no arguments nor block' do
-    context 'an array' do
-      it 'returns its size' do
-        expect(array.my_count).to eq(array.size)
-      end
-    end
-
-    context 'a range' do
-      it 'returns its size' do
-        expect(range.my_count).to eq(range.size)
-      end
-    end
-
-    context 'a hash' do
-      it 'returns its size' do
-        expect(hash.my_count).to eq(hash.size)
-      end
-    end
-  end
-
-  # rubocop:disable Metrics/BlockLength
   context 'with one argument' do
     context 'all elements are the same' do
       subject { collection.my_count(element) }
@@ -99,7 +79,7 @@ describe '#my_count' do
 
       context 'a hash' do
         let(:collection) { hash_one }
-        let(:element) { [:name, 'smither'] }
+        let(:element) { [:name, 'smithers'] }
 
         it 'returns the size of the collection' do
           should eq(collection.size)
@@ -120,7 +100,7 @@ describe '#my_count' do
       end
 
       context 'a range' do
-        let(:colection) { range }
+        let(:collection) { range }
         let(:element) { 13 }
 
         it 'returns the count of coincidences' do
@@ -166,27 +146,6 @@ describe '#my_count' do
       end
     end
   end
-  # rubocop:enable Metrics/BlockLength
-
-  context 'with more of one argument' do
-    context 'array' do
-      it 'raises ArgumentError' do
-        expect { array.my_count(2, 3) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'range' do
-      it 'raises ArgumentError' do
-        expect { range.my_count(2, 3) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'hash' do
-      it 'raises ArgumentError' do
-        expect { hash.my_count(2, 3) }.to raise_error(ArgumentError)
-      end
-    end
-  end
 
   context 'with a block of 0 variables' do
     context 'that always evaluates to true' do
@@ -222,7 +181,7 @@ describe '#my_count' do
         counter = 0
         condition = true
         collection.my_count do
-          condition = counter % 3 == 0 ? false : true
+          condition = counter % 3 != 0
           counter += 1
           condition
         end
@@ -335,7 +294,7 @@ describe '#my_count' do
       end
 
       context 'a range' do
-        subject { range.my_count { |integer| range != 2 } }
+        subject { range.my_count { |integer| integer != 2 } }
 
         it 'returns the number of coincidences' do
           should eq(range.size - 1)
@@ -403,6 +362,47 @@ describe '#my_count' do
         subject { hash.my_count { |key, value| key == 2 && value.instance_of?(Regexp) } }
 
         it('returns 0') { should be_zero }
+      end
+    end
+  end
+  # rubocop:enable Metrics/BlockLength
+
+  context 'with no arguments nor block' do
+    context 'an array' do
+      it 'returns its size' do
+        expect(array.my_count).to eq(array.size)
+      end
+    end
+
+    context 'a range' do
+      it 'returns its size' do
+        expect(range.my_count).to eq(range.size)
+      end
+    end
+
+    context 'a hash' do
+      it 'returns its size' do
+        expect(hash.my_count).to eq(hash.size)
+      end
+    end
+  end
+
+  context 'with more of one argument' do
+    context 'array' do
+      it 'raises ArgumentError' do
+        expect { array.my_count(2, 3) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'range' do
+      it 'raises ArgumentError' do
+        expect { range.my_count(2, 3) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'hash' do
+      it 'raises ArgumentError' do
+        expect { hash.my_count(2, 3) }.to raise_error(ArgumentError)
       end
     end
   end

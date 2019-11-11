@@ -186,22 +186,27 @@ module Enumerable
   end
 
   def my_count(*args, &block)
+    return size if args.empty? && !block_given?
+
+    raise(ArgumentError, 'expected 1 argument') if args.size > 1
+
     counter = 0
-    unless args.empty?
-      arg = args[0]
-      to_a.my_each { |v| counter += 1 if v == arg }
+
+    unless block_given?
+      my_each { |v| counter += 1 if v == args[0] }
       return counter
     end
-    if block_given?
-      case block.parameters.size
-      when 1
-        to_a.my_each { |v| counter += 1 if block.call(v) }
-      when 2
-        my_each { |k, v| counter += 1 if block.call(k, v) } if is_a? Hash
-      end
+
+    case block.parameters.size
+    when 0
+      my_each { counter += 1 if yield }
+    when 1
+      my_each { |v| counter += 1 if yield(v) }
     else
-      counter = size
+      my_each { |v| counter += 1 if yield(v) } unless is_a?(Hash)
+      my_each { |k, v| counter += 1 if yield(k, v) } if is_a?(Hash)
     end
+
     counter
   end
 
