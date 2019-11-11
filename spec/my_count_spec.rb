@@ -327,12 +327,27 @@ describe '#my_count' do
 
     context 'that not always evaluates to true using the variable' do
       context 'an array' do
+        subject { array.my_count { |value| value == 3 } }
+
+        it 'returns the number of coincidences' do
+          should eq(3)
+        end
       end
 
       context 'a range' do
+        subject { range.my_count { |integer| range != 2 } }
+
+        it 'returns the number of coincidences' do
+          should eq(range.size - 1)
+        end
       end
 
       context 'a hash' do
+        subject { hash.my_count { |pair| pair != [:alone, true] } }
+
+        it 'returns the number of coincidences' do
+          should eq(hash.size - 1)
+        end
       end
     end
 
