@@ -7,7 +7,7 @@ describe '#my_count' do
   let(:array) { [1, 2, 3, 3, 3, 5, nil, nil, false, :job, :jub, 'morty', 'rick'] }
   let(:range) { 1..1_234 }
   let(:range_one) { 1...2 }
-  let(:hash) { { who: 'maria', when: 'yesterday', alone: true, married: false, pet: 'bubles' } }
+  let(:hash) { { who: 'maria', when: 'yesterday', alone: true, married: false, pet: 'bubbles' } }
   let(:hash_one) { { name: 'smithers' } }
 
   context 'with no arguments nor block' do
@@ -62,7 +62,7 @@ describe '#my_count' do
         let(:element) { 3 }
 
         it 'returns the count of coincidences' do
-          should eq(3)
+          should eq(3) 
         end
       end
 
