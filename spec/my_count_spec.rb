@@ -268,13 +268,30 @@ describe '#my_count' do
     end
 
     context 'that always evaluates to false' do
+      subject { collection.my_count { false } }
+
       context 'an array' do
+        let(:collection) { array }
+
+        it 'returns zero' do
+          should be_zero
+        end
       end
 
       context 'a range' do
+        let(:collection) { range }
+
+        it 'returns zero' do
+          should be_zero
+        end
       end
 
       context 'a hash' do
+        let(:collection) { hash }
+
+        it 'returns zero' do
+          should be_zero
+        end
       end
     end
   end
