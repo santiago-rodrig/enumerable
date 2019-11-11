@@ -190,24 +190,80 @@ describe '#my_count' do
 
   context 'with a block of 0 variables' do
     context 'that always evaluates to true' do
+      subject { collection.my_count { true } }
+
       context 'an array' do
+        let(:collection) { array }
+
+        it 'returns its size' do
+          should eq(collection.size)
+        end
       end
 
       context 'a range' do
+        let(:collection) { range }
+
+        it 'returns its size' do
+          should eq(collection.size)
+        end
       end
 
       context 'a hash' do
+        let(:collection) { hash }
+
+        it 'returns its size' do
+          should eq(collection.size)
+        end
       end
     end
 
     context 'that not always evaluates to true' do
+      def get_count(collection)
+        counter = 0
+        condition = true
+        collection.my_count do
+          condition = counter % 3 == 0 ? false : true
+          counter += 1
+          condition
+        end
+      end
+
+      subject { get_count(collection) }
+
       context 'an array' do
+        let(:collection) { array }
+
+        it "doesnt' return a negative number" do
+          should_not be_negative
+        end
+
+        it 'returns a number lesser than its size' do
+          should be < collection.size
+        end
       end
 
       context 'a range' do
+        let(:collection) { range }
+
+        it "doesn't return negative number" do
+          should_not be_negative
+        end
+
+        it 'returns a number lesser than its size' do
+          should be < collection.size
+        end
       end
 
       context 'a hash' do
+        let(:collection) { hash }
+
+        it "doesn't return a negative number" do
+          should_not be_negative
+        end
+
+        it 'returns a number lesser than its size' do
+          should be < collection.size
+        end
       end
     end
 
