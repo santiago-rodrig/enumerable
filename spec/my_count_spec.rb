@@ -21,6 +21,7 @@ describe '#my_count' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'with one argument' do
     context 'all elements are the same' do
       subject { collection.my_count(element) }
@@ -77,6 +78,7 @@ describe '#my_count' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with a block of 0 variables' do
     context 'that always evaluates to true' do
