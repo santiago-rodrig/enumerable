@@ -8,6 +8,7 @@ describe '#my_inject' do
   let(:range) { 1..100 }
   let(:hash) { { name: 'sam', position: 'general', medals: 967 } }
 
+  # rubocop:disable Metrics/BlockLength
   context 'with one argument and no block' do
     context 'argument is not a symbol' do
       context 'an array' do
@@ -239,4 +240,5 @@ describe '#my_inject' do
 
   context 'with no arguments and a block of 3 variables' do
   end
+  # rubocop:enable Metrics/BlockLength
 end
