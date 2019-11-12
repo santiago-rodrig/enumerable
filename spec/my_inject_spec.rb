@@ -4,7 +4,7 @@ require_relative '../enumerable'
 
 describe '#my_inject' do
   let(:array_numbers) { [1, 3, 4, 5, 234, -234, 23] }
-  let(:array) { [1, 2, [3, 4], '5', :six, :seven]}
+  let(:array) { [1, 2, [3, 4], '5', :six, :seven] }
   let(:range) { 1..100 }
   let(:hash) { { name: 'sam', position: 'general', medals: 967 } }
 
@@ -42,7 +42,9 @@ describe '#my_inject' do
         context 'a hash' do
           let(:collection) { hash }
 
-          it('returns the sum of the key-value pairs') { should eq(hash.to_a.flatten) }
+          it 'returns the sum of the key-value pairs' do
+            should eq(hash.to_a.flatten)
+          end
         end
 
         context 'a range' do
@@ -54,21 +56,29 @@ describe '#my_inject' do
 
       context 'not all elements share a combination method' do
         context 'an array' do
-          it('raises TypeError') { expect { array.my_inject(:+) }.to raise_error(TypeError) }
+          it 'raises TypeError' do
+            expect { array.my_inject(:+) }.to raise_error(TypeError)
+          end
         end
       end
 
       context 'the method is not available for the first element' do
         context 'an array' do
-          it('raises NoMethodError') { expect { array.my_inject(:upcase) }.to raise_error(NoMethodError) }
+          it 'raises NoMethodError' do
+            expect { array.my_inject(:upcase) }.to raise_error(NoMethodError)
+          end
         end
 
         context 'a hash' do
-          it('raises NoMethodError') { expect { hash.my_inject(:swapcase) }.to raise_error(NoMethodError) }
+          it 'raises NoMethodError' do
+            expect { hash.my_inject(:swapcase) }.to raise_error(NoMethodError)
+          end
         end
 
         context 'a range' do
-          it('raises NoMethodError') { expect { range.my_inject(:pop) }.to raise_error(NoMethodError) }
+          it 'raises NoMethodError' do
+            expect { range.my_inject(:pop) }.to raise_error(NoMethodError)
+          end
         end
       end
     end
@@ -142,7 +152,6 @@ describe '#my_inject' do
     end
   end
 
-  # TODO
   context 'with one argument and a block of 0 variables' do
     subject { collection.my_inject('whatever') { 'banzai' } }
 
@@ -172,6 +181,45 @@ describe '#my_inject' do
   end
 
   context 'with one argument and a block of 1 variable' do
+    context 'an array' do
+      subject { array.my_inject(4) { |accumulated| accumulated + 1 } }
+
+      it 'starts with the argument' do
+        should eq(array.my_inject(0) { |accumulated| accumulated + 1 } + 5)
+      end
+
+      it 'adds the block returned value to the variable' do
+        should eq(12)
+      end
+    end
+
+    context 'a hash' do
+      subject do
+        hash.my_inject([:hobby, 'jogging']) do |accumulated|
+          accumulated + [1]
+        end
+      end
+
+      it 'starts with the argument' do
+        should start_with(:hobby, 'jogging')
+      end
+
+      it 'adds the block returned value to the variable' do
+        should eq([:hobby, 'jogging'] + [1] * 3)
+      end
+    end
+
+    context 'a range' do
+      subject { range.my_inject(0) { |accumulated| accumulated + 1 } }
+
+      it 'starts with the argument' do
+        should eq(1 + range.my_inject(-1) { |accumulated| accumulated + 1 })
+      end
+
+      it 'adds the block returned value to the variable' do
+        should eq(101)
+      end
+    end
   end
 
   context 'with one argument and a block of 2 variables' do
