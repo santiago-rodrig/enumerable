@@ -224,21 +224,117 @@ describe '#my_inject' do
   end
 
   context 'with one argument and a block of 2 variables' do
-  end
+    context 'an array' do
+      it 'returns the memo' do
+        expect(
+          array_numbers.my_inject(0) { |memo, obj| memo + obj }
+        ).to eq(36)
+      end
+    end
 
-  context 'with one argument and a block of 3 variables' do
+    context 'a hash' do
+      it 'returns the memo' do
+        expect(
+          hash.my_inject([]) { |memo, obj| memo + obj }
+        ).to eq(hash.to_a.flatten)
+      end
+    end
+
+    context 'a range' do
+      it 'returns the memo' do
+        expect(
+          range.my_inject(0) { |memo, obj| memo + obj }
+        ).to eq(5050)
+      end
+    end
   end
 
   context 'with no arguments and a block of 0 variables' do
+    context 'an array' do
+      it 'returns the block returned value' do
+        expect(array.my_inject { 'tamaya!' }).to eq('tamaya!')
+      end
+    end
+
+    context 'a hash' do
+      it 'returns the block returned value' do
+        expect(hash.my_inject { 'nani!?' }).to eq('nani!?')
+      end
+    end
+
+    context 'a range' do
+      it 'returns the block returned value' do
+        expect(
+          range.my_inject { 'watashiha bob desu' }
+        ).to eq('watashiha bob desu')
+      end
+    end
   end
 
   context 'with no arguments and a block of 1 variable' do
+    context 'an array' do
+      it 'starts with the first element' do
+        expect(array_numbers.my_inject { |memo| memo + 1 } - 2).to eq(6)
+      end
+
+      it 'yields the memo' do
+        expect(array_numbers.my_inject { |memo| memo + 1 }).to eq(8)
+      end
+    end
+
+    context 'a hash' do
+      it 'starts with the first element' do
+        expect(
+          hash.my_inject { |memo| memo + [19] }
+        ).to start_with(:name, 'sam')
+      end
+
+      it 'yields the memo' do
+        expect(
+          hash.my_inject { |memo| memo + [19] }.size
+        ).to eq(hash.size)
+      end
+    end
+
+    context 'a range' do
+      it 'starts with the first element' do
+        expect(
+          range.my_inject { |memo| memo + 1 } - 1
+        ).to eq(100)
+      end
+
+      it 'yields the memo' do
+        expect(
+          range.my_inject { |memo| 2 * memo + 1 } - 1
+        ).to eq(5050)
+      end
+    end
   end
 
   context 'with no arguments and a block of 2 variables' do
-  end
+    context 'an array' do
+      it 'yields memo and object' do
+        expect(
+          array_numbers.my_inject { |memo, obj| memo + obj }
+        )to eq(36)
+      end
+    end
 
-  context 'with no arguments and a block of 3 variables' do
+    context 'a hash' do
+      it 'yields memo and object' do
+        expect(
+          hash.my_inject { |memo, obj| memo + obj }
+        ).to eq(hash.to_a.flattend)
+      end
+    end
+
+    context 'a range' do
+      it 'yields memo and object' do
+        expect(
+          range.my_inject { |memo, obj| memo + obj }
+        ).to eq(5050)
+      end
+    end
   end
   # rubocop:enable Metrics/BlockLength
 end
