@@ -222,6 +222,7 @@ describe '#my_inject' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with one argument and a block of 2 variables' do
     context 'an array' do
@@ -271,6 +272,7 @@ describe '#my_inject' do
     end
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'with no arguments and a block of 1 variable' do
     context 'an array' do
       it 'starts with the first element' do
@@ -310,13 +312,14 @@ describe '#my_inject' do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   context 'with no arguments and a block of 2 variables' do
     context 'an array' do
       it 'yields memo and object' do
         expect(
           array_numbers.my_inject { |memo, obj| memo + obj }
-        )to eq(36)
+        ).to eq(36)
       end
     end
 
@@ -336,5 +339,4 @@ describe '#my_inject' do
       end
     end
   end
-  # rubocop:enable Metrics/BlockLength
 end
