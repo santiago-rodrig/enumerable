@@ -12,8 +12,8 @@ describe '#my_inject' do
   context 'with one argument and no block' do
     context 'argument is not a symbol' do
       context 'an array' do
-        it 'raises TypeError' do
-          expect { array.my_inject(2) }.to raise_error(TypeError)
+        it 'raises NoMethodError' do
+          expect { array.my_inject(2) }.to raise_error(NoMethodError)
         end
       end
 
@@ -25,7 +25,7 @@ describe '#my_inject' do
 
       context 'a range' do
         it 'raises TypeError' do
-          expect { range.my_inject(-23) }.to raise_error(TypeError)
+          expect { range.my_inject(-23) }.to raise_error(NoMethodError)
         end
       end
     end
@@ -65,20 +65,20 @@ describe '#my_inject' do
 
       context 'the method is not available for the first element' do
         context 'an array' do
-          it 'raises NoMethodError' do
-            expect { array.my_inject(:upcase) }.to raise_error(NoMethodError)
+          it 'raises NameError' do
+            expect { array.my_inject(:upcase) }.to raise_error(NameError)
           end
         end
 
         context 'a hash' do
-          it 'raises NoMethodError' do
-            expect { hash.my_inject(:swapcase) }.to raise_error(NoMethodError)
+          it 'raises NameError' do
+            expect { hash.my_inject(:swapcase) }.to raise_error(NameError)
           end
         end
 
         context 'a range' do
-          it 'raises NoMethodError' do
-            expect { range.my_inject(:pop) }.to raise_error(NoMethodError)
+          it 'raises NameError' do
+            expect { range.my_inject(:pop) }.to raise_error(NameError)
           end
         end
       end
@@ -95,7 +95,7 @@ describe '#my_inject' do
         end
 
         it 'returns the combination of all elements' do
-          should eq(36)
+          should eq(43)
         end
       end
 
@@ -134,20 +134,20 @@ describe '#my_inject' do
 
     context 'the argument does not have the method' do
       context 'an array' do
-        it 'raises NoMethodError' do
-          expect { array.my_inject('a', :+) }.to raise_error(NoMethodError)
+        it 'raises TypeError' do
+          expect { array.my_inject('a', :+) }.to raise_error(TypeError)
         end
       end
 
       context 'a hash' do
-        it 'raises NoMethodError' do
-          expect { hash.my_inject('a', :+) }.to raise_error(NoMethodError)
+        it 'raises TypeError' do
+          expect { hash.my_inject('a', :+) }.to raise_error(TypeError)
         end
       end
 
       context 'a range' do
-        it 'raises NoMethodError' do
-          expect { range.my_inject('a', :+) }.to raise_error(NoMethodError)
+        it 'raises TypeError' do
+          expect { range.my_inject('a', :+) }.to raise_error(TypeError)
         end
       end
     end

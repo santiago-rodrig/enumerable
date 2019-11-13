@@ -224,26 +224,72 @@ module Enumerable
   end
 
   def my_inject(*args, &block)
-    as_array = to_a
     case args.size
     when 0
-      result = as_array[0]
-      as_array.my_each_with_index { |v, i| result = block.call(result, v) unless i.zero? }
-    when 1
-      if args[0].is_a? Integer
-        result = args[0]
-        as_array.my_each { |v| result = block.call(result, v) }
+      raise(LocalJumpError, 'no block given') unless block_given?
+
+      case block.parameters.size
+      when 0
+        size.times do |i|
+          yield unless i == size - 1
+          return yield if i == size - 1
+        end
+      when 1
+        result = to_a.first
+        to_a[1..].my_each do
+          result = yield(result)
+        end
+
+        return result
+      else
+        result = to_a.first
+        to_a[1..].my_each do |object|
+          result = yield(result, object)
+        end
+
         return result
       end
-      result = as_array[0]
-      action = args[0]
-      as_array.my_each_with_index { |v, i| result = result.method(action).call(v) unless i.zero? }
+    when 1
+      unless block_given?
+        unless args[0].instance_of?(Symbol) || args[0].instance_of?(String)
+          raise(TypeError, 'not a symbol or string')
+        end
+
+        result = to_a.first
+        to_a[1..].my_each do |object|
+          result = result.send(args[0], object)
+        end
+
+        return result
+      end
+
+      case block.parameters.size
+      when 0
+        size.times do |i|
+          yield unless i == size - 1
+          return yield if i == size - 1
+        end
+      when 1
+        result = args[0]
+        my_each { result = yield(result) }
+
+        return result
+      else
+        result = args[0]
+        my_each { |object| result = yield(result, object) }
+
+        return result
+      end
     when 2
+      unless args[1].instance_of(Symbol) || args[1].instance_of(String)
+        raise(TypeError), 'second argument is not a symbol or string')
+      end
+
       result = args[0]
-      action = args[1]
-      as_array.my_each { |v| result = result.method(action).call(v) }
+      my_each { |object| result = result.send(args[1], object) }
+    else
+      raise ArgumentError, 'expected at most 2 arguments'
     end
-    result
   end
 end
 # rubocop:enable Metrics/ModuleLength, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
