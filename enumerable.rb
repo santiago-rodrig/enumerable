@@ -2,7 +2,7 @@
 
 # this is my own implementation of the Enumerable module methods
 
-# rubocop:disable Metrics/ModuleLength, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:disable Metrics/ModuleLength
 module Enumerable
   # helper methods
 
@@ -77,6 +77,7 @@ module Enumerable
     self
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def my_select(&block)
     return to_enum :my_select unless block_given?
 
@@ -95,6 +96,7 @@ module Enumerable
       my_each { |v| selection << v if yield } if block.parameters.size.zero?
       my_each { |v| selection << v if yield(v) } if block.parameters.size.positive?
     end
+
     selection
   end
 
@@ -118,8 +120,10 @@ module Enumerable
       when 1
         to_a.my_each { |v| return false unless yield(v) }
       else
+        # rubocop:disable Metrics/BlockNesting
         to_a.my_each { |v| return false unless yield(v) } unless is_a? Hash
         my_each { |k, v| return false unless yield(k, v) } if is_a? Hash
+        # rubocop:enable Metrics/BlockNesting
       end
     else
       to_a.my_each { |v| return false unless v }
@@ -147,8 +151,10 @@ module Enumerable
       when 1
         to_a.my_each { |v| return true if yield(v) }
       else
+        # rubocop:disable Metrics/BlockNesting
         to_a.my_each { |v| return true if yield(v) } unless is_a? Hash
         my_each { |k, v| return true if yield(k, v) } if is_a? Hash
+        # rubocop:enable Metrics/BlockNesting
       end
     else
       to_a.my_each { |v| return true if v }
@@ -176,8 +182,10 @@ module Enumerable
       when 1
         to_a.my_each { |v| return false if yield(v) }
       else
+        # rubocop:disable Metrics/BlockNesting
         to_a.my_each { |v| return false if yield(v) } unless is_a? Hash
         my_each { |k, v| return false if yield(k, v) } if is_a? Hash
+        # rubocop:enable Metrics/BlockNesting
       end
     else
       to_a.my_each { |v| return false if v }
@@ -210,19 +218,6 @@ module Enumerable
     counter
   end
 
-  def my_map(&block)
-    return to_enum :my_map unless block_given?
-
-    mapped = []
-    case block.parameters.size
-    when 1
-      to_a.my_each { |v| mapped << block.call(v) }
-    when 2
-      my_each { |k, v| mapped << block.call(k, v) } if is_a? Hash
-    end
-    mapped
-  end
-
   def my_inject(*args, &block)
     case args.size
     when 0
@@ -236,14 +231,14 @@ module Enumerable
         end
       when 1
         result = to_a.first
-        to_a[1..].my_each do
+        to_a[1...size].my_each do
           result = yield(result)
         end
 
         return result
       else
         result = to_a.first
-        to_a[1..].my_each do |object|
+        to_a[1...size].my_each do |object|
           result = yield(result, object)
         end
 
@@ -251,12 +246,11 @@ module Enumerable
       end
     when 1
       unless block_given?
-        unless args[0].instance_of?(Symbol) || args[0].instance_of?(String)
+        args[0].instance_of?(Symbol) || args[0].instance_of?(String) ||
           raise(TypeError, 'not a symbol or string')
-        end
 
         result = to_a.first
-        to_a[1..].my_each do |object|
+        to_a[1...size].my_each do |object|
           result = result.send(args[0], object)
         end
 
@@ -281,15 +275,31 @@ module Enumerable
         return result
       end
     when 2
-      unless args[1].instance_of(Symbol) || args[1].instance_of(String)
-        raise(TypeError), 'second argument is not a symbol or string')
+      unless args[1].instance_of?(Symbol) || args[1].instance_of?(String)
+        raise(TypeError, 'second argument is not a symbol or string')
       end
 
       result = args[0]
       my_each { |object| result = result.send(args[1], object) }
+
+      result
     else
       raise ArgumentError, 'expected at most 2 arguments'
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  def my_map(&block)
+    return to_enum :my_map unless block_given?
+
+    mapped = []
+    case block.parameters.size
+    when 1
+      to_a.my_each { |v| mapped << block.call(v) }
+    when 2
+      my_each { |k, v| mapped << block.call(k, v) } if is_a? Hash
+    end
+    mapped
+  end
 end
-# rubocop:enable Metrics/ModuleLength, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:enable Metrics/ModuleLength

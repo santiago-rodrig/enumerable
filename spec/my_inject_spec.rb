@@ -12,8 +12,8 @@ describe '#my_inject' do
   context 'with one argument and no block' do
     context 'argument is not a symbol' do
       context 'an array' do
-        it 'raises NoMethodError' do
-          expect { array.my_inject(2) }.to raise_error(NoMethodError)
+        it 'raises TypeError' do
+          expect { array.my_inject(2) }.to raise_error(TypeError)
         end
       end
 
@@ -25,7 +25,7 @@ describe '#my_inject' do
 
       context 'a range' do
         it 'raises TypeError' do
-          expect { range.my_inject(-23) }.to raise_error(NoMethodError)
+          expect { range.my_inject(-23) }.to raise_error(TypeError)
         end
       end
     end
@@ -186,11 +186,11 @@ describe '#my_inject' do
       subject { array.my_inject(4) { |accumulated| accumulated + 1 } }
 
       it 'starts with the argument' do
-        should eq(array.my_inject(0) { |accumulated| accumulated + 1 } + 5)
+        should eq(array.my_inject(0) { |accumulated| accumulated + 1 } + 4)
       end
 
       it 'adds the block returned value to the variable' do
-        should eq(12)
+        should eq(10)
       end
     end
 
@@ -218,7 +218,7 @@ describe '#my_inject' do
       end
 
       it 'adds the block returned value to the variable' do
-        should eq(101)
+        should eq(100)
       end
     end
   end
@@ -276,11 +276,11 @@ describe '#my_inject' do
   context 'with no arguments and a block of 1 variable' do
     context 'an array' do
       it 'starts with the first element' do
-        expect(array_numbers.my_inject { |memo| memo + 1 } - 2).to eq(6)
+        expect(array_numbers.my_inject { |memo| memo + 1 } - 2).to eq(5)
       end
 
       it 'yields the memo' do
-        expect(array_numbers.my_inject { |memo| memo + 1 }).to eq(8)
+        expect(array_numbers.my_inject { |memo| memo + 1 }).to eq(7)
       end
     end
 
@@ -294,7 +294,7 @@ describe '#my_inject' do
       it 'yields the memo' do
         expect(
           hash.my_inject { |memo| memo + [19] }.size
-        ).to eq(hash.size)
+        ).to eq(hash.size + 1)
       end
     end
 
@@ -302,13 +302,13 @@ describe '#my_inject' do
       it 'starts with the first element' do
         expect(
           range.my_inject { |memo| memo + 1 } - 1
-        ).to eq(100)
+        ).to eq(99)
       end
 
       it 'yields the memo' do
         expect(
-          range.my_inject { |memo| 2 * memo + 1 } - 1
-        ).to eq(5050)
+          range.my_inject { |memo| memo + 1 }
+        ).to eq(100)
       end
     end
   end
@@ -327,7 +327,7 @@ describe '#my_inject' do
       it 'yields memo and object' do
         expect(
           hash.my_inject { |memo, obj| memo + obj }
-        ).to eq(hash.to_a.flattend)
+        ).to eq(hash.to_a.flatten)
       end
     end
 
